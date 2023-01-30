@@ -14,6 +14,9 @@ function App() {
             <li>Is maintained by Facebook</li>
             <li>Powers thousands of enterprise apps, including mobile apps</li>
         </ul>
+        <footer>
+          <small>© 2023 Wagner development. All rights reserved.</small>
+        </footer>
     </div>
   );
 }
