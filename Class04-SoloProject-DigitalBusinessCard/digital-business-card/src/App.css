@@ -1,0 +1,73 @@
+body{
+  box-sizing: border-box;
+  background: #23252C;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Inter, sans-serif;
+}
+
+.container{
+  background: #1A1B21;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 317px;
+}
+
+.photoProfile{
+  height: 317px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.name > h2{
+  line-height: 25px;
+  margin: 25px 0 0 0;
+  color: #FFFFFF;
+}
+
+.name > h4{
+  line-height: 13px;
+  margin: 14px 0 0 0;
+  color: #F3BF99;
+}
+
+.name > h5{
+  line-height: 10px;
+  margin: 16px 0 0 0;
+  color: #F5F5F5;
+}
+
+.button{
+  margin: 34px 0 0 0;
+  display: flex;
+  
+}
+
+.linkedinButton{
+  width: 115px;
+  height: 34px;
+  margin-left: 17px;
+  border-radius: 6px;
+  background-color: #5093E2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF;
+  line-height: 16px;
+}
+
+.emailButton{
+  width: 115px;
+  height: 34px;
+  border-radius: 6px;
+  background-color: #D1D5DB;
+}
