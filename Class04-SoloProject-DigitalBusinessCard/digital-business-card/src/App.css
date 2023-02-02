@@ -18,8 +18,8 @@ body{
 
 .photoProfile{
   height: 317px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .name {
@@ -48,8 +48,7 @@ body{
 
 .button{
   margin: 34px 0 0 0;
-  display: flex;
-  
+  display: flex; 
 }
 
 .linkedinButton{
@@ -63,11 +62,69 @@ body{
   align-items: center;
   color: #FFFFFF;
   line-height: 16px;
+  flex-direction: row;
+  padding: 9px, 13px, 9px, 11px;
+  border-color: none;
+}
+
+.linkedinImg{
+  width: 16px;
+  height: 16px;
+  padding-right: 8px;
+  padding-bottom: 3px;
 }
 
 .emailButton{
   width: 115px;
   height: 34px;
   border-radius: 6px;
-  background-color: #D1D5DB;
+  background-color: #FFFFFF;
+  color: #374151;
+  border-color: #D1D5DB;
+  border-spacing: 1px;
+  padding: 9px, 13px, 9px, 11px;
+}
+
+.linkedinEmail{
+  padding-right: 8px; 
+}
+
+.about > h1{
+  color: #F5F5F5;
+  width: 242.71px;
+  height: 21px;
+  left: 152px;
+  top: 535px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+.about > p{
+  color: #DCDCDC;
+  width: 247px;
+  height: 61px;
+  left: 152px;
+  top: 561px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10.24px;
+  line-height: 150%;
+  padding-bottom: 15px;
+}
+
+.contact{
+  background: #161619;
+  width: 317px;
+  height: 64px;
+  left: 116px;
+  border-radius: 0px 0px 10px 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.linkedinHref{
+  text-decoration: none;
 }

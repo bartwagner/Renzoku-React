@@ -3,6 +3,8 @@ import "./App.css"
 import Photo from "./components/Photo"
 import Name from "./components/Name"
 import Button from "./components/Button"
+import About from "./components/About"
+import Contact from "./components/Contact"
 
 export default function App() {
   return (
@@ -10,6 +12,8 @@ export default function App() {
         <Photo />
         <Name />
         <Button />
+        <About />
+        <Contact />
       </div>
   )
 }
