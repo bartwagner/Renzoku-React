@@ -6,7 +6,7 @@ export default function Button(){
             <button className="emailButton">
               <img src="./src/images/Email.png" className="linkedinEmail"/>Email
             </button>
-            <button  className="linkedinButton" type="submit" onClick={() => openMyLinkedin()}>
+            <button  className="linkedinButton" type="submit">
               <img src="./src/images/linkedin.png" className="linkedinImg"/>Linkedin
             </button>
         </div>
