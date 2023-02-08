@@ -1,0 +1,95 @@
+body {
+  box-sizing: border-box;
+  margin: 0 0;
+  font-family: Inter, sans-serif;
+}
+
+.navTravel{
+  background-color: #F55A5A;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navLogoText{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.075em;
+  padding-left: 4px;
+  color: #FFFFFF;
+}
+
+.locationContainer{
+  margin-top: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 144px;
+}
+
+.locationImg{
+  width: 126px;
+  height: 168px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.locationInf{
+  width: 326px;
+  height: 144px;
+  padding-left: 15px;
+}
+
+.locationMap{
+  display: flex;
+  align-items: center;
+}
+
+.locationPath{
+  width: 7px;
+  height: 9.55px;
+}
+
+.locationCoutry{
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.20em;
+  color: #2B283A;
+  padding-left: 5px;
+}
+
+.locationView{
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  text-decoration-line: underline;
+  color: #918E9B;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding-left: 15px;
+}
+
+.locationTitle{
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 30px;
+  color: #2B283A;
+  margin: 0 0;
+}
+
+.locationDate{
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 12px;
+  color: #2B283A;
+}
+
+.locationDescription{
+  font-weight: 400;
+  font-size: 10.24px;
+  line-height: 150%;
+  color: #2B283A;
+}
