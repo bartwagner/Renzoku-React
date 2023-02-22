@@ -13,17 +13,21 @@ export default function Meme() {
     const memesArray = allMemeImages.data.memes
     const randomNumber = Math.floor(Math.random() * memesArray.length)
     const url = memesArray[randomNumber].url
-    let top = document.getElementById('topText')
-    let bottom = document.getElementById('bottonText')
 
     setMeme(preMeme =>({
-        topText: top.value,
-        bottonText: bottom.value,
+        ...preMeme,
         randomImage: url,
     }))   
-    window.console.log(meme)
   }
-  
+
+  function handleChange(event){
+    const {name, value} = event.target
+    setMeme(preMeme =>({
+      ...preMeme,
+      [name]: value
+  }))   
+  }
+
   return (
     <main className='main--form'>
         <p></p>
@@ -33,18 +37,29 @@ export default function Meme() {
             placeholder="top text"
             className="form--input"
             id="topText"
+            name="topText"
+            onChange={handleChange}
+            value={meme.topText}
           />
           <input 
             type="text" 
             placeholder="Bottom Text"
             className="form--input"
             id="bottonText"
-              />
-            <button className='botton--form'
+            name="bottonText"
+            onChange={handleChange}
+            value={meme.bottonText}
+          />
+          <button className='botton--form'
                     onClick={getMemeImage}
-            >Get a new meme image 🖼</button>
+            >Get a new meme image 🖼
+          </button>
          </div>
-         <img src={meme.randomImage} className="meme--img"/>
+         <div className="meme">
+                <img src={meme.randomImage} className="meme--img" />
+                <h2 className="meme--text--top">{meme.topText}</h2>
+          </div>
+          <h2 className="meme--text--bottom">{meme.bottonText}</h2>
     </main>
   )
 }

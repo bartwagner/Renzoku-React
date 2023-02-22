@@ -73,6 +73,60 @@ body {
   cursor: pointer;
 }
 
+.meme {
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
+
 .meme--img{
-  padding-top: 10px;
+  margin-top: 10px;
+  max-width: 100%;
+  border-radius: 3px;
+  position: relative;
+}
+
+.meme--text--top {
+  position: absolute;
+  width: 80%;
+  text-align: center;
+  margin: 15px 0;
+  padding: 0 5px;
+  font-family: impact, sans-serif;
+  font-size: 2em;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: 1px;
+  text-shadow:
+      2px 2px 0 #000,
+      -2px -2px 0 #000,
+      2px -2px 0 #000,
+      -2px 2px 0 #000,
+      0 2px 0 #000,
+      2px 0 0 #000,
+      0 -2px 0 #000,
+      -2px 0 0 #000,
+      2px 2px 5px #000;
+}
+
+.meme--text--bottom {
+  display: flex;
+  position: relative;
+  margin-top: -4%;
+  justify-content: center;
+  font-family: impact, sans-serif;
+  font-size: 2em;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: 1px;
+  text-shadow:
+      2px 2px 0 #000,
+      -2px -2px 0 #000,
+      2px -2px 0 #000,
+      -2px 2px 0 #000,
+      0 2px 0 #000,
+      2px 0 0 #000,
+      0 -2px 0 #000,
+      -2px 0 0 #000,
+      2px 2px 5px #000;
 }
