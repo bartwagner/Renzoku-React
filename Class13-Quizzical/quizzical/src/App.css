@@ -1,0 +1,62 @@
+body{
+  background: #E5E5E5;
+  font-family: 'Karla', sans-serif;
+}
+
+.main--page{
+  margin: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main--name{
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  margin: 9px;
+  line-height: 37px;
+  color: #293264;
+}
+
+.main--description{
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #293264;
+}
+
+.star--button{
+  width: 193px;
+  height: 52px;
+  background: #4D5B9E;
+  border-radius: 15px;
+  margin:30px;
+  border: none;
+  color: #F5F7FB;
+}
+
+.img--botton {
+  background: #DEEBF8;
+  border-radius: 35%;
+  width: 30%;
+  height: 45%;
+  position: fixed;
+  margin-top: 44%;
+  margin-left: -92%;
+  transform: rotate(-10deg);
+}
+
+.img--up {
+  border-radius: 25%;
+  width: 30%;
+  height: 30%;
+  background: #FFFAD1;
+  position: fixed;
+  margin-top: -35%;
+  margin-left: 90%;
+  transform: rotate(40.49deg);
+}
