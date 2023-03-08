@@ -60,3 +60,68 @@ body{
   margin-left: 90%;
   transform: rotate(40.49deg);
 }
+
+.question--quiz{
+  display: flex;
+  text-align: left;
+  color: #293264;
+  margin-left: 20%;
+  margin-right: 20%;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.question--line{
+  margin-left: 20%;
+  margin-right: 20%;
+  border: 0.8px solid #DBDEF0;
+  margin-bottom: 2%;
+}
+
+.answer--option{
+  display: flex;
+  margin-left: 20%;
+  margin-right: 20%;
+  justify-content: space-around;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.answer--botton{
+  border: 0.8px solid #4D5B9E;
+  border-radius: 7.7px;
+  box-sizing: border-box;
+  background: #E5E5E5;
+  color: #293264;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.check--button{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+  height: 35px;
+  background: #4D5B9E;
+  border-radius: 10px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  color: #F5F7FB;
+  border: none;
+}
+
+.div--button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
