@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import Questions from './components/Questions'
-import {nanoid} from "nanoid"
+import {nanoid} from 'nanoid'
 
 function App() {
   const [startQuiz,setStartQuiz] = React.useState(false);
@@ -19,10 +19,10 @@ function App() {
 
   function quizQuestions(){
     setStartQuiz(true)
-    mixQuestions()
+    CreateOrganizeArrayQuestions()
   }
 
-  function mixQuestions(){
+  function CreateOrganizeArrayQuestions(){
     let newQuestions = []
     for(let i = 0; i < allQuestionsRequest.length; i++)
     {
@@ -37,11 +37,15 @@ function App() {
 
   function allQuestionsNew(newQuest){
       let OrganizeQuestion = [{
-        questionQuiz:"",
-        answers:[],
+        idQuestion: "",
+        questionQuiz: "",
+        answers: [],
+        answersArray: [],
         incorrectAnswers:[],
-        correctAnswer: ""
+        correctAnswer: "",
+        selectQuestion: false
       }]
+      OrganizeQuestion.idQuestion = nanoid()
       OrganizeQuestion.questionQuiz = newQuest.question
       OrganizeQuestion.answers = copy(newQuest.incorrect_answers)
       OrganizeQuestion.answers.splice(
@@ -51,14 +55,35 @@ function App() {
                                 )                  
       OrganizeQuestion.incorrectAnswers = newQuest.incorrect_answers
       OrganizeQuestion.correctAnswer = newQuest.correct_answer
+      OrganizeQuestion.selectQuestion = false
+
+      OrganizeQuestion.answersArray = (createAnswerArray(OrganizeQuestion.answers))
 
       return OrganizeQuestion
   }
 
+  function createAnswerArray(answers){
+    let arrayAnswers = []
+    for(let i = 0; i < answers.length; i++)
+    {
+      arrayAnswers.push(AtributeAnswerArray(answers[i]))
+    }
+    return arrayAnswers
+  }
+
+  function AtributeAnswerArray(answers){
+    return{
+      idAnswer:     nanoid(),
+      answer:       answers,
+      selectAnswer: false
+    }
+  }
+
   const loadAllQuestions = allQuestions.map(allQuestions =>(
     <Questions
-      key={nanoid()}
+      key={allQuestions.idQuestion}
       allQuestions={allQuestions}
+      setAllQuestions={setAllQuestions}
     />
   ))
 
@@ -68,7 +93,7 @@ function App() {
       startQuiz === true
       ?
       (
-        <form>
+        <form className='form--question'>
           <div>
             {loadAllQuestions}
           </div>
