@@ -6,10 +6,9 @@ export default function Answers(props){
     const styles = {
       backgroundColor: props.selectQuestion ? "#D6DBF5": "#E5E5E5"
     }
-//style={styles}
     return(
         <div>
-            <div className='answer--div' id={props.idAnswer}>
+            <div className='answer--div' id={props.idAnswer} style={styles} onClick={props.ChangeColor}>
               <h2>{props.answer}</h2>            
             </div>
         </div>

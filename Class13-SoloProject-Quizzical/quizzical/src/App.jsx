@@ -17,9 +17,25 @@ function App() {
     getAllQuestionsRequest()
   }, [])
 
+  function CheckArray(idAnswer, idQuestion){
+    for(let i = 0; i < allQuestions.length; i++)
+    {
+      if(allQuestions[i].idQuestion == idQuestion)
+      {
+        window.console.log(allQuestions[i])
+        //I need to put this code inside other function
+        for(let a = 0; i < allQuestions[i].answersArray[a].length; a++){ 
+          window.console.log("clicked")
+          window.console.log(idAnswer)
+          window.console.log(idQuestion)
+        }
+      }
+    }
+  }
+
   function quizQuestions(){
-    setStartQuiz(true)
     CreateOrganizeArrayQuestions()
+    setStartQuiz(true)
   }
 
   function CreateOrganizeArrayQuestions(){
@@ -83,7 +99,7 @@ function App() {
     <Questions
       key={allQuestions.idQuestion}
       allQuestions={allQuestions}
-      setAllQuestions={setAllQuestions}
+      CheckArray={CheckArray}
     />
   ))
 

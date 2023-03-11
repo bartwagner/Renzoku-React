@@ -1,28 +1,21 @@
 import React from 'react'
 import Answers from './Answers'
-import {nanoid} from 'nanoid'
 
 export default function Questions(props){
 
-    window.console.log(props)
-    function ChangeColor(idAnswer, idQuestion) {
-        window.console.log("clicked")
-        // setDice(oldDice => oldDice.map(die => {
-        //     return die.id === id ? 
-        //         {...die, isHeld: !die.isHeld} :
-        //         die
-        // }))
-        //onClick={ChangeColor(props.idAnswer, idQuestion)}
-      }
+    //window.console.log(props)
 
-      //window.console.log(props.allQuestions)
+    function ChangeColor(idAnswer, idQuestion) {
+        props.CheckArray(idAnswer, idQuestion)
+    }
 
     const askAllAnswer = props.allQuestions.answersArray.map(answer =>(
          <Answers
+            key={answer.idAnswer}
              idAnswer={answer.idAnswer}
              answer={answer.answer}
              selectAnswer={answer.selectAnswer}
-             ChangeColor={ChangeColor}
+             ChangeColor={() => ChangeColor(answer.idAnswer, props.allQuestions.idQuestion)}
          />
     ))
 
