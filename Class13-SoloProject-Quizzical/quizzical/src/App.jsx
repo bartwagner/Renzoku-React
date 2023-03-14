@@ -23,6 +23,9 @@ function App() {
   const [allQuestions, setAllQuestions] = React.useState([]);
 
 
+  const [checkCorrectAnswerButton,setCheckCorrectAnswerButton] = React.useState(false);
+
+
   /*-------------------------------------------------------------------------------------------
   ------------receives the unordered API and sends to the State allQuestionsRequest------------
   -------------------------------------------------------------------------------------------*/
@@ -50,6 +53,8 @@ function App() {
   ---------------------------------------them one at a time----------------------------------*/
   function CreateOrganizeArrayQuestions(){
     let newQuestions = []
+
+
     for(let i = 0; i < allQuestionsRequest.length; i++)
     {
       newQuestions.push(allQuestionsNew(allQuestionsRequest[i]))
@@ -60,7 +65,6 @@ function App() {
   function copy(x) {
     return JSON.parse( JSON.stringify(x) );
   }
-
 
   /*---------------------------This method organizes the list and------------------------------ 
   --inserts an ID for each question. It also will ask the createAnswerArray method to insert---
@@ -75,6 +79,15 @@ function App() {
         correctAnswer: "",
         selectQuestion: false
       }]
+
+      //Replace the special characters
+      newQuest.question = replaceText(newQuest.question)
+      for(let i = 0; i < newQuest.incorrect_answers.length; i++){
+        newQuest.incorrect_answers[i] = replaceText(newQuest.incorrect_answers[i])
+      }
+      newQuest.correct_answer = replaceText(newQuest.correct_answer)
+
+      //Organize the information in new array
       OrganizeQuestion.idQuestion = nanoid()                             //NewID
       OrganizeQuestion.questionQuiz = newQuest.question                  //Question
       OrganizeQuestion.answers = copy(newQuest.incorrect_answers)        //input incorrect_answers into answer
@@ -87,29 +100,49 @@ function App() {
       OrganizeQuestion.correctAnswer = newQuest.correct_answer           //correct_answer
       OrganizeQuestion.selectQuestion = false                            //selectQuestion starts false
 
-      OrganizeQuestion.answersArray = (createAnswerArray(OrganizeQuestion.answers)) //Create array answer, idAnswer, answer and selectAnswer
+      OrganizeQuestion.answersArray = (createAnswerArray(OrganizeQuestion.answers,  OrganizeQuestion.correctAnswer)) //Create array answer, idAnswer, answer and selectAnswer
 
       return OrganizeQuestion                                            //return the array one by one
   }
 
-  function createAnswerArray(answers){
+  /*---------------------------------This method applies a ------------------------------------
+  ---------------replaceAll to the text showing special characters again-----------------------
+  -------------------------------------------------------------------------------------------*/
+  function replaceText(text){
+      text = text.replaceAll(/&quot;/g, '"')
+      text = text.replaceAll(/&#039;/g, "'")
+      text = text.replaceAll(/&amp;/g, '&')
+    return text
+  }
+
+  /*------------------------------------------------------------------------------------------- 
+  ----------This method that creates the list with idAnswer, answer, and selectAnswer----------
+  -------------------------------------------------------------------------------------------*/
+  function createAnswerArray(answers, correctAnswer){
     let arrayAnswers = []
     for(let i = 0; i < answers.length; i++)
     {
-      arrayAnswers.push(AtributeAnswerArray(answers[i]))
+      arrayAnswers.push(AtributeAnswerArray(answers[i], correctAnswer))
     }
     return arrayAnswers
   }
 
-  function AtributeAnswerArray(answers){
+  /*----------------------This method creates idAnswer and------------------------------------- 
+  ---------------selectAnswer, in addition to associating an answer, one by one----------------
+  -------------------------------------------------------------------------------------------*/
+  function AtributeAnswerArray(answers, correctAnswer){
     return{
       idAnswer:     nanoid(),
       answer:       answers,
-      selectAnswer: false
+      selectAnswer: false,
+      selectAnswerCorrect : answers === correctAnswer ? true : false
     }
   }
 
-  function CheckArray(idAnswer, idQuestion){
+  /*------This method checks which is the Question and which was the question selected--------- 
+  --------by the user, thus changing the selectAnswer to true and failing this control---------
+  -------------------------------------------------------------------------------------------*/
+  function checkArray(idAnswer, idQuestion){
     setAllQuestions(questions => questions.map(q => {
       return q.idQuestion === idQuestion ? {
                   ...q,
@@ -123,11 +156,16 @@ function App() {
     }))
   }
 
+  function checkCorrectAnswer() {
+    setCheckCorrectAnswerButton(true)
+  }
+
   const loadAllQuestions = allQuestions.map(q=>(
     <Questions
       key={q.idQuestion}
       allQuestions={q}
-      CheckArray={CheckArray}
+      checkArray={checkArray}
+      checkCorrectAnswerButton={checkCorrectAnswerButton}
     />
   ))
 
@@ -137,14 +175,14 @@ function App() {
       startQuiz === true
       ?
       (
-        <form className='form--question'>
+        <div className='div--question'>
           <div>
             {loadAllQuestions}
           </div>
           <div className='div--button'>
-            <button className='check--button'>Check answers</button>
+            <button className='check--button' onClick={checkCorrectAnswer}>Check answers</button>
           </div>
-        </form>
+        </div>
       ):
       (
         <div className="main--page">

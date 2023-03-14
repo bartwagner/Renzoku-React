@@ -3,10 +3,8 @@ import Answers from './Answers'
 
 export default function Questions(props){
 
-    //window.console.log(props)
-
-    function ChangeColor(idAnswer, idQuestion) {
-        props.CheckArray(idAnswer, idQuestion)
+    function changeColor(idAnswer, idQuestion) {
+        props.checkArray(idAnswer, idQuestion)
     }
 
     const askAllAnswer = props.allQuestions.answersArray.map(answer =>(
@@ -15,7 +13,9 @@ export default function Questions(props){
              idAnswer={answer.idAnswer}
              answer={answer.answer}
              selectAnswer={answer.selectAnswer}
-             ChangeColor={() => ChangeColor(answer.idAnswer, props.allQuestions.idQuestion)}
+             selectAnswerCorrect={answer.selectAnswerCorrect}
+             changeColor={() => changeColor(answer.idAnswer, props.allQuestions.idQuestion)}
+             checkCorrectAnswerButton={props.checkCorrectAnswerButton}
          />
     ))
 
