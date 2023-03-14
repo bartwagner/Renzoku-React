@@ -4,10 +4,28 @@ import Questions from './components/Questions'
 import {nanoid} from 'nanoid'
 
 function App() {
+
+  /*--------------------------------------------------------------------------------------------
+  ----------------------variable checks if the user clicks on the button quiz-------------------
+  --------------------------------------------------------------------------------------------*/
   const [startQuiz,setStartQuiz] = React.useState(false);
+
+
+  /*--------------------------------------------------------------------------------------------
+  -------------------------The state gets all data from the unordered API-----------------------
+  --------------------------------------------------------------------------------------------*/
   const [allQuestionsRequest, setAllQuestionsRequest] = React.useState([]);
+  
+
+  /*-------------------------------------------------------------------------------------------
+  ----The state stores all information organized by the CreateOrganizeArrayQuestions method----
+  -------------------------------------------------------------------------------------------*/
   const [allQuestions, setAllQuestions] = React.useState([]);
 
+
+  /*-------------------------------------------------------------------------------------------
+  ------------receives the unordered API and sends to the State allQuestionsRequest------------
+  -------------------------------------------------------------------------------------------*/
   React.useEffect(()=>{
     async function getAllQuestionsRequest(){
       const res = await fetch ("https://opentdb.com/api.php?amount=5&category=15&difficulty=medium&type=multiple")
@@ -17,27 +35,19 @@ function App() {
     getAllQuestionsRequest()
   }, [])
 
-  function CheckArray(idAnswer, idQuestion){
-    for(let i = 0; i < allQuestions.length; i++)
-    {
-      if(allQuestions[i].idQuestion == idQuestion)
-      {
-        window.console.log(allQuestions[i])
-        //I need to put this code inside other function
-        for(let a = 0; i < allQuestions[i].answersArray[a].length; a++){ 
-          window.console.log("clicked")
-          window.console.log(idAnswer)
-          window.console.log(idQuestion)
-        }
-      }
-    }
-  }
 
+  /*-------------After the user clicks on the Star Quiz button, the system calls---------------
+  CreateOrganizeArrayQuestions which sorts the API list and also sets the setStartQuiz variable 
+  ------------------------to true which will then display the questions----------------------*/
   function quizQuestions(){
     CreateOrganizeArrayQuestions()
     setStartQuiz(true)
   }
 
+
+  /*------------------------Create a sorted list by passing the unsorted array-----------------
+  --one at a time through the allQuestionsNew method and create a new sorted list by inserting-
+  ---------------------------------------them one at a time----------------------------------*/
   function CreateOrganizeArrayQuestions(){
     let newQuestions = []
     for(let i = 0; i < allQuestionsRequest.length; i++)
@@ -51,6 +61,10 @@ function App() {
     return JSON.parse( JSON.stringify(x) );
   }
 
+
+  /*---------------------------This method organizes the list and------------------------------ 
+  --inserts an ID for each question. It also will ask the createAnswerArray method to insert---
+  ---------------------an ID and check if the question was selected--------------------------*/
   function allQuestionsNew(newQuest){
       let OrganizeQuestion = [{
         idQuestion: "",
@@ -61,21 +75,21 @@ function App() {
         correctAnswer: "",
         selectQuestion: false
       }]
-      OrganizeQuestion.idQuestion = nanoid()
-      OrganizeQuestion.questionQuiz = newQuest.question
-      OrganizeQuestion.answers = copy(newQuest.incorrect_answers)
+      OrganizeQuestion.idQuestion = nanoid()                             //NewID
+      OrganizeQuestion.questionQuiz = newQuest.question                  //Question
+      OrganizeQuestion.answers = copy(newQuest.incorrect_answers)        //input incorrect_answers into answer
       OrganizeQuestion.answers.splice(
-                                  Math.floor(
-                                    Math.random() * newQuest.incorrect_answers.length
-                                  ), 0, newQuest.correct_answer
-                                )                  
-      OrganizeQuestion.incorrectAnswers = newQuest.incorrect_answers
-      OrganizeQuestion.correctAnswer = newQuest.correct_answer
-      OrganizeQuestion.selectQuestion = false
+                                      Math.floor(
+                                                 Math.random() * newQuest.incorrect_answers.length
+                                      ), 0, newQuest.correct_answer
+      )                                                                  //input correct_answer into answer
+      OrganizeQuestion.incorrectAnswers = newQuest.incorrect_answers     //incorrect_answers
+      OrganizeQuestion.correctAnswer = newQuest.correct_answer           //correct_answer
+      OrganizeQuestion.selectQuestion = false                            //selectQuestion starts false
 
-      OrganizeQuestion.answersArray = (createAnswerArray(OrganizeQuestion.answers))
+      OrganizeQuestion.answersArray = (createAnswerArray(OrganizeQuestion.answers)) //Create array answer, idAnswer, answer and selectAnswer
 
-      return OrganizeQuestion
+      return OrganizeQuestion                                            //return the array one by one
   }
 
   function createAnswerArray(answers){
@@ -95,10 +109,24 @@ function App() {
     }
   }
 
-  const loadAllQuestions = allQuestions.map(allQuestions =>(
+  function CheckArray(idAnswer, idQuestion){
+    setAllQuestions(questions => questions.map(q => {
+      return q.idQuestion === idQuestion ? {
+                  ...q,
+                  answersArray: q.answersArray.map(a =>
+                                { return a.idAnswer === idAnswer ? {
+                                  ...a, selectAnswer: !a.selectAnswer
+                                  } : {...a, selectAnswer: false}
+                                }
+                  )
+      }: q
+    }))
+  }
+
+  const loadAllQuestions = allQuestions.map(q=>(
     <Questions
-      key={allQuestions.idQuestion}
-      allQuestions={allQuestions}
+      key={q.idQuestion}
+      allQuestions={q}
       CheckArray={CheckArray}
     />
   ))

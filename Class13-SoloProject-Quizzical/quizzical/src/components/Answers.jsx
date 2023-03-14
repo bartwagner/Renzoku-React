@@ -4,7 +4,7 @@ export default function Answers(props){
     //window.console.log(props)
 
     const styles = {
-      backgroundColor: props.selectQuestion ? "#D6DBF5": "#E5E5E5"
+      backgroundColor: props.selectAnswer ? "#D6DBF5": "#E5E5E5"
     }
     return(
         <div>

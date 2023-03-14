@@ -11,7 +11,7 @@ export default function Questions(props){
 
     const askAllAnswer = props.allQuestions.answersArray.map(answer =>(
          <Answers
-            key={answer.idAnswer}
+             key={answer.idAnswer}
              idAnswer={answer.idAnswer}
              answer={answer.answer}
              selectAnswer={answer.selectAnswer}
