@@ -3,7 +3,7 @@ import './App.css'
 import Questions from './components/Questions'
 import {nanoid} from 'nanoid'
 
-function App() {
+function App(props) {
 
   /*--------------------------------------------------------------------------------------------
   ----------------------variable checks if the user clicks on the button quiz-------------------
@@ -24,20 +24,21 @@ function App() {
 
 
   const [checkCorrectAnswerButton,setCheckCorrectAnswerButton] = React.useState(false);
-
+  let countAnswers = 0
 
   /*-------------------------------------------------------------------------------------------
   ------------receives the unordered API and sends to the State allQuestionsRequest------------
   -------------------------------------------------------------------------------------------*/
   React.useEffect(()=>{
-    async function getAllQuestionsRequest(){
-      const res = await fetch ("https://opentdb.com/api.php?amount=5&category=15&difficulty=medium&type=multiple")
-      const data = await res.json()
-      setAllQuestionsRequest(data.results)
-    }
-    getAllQuestionsRequest()
+    handleFetchData()
   }, [])
 
+  async function handleFetchData(){
+    await fetch ("https://opentdb.com/api.php?amount=5&category=15&difficulty=medium&type=multiple")
+      .then (res => res.json())
+      .then (data => setAllQuestionsRequest(data.results))
+      .catch([])
+  }
 
   /*-------------After the user clicks on the Star Quiz button, the system calls---------------
   CreateOrganizeArrayQuestions which sorts the API list and also sets the setStartQuiz variable 
@@ -115,7 +116,7 @@ function App() {
     return text
   }
 
-  /*------------------------------------------------------------------------------------------- 
+  /*------------------I need to change------------------------------------------------------------------------- 
   ----------This method that creates the list with idAnswer, answer, and selectAnswer----------
   -------------------------------------------------------------------------------------------*/
   function createAnswerArray(answers, correctAnswer){
@@ -127,7 +128,7 @@ function App() {
     return arrayAnswers
   }
 
-  /*----------------------This method creates idAnswer and------------------------------------- 
+  /*------I need to change----------------This method creates idAnswer and------------------------------------- 
   ---------------selectAnswer, in addition to associating an answer, one by one----------------
   -------------------------------------------------------------------------------------------*/
   function AtributeAnswerArray(answers, correctAnswer){
@@ -156,8 +157,20 @@ function App() {
     }))
   }
 
+  function countCorrectAnswers(){
+    window.console.log("checked")
+  }
+
+
   function checkCorrectAnswer() {
     setCheckCorrectAnswerButton(true)
+    countCorrectAnswers()
+  }
+
+  function playGameAgain(){
+    setStartQuiz(false)
+    setCheckCorrectAnswerButton(false)
+    handleFetchData()
   }
 
   const loadAllQuestions = allQuestions.map(q=>(
@@ -180,7 +193,20 @@ function App() {
             {loadAllQuestions}
           </div>
           <div className='div--button'>
-            <button className='check--button' onClick={checkCorrectAnswer}>Check answers</button>
+            {
+              checkCorrectAnswerButton === false
+              ?
+              (
+                <button className='check--button' onClick={checkCorrectAnswer}>Check answers</button>
+              ):
+              (
+                <div className='correct--play'>
+                  <h2 className='scored--answer'>You scored {countAnswers}/5 correct Answers</h2>
+                  <button className="check--button" onClick={playGameAgain}>Play again</button>
+                </div>
+              )
+
+            }
           </div>
         </div>
       ):

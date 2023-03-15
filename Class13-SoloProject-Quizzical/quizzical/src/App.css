@@ -131,3 +131,23 @@ body{
 .div--question{
   margin-top: 3%;
 }
+
+.scored--answer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12.8px;
+  line-height: 15px;
+  text-align: center;
+  color: #293264;
+  margin-right: 10px;
+}
+
+.correct--play{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
