@@ -3,6 +3,9 @@ import Answers from './Answers'
 
 export default function Questions(props){
 
+  /*-------------------------------This method will check if------------------------------------
+  ----------the selected answer is the correct one, so the color change style will work---------
+  --------------------------------------------------------------------------------------------*/
     function changeColor(idAnswer, idQuestion) {
         props.checkArray(idAnswer, idQuestion)
     }

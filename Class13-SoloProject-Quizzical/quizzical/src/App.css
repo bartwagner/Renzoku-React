@@ -37,6 +37,7 @@ body{
   margin:30px;
   border: none;
   color: #F5F7FB;
+  cursor: pointer;
 }
 
 .img--botton {
@@ -45,7 +46,7 @@ body{
   width: 30%;
   height: 45%;
   position: fixed;
-  margin-top: 40%;
+  margin-top: 50%;
   margin-left: -95%;
   transform: rotate(-10deg);
 }
@@ -101,6 +102,7 @@ body{
   padding-right: 5px;
   margin-right: 3px;
   margin-left: 3px;
+  cursor: pointer;
 }
 
 .check--button{
@@ -120,6 +122,7 @@ body{
   text-align: center;
   color: #F5F7FB;
   border: none;
+  cursor: pointer;
 }
 
 .div--button{
