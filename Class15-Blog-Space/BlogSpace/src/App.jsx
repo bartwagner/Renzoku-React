@@ -17,25 +17,32 @@ function App() {
     })
   }, [])
 
-  function addNewPost(postTitle, postBody){
-    let addNew = allPosts
-
-    addNew.unshift(newPosts(postTitle, postBody))
-
-    setAllPosts(addNew)
+  function addNewPost(data){
+    const options = {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+      }
+      fetch("https://apis.scrimba.com/jsonplaceholder/posts", options)
+        .then(res => res.json())
+        .then(post => {
+          setAllPosts([newPosts(post.title, post.body), ...allPosts])
+      })
   }
 
-  function newPosts(postTitle, postBody){
-    let post =[{
-      body: "",
+  function newPosts(title, body){
+    let post ={
+      userId: "",
       id: "",
       title: "",
-      userId: ""
-    }]
-      post.body = postBody
-      post.id = nanoid()
-      post.title = postTitle
+      body: ""
+    }
       post.userId = 1
+      post.id = nanoid()
+      post.title = title
+      post.body = body
 
       return post
   }

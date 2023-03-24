@@ -2,15 +2,25 @@ import React from 'react'
 
 export default function NewPost(props) {
 
-    document.getElementById("new-post").addEventListener("submit", function(e){
-         e.preventDefault()
-         const postTitle = document.getElementById("post--title").value
-         const postBody = document.getElementById("post--body").value
-         props.addNewPost(postTitle, postBody)
-    })
+
+    function handleSubmit(event) {
+        event.preventDefault()
+
+        const postTitle = document.getElementById("post--title").value
+        const postBody = document.getElementById("post--body").value
+        const data = {
+           title: postTitle,
+           body: postBody
+        }        
+        
+        props.addNewPost(data)
+        document.getElementById("post--title").value = ""
+        document.getElementById("post--body").value = ""
+
+    }
 
     return(
-        <form className='input--form' id="new-post">
+        <form className='input--form' id="new-post" onSubmit={handleSubmit}>
             <div className='input--organizer'>
                 <label className='label--title'>Title:</label>
                 <input placeholder=" Title" name="Title" id="post--title" className='input--title'></input>
