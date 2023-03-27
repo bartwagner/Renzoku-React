@@ -24,11 +24,11 @@ function App() {
         headers: {
             "Content-Type": "application/json"
         }
-      }
-      fetch("https://apis.scrimba.com/jsonplaceholder/posts", options)
-        .then(res => res.json())
-        .then(post => {
-          setAllPosts([newPosts(post.title, post.body), ...allPosts])
+    }
+    fetch("https://apis.scrimba.com/jsonplaceholder/posts", options)
+      .then(res => res.json())
+      .then(post => {
+        setAllPosts([newPosts(post.title, post.body), ...allPosts])
       })
   }
 

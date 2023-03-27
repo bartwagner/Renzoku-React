@@ -2,21 +2,25 @@ import React from 'react'
 
 export default function NewPost(props) {
 
+    const titleInput = document.getElementById("post--title")
+    const bodyInput = document.getElementById("post--body")
 
     function handleSubmit(event) {
         event.preventDefault()
 
-        const postTitle = document.getElementById("post--title").value
-        const postBody = document.getElementById("post--body").value
+        const postTitle = titleInput.value
+        const postBody = bodyInput.value
         const data = {
            title: postTitle,
            body: postBody
         }        
-        
         props.addNewPost(data)
-        document.getElementById("post--title").value = ""
-        document.getElementById("post--body").value = ""
-
+        resetForm()
+    }
+    
+    function resetForm(){
+        titleInput.value = ""
+        bodyInput.value = ""
     }
 
     return(
@@ -32,5 +36,4 @@ export default function NewPost(props) {
             <button className='form--button'>Post</button>
         </form>
     )
-
 }
