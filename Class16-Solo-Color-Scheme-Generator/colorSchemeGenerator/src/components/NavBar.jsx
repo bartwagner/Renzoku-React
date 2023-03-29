@@ -1,33 +1,28 @@
 import React from 'react'
 
-function NavBar() {
-
-  const [colorGroup, setColorGroup] = React.useState([])
+function NavBar(props) {
   let colorSelect = ''
+  let modeSelect = ''
 
-  init()
-
+  React.useEffect(()=>{
+    init()
+  }, [])
+  
   function init(){
     changeColor()
   }
 
   function changeColor(){
     colorSelect = document.querySelector("#inputcolor") == null ? "#000000" : document.querySelector("#inputcolor").value
-    returnColors(colorSelect)
+    modeSelect = document.querySelector("#selectoption") == null ? "monochrome" : document.querySelector("#selectoption").value
+    props.returnColors(colorSelect, modeSelect)
   }
-
-   async function returnColors(color){
-      window.console.log(color)
-//      fetch("https://www.thecolorapi.com/scheme?hex=000000")
-//      .then(res = res.json())
-//      .then(data => {window.console.log(data)})
-   }
 
   return (
     <nav className='nav--color'>
-        <input type="color" id="inputcolor" className='choose--color' onChange={changeColor}/>
-        <select className='select--option'></select>
-        <button className='get--color'>Get color scheme</button>
+        <input type="color" id="inputcolor" className='choose--color'/>
+        <select id="selectoption" className='select--option'></select>
+        <button className='get--color' onClick={changeColor}>Get color scheme</button>
     </nav>
   )
 }

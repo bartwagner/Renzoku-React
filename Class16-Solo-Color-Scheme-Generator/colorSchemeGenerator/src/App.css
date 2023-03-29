@@ -36,5 +36,22 @@
   font-size: 12px;
   line-height: 16px;  
   color: #374151;
+}
 
+.div--split{
+  display: inline-block;
+  margin-top: 10px;
+  width: 20%;
+  height: 80vh;
+  align-items: center;
+}
+
+.div--color{
+  height: 100%;
+}
+
+.div--name{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
