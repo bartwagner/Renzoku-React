@@ -34,7 +34,7 @@ function App() {
     }
   }
 
-  const putColorGroup = colorGroup.map(c => (
+  const putColorGroup = colorGroup.map(c =>(
     <Body
       key={nanoid()}
       value={c.hex.value}

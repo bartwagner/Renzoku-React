@@ -7,7 +7,7 @@ function NavBar(props) {
   React.useEffect(()=>{
     init()
   }, [])
-  
+
   function init(){
     changeColor()
   }
@@ -21,7 +21,19 @@ function NavBar(props) {
   return (
     <nav className='nav--color'>
         <input type="color" id="inputcolor" className='choose--color'/>
-        <select id="selectoption" className='select--option'></select>
+        <select 
+            id="selectoption"
+            className='select--option'
+        >
+            <option value="monochrome">Monochrome</option>
+            <option value="monochrome-dark">Monochrome-dark</option>
+            <option value="monochrome-light">Monochrome-light</option>
+            <option value="analogic">Analogic</option>
+            <option value="complement">Complement</option>
+            <option value="analogic-complement">Analogic-complement</option>
+            <option value="triad">Triad</option>
+            <option value="quad">Quad</option>            
+        </select>
         <button className='get--color' onClick={changeColor}>Get color scheme</button>
     </nav>
   )
