@@ -3,29 +3,43 @@ import './App.css'
 import Body from './Components/Body'
 
 function App() {
+  const [idDeck,setIdDeck] = React.useState("")
+  const [idDeckOk,setIdDeckOk] = React.useState(false)
+  const [cardsImg,setCardsImg] = React.useState([])
 
-  async function requestDesk(){
-    
-    const options = {
-      method: 'get',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+  const options = {
+    method: 'get',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  async function requestIdDesk(){
 
     await fetch ("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/", options)
     .then (response => response.json())
-    .then (data => window.console.log(data))
+    .then (data => {
+      setIdDeck(data.deck_id)
+      setIdDeckOk(true)
+    })
     .catch([])
   }
   
+  async function requestTwoCards(){
+    await fetch (`https://apis.scrimba.com/deckofcards/api/deck/${idDeck}/draw/?count=2`, options)
+    .then (response => response.json())
+    .then (data => {
+      setCardsImg(data.cards)
+      setIdDeckOk(false)
+    })
+  }
 
 
 
 
 
 
-  
+
 
 
   // const people = [
@@ -72,7 +86,10 @@ function App() {
   return (
     <div className="App">
       <Body
-        requestDesk={requestDesk}
+        requestIdDesk={requestIdDesk}
+        requestTwoCards={requestTwoCards}
+        idDeckOk={idDeckOk}
+        cardsImg={cardsImg}
       />
     </div>
   )
