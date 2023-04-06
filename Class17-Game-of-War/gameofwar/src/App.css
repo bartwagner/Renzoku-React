@@ -1,0 +1,44 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-image: url(Img/table.png);
+    background-size: cover;
+    font-family: "Exo 2", sans-serif;
+}
+
+.body, .root, .app {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+button {
+    background-color: #FFF100;
+    cursor: pointer;
+    border: none;
+}
+
+button.draw{
+    font-size: 1.2em;
+    padding: 5px;
+}
+
+button.new--deck{
+    align-self: flex-start;
+    padding: 5px;
+}
+
+.card--slot {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 160px;
+    width: calc(160px * 5 / 7);
+    margin-bottom: 50px;
+}
+
+.cards{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

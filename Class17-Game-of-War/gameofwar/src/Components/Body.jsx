@@ -17,27 +17,24 @@ function Body(props) {
   
   
   return (
-    <div className="Body">
-        <button id="new-deck" onClick={props.requestIdDesk}>New Deck, Please!</button>
-        {
-          props.idDeckOk === true
-          ?
-          (
-            <button id="draw-cards" onClick={props.requestTwoCards}>Draw</button>
-          ):(
-            <a>Click on the button above</a>
-          )
-        }
+    <div className="body">
+        <button id="newDeck" className="new--deck" onClick={props.requestIdDesk}>New Deck</button>
         {
           props.cardsImg != ""
-          ?(
-            <div>
+          ?
+          ( 
+            <div id="cards" className='cards'>
               {showCards}
             </div>
-          ):(
-            <a>Click on the Draw</a>
+          ):
+          (
+            <div id="cards" className='cards'>
+              <div className="card--slot"/>
+              <div className="card--slot"/>
+            </div>
           )
         }
+        <button id="draw-cards" onClick={props.requestTwoCards} className="draw" disabled={props.idDeckButtonDisabled}>Draw</button>
     </div>
   )
 }

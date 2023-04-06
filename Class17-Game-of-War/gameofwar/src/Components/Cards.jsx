@@ -3,8 +3,8 @@ import React from 'react'
 function Cards(props) {
 
   return (
-    <div className="Cards">
-        <img src={props.card}/>
+    <div className="cards">
+        <img src={props.card} className="card--slot"/>
     </div>
   )
 }
