@@ -5,7 +5,11 @@ import Body from './Components/Body'
 function App() {
   const [idDeck,setIdDeck] = React.useState("")
   const [idDeckButtonDisabled,setIdDeckButtonDisabled] = React.useState(true)
-  const [cardsImg,setCardsImg] = React.useState([])
+  const [cardsCharger,setCardsCharger] = React.useState([])
+
+  const [computerWin,setComputerWin] = React.useState(0)
+  const [personWin,setPersonWin] = React.useState(0)
+  // let whoWin = ""
 
   const options = {
     method: 'get',
@@ -15,7 +19,7 @@ function App() {
   };
 
   async function requestIdDesk(){
-    setCardsImg("")
+    setCardsCharger("")
     await fetch ("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/", options)
     .then (response => response.json())
     .then (data => {
@@ -24,12 +28,12 @@ function App() {
     })
     .catch([])
   }
-  
+
   async function requestTwoCards(){
     await fetch (`https://apis.scrimba.com/deckofcards/api/deck/${idDeck}/draw/?count=2`, options)
     .then (response => response.json())
     .then (data => {
-      setCardsImg(data.cards)
+      setCardsCharger(data.cards)
       setIdDeckButtonDisabled(true)
     })
   }
@@ -40,7 +44,7 @@ function App() {
         requestIdDesk={requestIdDesk}
         requestTwoCards={requestTwoCards}
         idDeckButtonDisabled={idDeckButtonDisabled}
-        cardsImg={cardsImg}
+        cardsCharger={cardsCharger}
       />
     </div>
   )
