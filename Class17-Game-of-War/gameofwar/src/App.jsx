@@ -39,19 +39,16 @@ function App() {
     const valueOptions = ["2", "3", "4", "5", "6", "7", "8", "9", 
     "10", "JACK", "QUEEN", "KING", "ACE"]
 
-    let cardWinner = ""
     const card1ValueIndex = valueOptions.indexOf(cardOne)
     const card2ValueIndex = valueOptions.indexOf(cardSecond)
 
     if(card1ValueIndex > card2ValueIndex){
-      cardWinner ="Computer Win"
+      return "Computer Win"
     }else if(card1ValueIndex < card2ValueIndex){
-      cardWinner ="You Win"
+      return "You Win"
     }else{
-      cardWinner = "War!"
+      return "War!"
     }
-
-    return cardWinner
   }
 
   return (
