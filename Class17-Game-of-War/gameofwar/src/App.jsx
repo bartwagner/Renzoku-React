@@ -2,25 +2,18 @@ import React from 'react'
 import './App.css'
 import Body from './Components/Body'
 
+var computerWin = 0
+var personWin = 0
+
 function App() {
   const [idDeck,setIdDeck] = React.useState("")
   const [idDeckButtonDisabled,setIdDeckButtonDisabled] = React.useState(true)
   const [cardsCharger,setCardsCharger] = React.useState([])
+  let winnerResult = "--"
 
-  const [computerWin,setComputerWin] = React.useState(0)
-  const [personWin,setPersonWin] = React.useState(0)
-  // let whoWin = ""
-
-  const options = {
-    method: 'get',
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
-
-  async function requestIdDesk(){
+  function requestIdDesk(){
     setCardsCharger("")
-    await fetch ("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/", options)
+    fetch ("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
     .then (response => response.json())
     .then (data => {
       setIdDeck(data.deck_id)
@@ -29,8 +22,8 @@ function App() {
     .catch([])
   }
 
-  async function requestTwoCards(){
-    await fetch (`https://apis.scrimba.com/deckofcards/api/deck/${idDeck}/draw/?count=2`, options)
+  function requestTwoCards(){
+    fetch (`https://apis.scrimba.com/deckofcards/api/deck/${idDeck}/draw/?count=2`)
     .then (response => response.json())
     .then (data => {
       setCardsCharger(data.cards)
@@ -38,14 +31,41 @@ function App() {
     })
   }
 
+  if(cardsCharger != ""){
+    winnerResult = checkWinner(cardsCharger[0].value, cardsCharger[1].value)
+  }
+  
+  function checkWinner(cardOne, cardSecond){
+    const valueOptions = ["2", "3", "4", "5", "6", "7", "8", "9", 
+    "10", "JACK", "QUEEN", "KING", "ACE"]
+
+    let cardWinner = ""
+    const card1ValueIndex = valueOptions.indexOf(cardOne)
+    const card2ValueIndex = valueOptions.indexOf(cardSecond)
+
+    if(card1ValueIndex > card2ValueIndex){
+      cardWinner ="Computer Win"
+    }else if(card1ValueIndex < card2ValueIndex){
+      cardWinner ="You Win"
+    }else{
+      cardWinner = "War!"
+    }
+
+    return cardWinner
+  }
+
   return (
     <div className="app">
-      <Body
-        requestIdDesk={requestIdDesk}
-        requestTwoCards={requestTwoCards}
-        idDeckButtonDisabled={idDeckButtonDisabled}
-        cardsCharger={cardsCharger}
-      />
+        <button id="newDeck" className="new--deck" onClick={requestIdDesk}>New Deck</button>
+        {
+          <Body 
+            winnerResult={winnerResult}
+            computerWin={computerWin}
+            personWin={personWin}
+            cardsCharger={cardsCharger}
+          />
+        }
+        <button id="draw-cards" onClick={requestTwoCards} className="draw" disabled={idDeckButtonDisabled}>Draw</button>
     </div>
   )
 }
