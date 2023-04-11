@@ -24,6 +24,10 @@ button.draw{
     padding: 5px;
 }
 
+button.draw:disabled {
+    cursor: not-allowed;
+}
+
 button.new--deck{
     align-self: flex-start;
     padding: 5px;
@@ -32,12 +36,25 @@ button.new--deck{
 .card--slot {
     border: 1px solid black;
     border-radius: 5px;
-    height: 160px;
-    width: calc(160px * 5 / 7);
-    margin-bottom: 50px;
+    height: 130px;
+    width: calc(130px * 5 / 7);
+    margin-bottom: 30px;
 }
 
 .cards{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result--slot{
+    display: flex;
+    flex-direction: column;
+    margin: 6px;
+    color: white;
+}
+
+.div--result{
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -15,9 +15,11 @@ function Body(props) {
   }
 
   return (
-    <div>
+    <div className='div--result'>
+        <h3 className="result--slot">Remaining Cards: {props.countCards}</h3>
         <h2 className="result--slot">{props.winnerResult}</h2>
-        <h2 className="result--slot">Computer: {props.computerWin}</h2>
+        <h2 className="result--slot" id="header">Game of War</h2>
+        <h3 className="result--slot" id="computer-score">Computer score: {props.computerWin}</h3>
         {
             props.cardsCharger != ""
             ?(
@@ -32,7 +34,7 @@ function Body(props) {
                 </div>
             )
         }
-        <h2 className="result--slot">Me: {props.personWin}</h2>
+        <h3 className="result--slot" id="my-score">My Score: {props.personWin}</h3>
     </div>
   )
 }
