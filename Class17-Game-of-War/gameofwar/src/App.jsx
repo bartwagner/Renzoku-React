@@ -10,29 +10,24 @@ function App() {
   const [idDeckButtonDisabled,setIdDeckButtonDisabled] = React.useState(true)
   const [countCards,setCountCards] = React.useState()
   const [cardsCharger,setCardsCharger] = React.useState([])
-  const [winnerResult,setWinnerResult] = React.useState()
+  const [winnerResult,setWinnerResult] = React.useState("--")
 
-  function requestIdDesk(){
+  async function requestIdDesk(){
     startingTheVariables()
-    fetch ("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
-    .then (response => response.json())
-    .then (data => {
+    const responde = await fetch ("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
+    const data     = await responde.json()
       setIdDeck(data.deck_id)
       setIdDeckButtonDisabled(false)
       setCountCards(data.remaining)
-    })
-    .catch([])
   }
 
-  function requestTwoCards(){
+  async function requestTwoCards(){
     if(countCards != 0){
-      fetch (`https://apis.scrimba.com/deckofcards/api/deck/${idDeck}/draw/?count=2`)
-      .then (response => response.json())
-      .then (data => {
+      const responde = await fetch (`https://apis.scrimba.com/deckofcards/api/deck/${idDeck}/draw/?count=2`)
+      const data     = await responde.json()
         setCountCards(data.remaining)
         setCardsCharger(data.cards)
         setWinnerResult(checkWinner(data.cards[0].value, data.cards[1].value))
-      })
     }else{
       setIdDeckButtonDisabled(true)
       setWinnerResult(finalWinner(personWin, computerWin))
@@ -67,8 +62,10 @@ function startingTheVariables(){
   function finalWinner (personScore, computerScore){
     if(personScore > computerScore){
       return "You Won the Game!!!"
-    }else{
+    }else if (personScore < computerScore){
       return "Computer Won the Game!!!"
+    }else{
+      return "The game was a draw. Do you like to try again?"
     }
   }
 
@@ -88,46 +85,5 @@ function startingTheVariables(){
     </div>
   )
 }
-
-  // const people = [
-  //   { name: "Jack", hasPet: true },
-  //   { name: "Jill", hasPet: false },
-  //   { name: "Alice", hasPet: true },
-  //   { name: "Bob", hasPet: false },
-  // ]
-
-  // function filterArray(array, callback) {
-  //   const resultingArray = []
-  //   // Write your filtering logic here
-  //   for(let item of array){
-  //     const shouldBeIncluded = callback(item)
-  //     if(shouldBeIncluded){
-  //       resultingArray.push(item)
-  //     }
-  //   }
-  //   return resultingArray
-  // }
-
-  // const peopleWithPets = filterArray(people, function(person) {
-  //   return person.hasPet
-  // })
-
-  // console.log(peopleWithPets)
-
-
-  // function callback(){
-  //   window.console.log("I finally ran!")
-  // }
-
-  // setTimeout(callback, 2000)
-
-
-  // function gimmeThePets(person) {
-  //   return person.hasPet
-  // }
-  // //const peopleWithPets = people.filter(gimmeThePets)
-
-
-  // window.console.log(peopleWithPets)
 
 export default App

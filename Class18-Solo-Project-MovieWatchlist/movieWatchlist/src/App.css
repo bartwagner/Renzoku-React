@@ -1,0 +1,30 @@
+body{
+  margin: 0%;
+}
+
+.nav--bar{
+  display:flex;
+  align-items: center;
+  justify-content: space-around;
+  background-image: url(Images/navbar.jpg);
+  background-repeat: no-repeat;
+  background-position: 0% 23%;
+  height: 70vh;
+  min-height: 100%;
+  background-size: cover;
+  font-family: 'Inter', sans-serif;
+}
+
+.title--nav{
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+  font-weight: 800;
+}
+
+.look--nav{
+  color: #FFFFFF;
+  padding-top: 10px;
+  padding-left: 65%;
+  font-weight: 700;
+}
