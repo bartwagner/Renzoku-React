@@ -6,10 +6,10 @@ body{
   display:flex;
   align-items: center;
   justify-content: space-around;
-  background-image: url(Images/navbar.jpg);
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(Images/navbar.jpg);
   background-repeat: no-repeat;
   background-position: 0% 23%;
-  height: 70vh;
+  height: 40vh;
   min-height: 100%;
   background-size: cover;
   font-family: 'Inter', sans-serif;
@@ -25,6 +25,38 @@ body{
 .look--nav{
   color: #FFFFFF;
   padding-top: 10px;
-  padding-left: 65%;
+  padding-left: 55%;
   font-weight: 700;
+}
+
+.result{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.empty--watchlist{
+  display: flex;
+  align-items: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  color: #DFDDDD;
+}
+
+.empty--div{
+  display: flex;
+  align-items: center;
+}
+
+.empty--add{
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  width: 180px;
+  height: 180px;
 }
