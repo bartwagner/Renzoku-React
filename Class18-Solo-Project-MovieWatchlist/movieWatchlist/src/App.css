@@ -72,3 +72,17 @@ body{
   line-height: 28px;
   color: #363636;
 }
+
+.rating--star{
+  width: 15px;
+  height: 15px;
+}
+
+.remove--button{
+  width: 16px;
+  height: 16px;
+}
+
+.remove--letter{
+  font-family: 'Inter';
+}
