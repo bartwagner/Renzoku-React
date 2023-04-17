@@ -76,13 +76,91 @@ body{
 .rating--star{
   width: 15px;
   height: 15px;
+  margin-left: 15px;
 }
 
 .remove--button{
   width: 16px;
   height: 16px;
+  margin-top: 4px;
+  margin-left: 20px;
 }
 
 .remove--letter{
   font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #111827;
+}
+
+.img--movie{
+  width: 140px;
+  height: 230px;
+}
+
+.movie--information{
+  margin: 5% 10%;
+  display: flex;
+}
+
+.movie--description{
+  margin: 3% 5%;
+}
+
+.movie--body{
+  display: flex;
+  align-items: center;
+}
+
+.movie--title{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+  line-height: 20px;
+}
+
+.movie--rating{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000000;
+  margin-left: 8px;
+}
+
+.movie--runtime{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #111827;
+}
+
+.movie--genre{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #111827;
+  margin-left: 20px;
+}
+
+.movie--plot{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #6B7280;
+}
+
+.movie--bar{
+  margin: 0% 10%;
 }

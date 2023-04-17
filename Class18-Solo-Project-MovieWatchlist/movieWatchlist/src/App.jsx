@@ -9,6 +9,8 @@ function App() {
   let movieSelect = ""
 
   async function requestListMovies(){
+    //randomMovies()
+
     const responde = await fetch ("https://www.omdbapi.com/?i=tt3896198&apikey=aa1364b0&page=5")
     const data     = await responde.json()
       setWatchlist(data)
