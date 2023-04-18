@@ -6,25 +6,53 @@ import Movie from './Components/Movie'
 function App() {
 
   const [watchlist, setWatchlist] = React.useState([])
+  const randomLetter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+                        "ab","ac","ad","ae","af","ba","be","bi","bo","bu","bw","ca","ce","ci","co","cu","da","de","di","do","du",
+                        "fa","fe","fi","fo","fu","ga","ge","gi","go","gu","ha","he","hi","ho","hu","ja","je","ji","jo","ju","ka",
+                        "ke","ki","ko","ku","la","le","li","lo","lu","ma","me","mi","mo","mu","na","ne","ni","no","nu","pa","pe",
+                        "pi","po","pu","qu","ra","re","ri","ro","ru","sa","se","si","so","su","ta","te","ti","to","tu","va","ve",
+                        "vi","vo","vu","wa","we","wi","wo","wu","xa","xe","xi","xo","xu","za","ze","zi","zo","zu"]
   let movieSelect = ""
 
-  async function requestListMovies(){
-    //randomMovies()
+  async function resquestApi(quantity, random){
+    let newList = []
 
-    const responde = await fetch ("https://www.omdbapi.com/?i=tt3896198&apikey=aa1364b0&page=5")
-    const data     = await responde.json()
-      setWatchlist(data)
-      window.console.log(data)
+    for(let i = 0; i< quantity; i++){
+      let letter = ""
+      
+      if(random == 1){
+        letter = randomMovies()
+      }
+      const responde = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&t="${letter}"`)
+      const data     = await responde.json()
+      newList.push(data)
+      window.console.log(newList)
+    }
+    setWatchlist(newList)
   }
 
-  // if(watchlist !=""){
-  //   movieSelect = watchlist.map(w => (
-  //     <Movie
-  //       Title={watchlist.Title}
-  //       Rating={watchlist.Title}
-  //     />
-  //   ))
-  // }
+  function requestListMovies(){
+    resquestApi(3, 1)
+  }
+
+  function randomMovies(){
+    return randomLetter[Math.floor(Math.random() * randomLetter.length)]
+  }
+
+  if(watchlist !=""){
+    movieSelect = watchlist.map(w => (
+      <Movie
+        key={w.imdbID}
+        poster={w.Poster}
+        title={w.Title}
+        rating={w.imdbRating}
+        runtime={w.Runtime}
+        genre={w.Genre}
+        plot={w.Plot}
+      />
+    ))
+  }
+
 
   return (
     <div className="App">
@@ -41,15 +69,9 @@ function App() {
           </div>
         ):
         (
-          <Movie
-            poster={watchlist.Poster}
-            title={watchlist.Title}
-            rating={watchlist.imdbRating}
-            runtime={watchlist.Runtime}
-            genre={watchlist.Genre}
-            plot={watchlist.Plot}
-          />
-          // {movieSelect}
+          <div>
+            {movieSelect}
+          </div>
         )
       }
     </div>

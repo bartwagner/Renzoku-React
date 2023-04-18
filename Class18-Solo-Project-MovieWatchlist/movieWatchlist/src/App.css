@@ -164,3 +164,7 @@ body{
 .movie--bar{
   margin: 0% 10%;
 }
+
+.moreRead{
+  display: none;
+}
