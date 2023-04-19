@@ -2,18 +2,18 @@ import React from 'react'
 
 function Movie(props) {
 
-function myFunction() {
+function readMoreFunction() {
   var dots = document.getElementById("dots");
   var moreText = document.getElementById("more");
-  var btnText = document.getElementById("myBtn");
+  var btnTextRead = document.getElementById("buttonRead");
 
   if (dots.style.display === "none") {
     dots.style.display = "inline";
-    btnText.innerHTML = "Read more"; 
+    btnTextRead.innerHTML = "Read more"; 
     moreText.style.display = "none";
   } else {
     dots.style.display = "none";
-    btnText.innerHTML = "Read less"; 
+    btnTextRead.innerHTML = "Read less"; 
     moreText.style.display = "inline";
   }
 }
@@ -40,9 +40,9 @@ function myFunction() {
             ?
             (
               <div>
-                {props.plot.substr(0,400)}<span id='dots'>... </span>
-                                          <span id="more" className="moreRead">{props.plot.substr(400, props.plot.length)} </span>
-                                          <button onClick={myFunction} id="myBtn">Read more</button>
+                {props.plot.substr(0,400)}<span id='dots'>...</span>
+                                          <span id="more" className="more--read">{props.plot.substr(400, props.plot.length)}</span>
+                                          <button id="buttonRead" className="read--button" onClick={readMoreFunction}>Read more</button>
               </div>
             )
             :

@@ -6,6 +6,7 @@ import Movie from './Components/Movie'
 function App() {
 
   const [watchlist, setWatchlist] = React.useState([])
+  const [watchlistAdd, setWatchlistAdd] = React.useState([])
   const randomLetter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
                         "ab","ac","ad","ae","af","ba","be","bi","bo","bu","bw","ca","ce","ci","co","cu","da","de","di","do","du",
                         "fa","fe","fi","fo","fu","ga","ge","gi","go","gu","ha","he","hi","ho","hu","ja","je","ji","jo","ju","ka",
@@ -13,6 +14,7 @@ function App() {
                         "pi","po","pu","qu","ra","re","ri","ro","ru","sa","se","si","so","su","ta","te","ti","to","tu","va","ve",
                         "vi","vo","vu","wa","we","wi","wo","wu","xa","xe","xi","xo","xu","za","ze","zi","zo","zu"]
   let movieSelect = ""
+  let findYourFilm = false
 
   async function resquestApi(quantity, random){
     let newList = []
@@ -26,17 +28,22 @@ function App() {
       const responde = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&t="${letter}"`)
       const data     = await responde.json()
       newList.push(data)
-      window.console.log(newList)
     }
     setWatchlist(newList)
   }
 
   function requestListMovies(){
     resquestApi(3, 1)
+    setWatchlistAdd(watchlist)
   }
 
   function randomMovies(){
     return randomLetter[Math.floor(Math.random() * randomLetter.length)]
+  }
+
+  function searchMoviesButton(){
+    findYourFilm = true
+    window.console.log(findYourFilm)
   }
 
   if(watchlist !=""){
@@ -56,7 +63,18 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar />
+      <NavBar 
+        searchMoviesButton={searchMoviesButton}
+      />
+      {
+        findYourFilm == true
+        ?(
+            <div>trueeeeeeee</div>
+        ):(
+          <div>falseeeeeeeee</div>
+        )
+      }
+
       {
         watchlist ==""
         ?(
