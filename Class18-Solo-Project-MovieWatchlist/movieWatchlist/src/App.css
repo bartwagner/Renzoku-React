@@ -226,3 +226,59 @@ body{
   border: 1px solid #D1D5DB;
   border-radius: 0px 6px 6px 0px;
 }
+
+.search--explorer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10%;
+}
+
+
+.start--explorer{
+  width: 10%;
+  height: 10%;
+
+}
+
+.explorer--word{
+  width: 148px;
+  height: 20px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 20px;
+  text-align: center;
+  color: #DFDDDD;
+}
+
+.remove--div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.add--button{
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+  margin-left: 20px;
+}
+
+.add--letter{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #111827;
+}
+
+.add--div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
