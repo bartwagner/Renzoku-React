@@ -261,10 +261,11 @@ body{
 }
 
 .add--button{
-  width: 16px;
-  height: 16px;
-  margin-top: 4px;
+  width: 11px;
+  height: 11px;
+  margin-bottom: 2px;
   margin-left: 20px;
+  margin-right: 2px;
 }
 
 .add--letter{

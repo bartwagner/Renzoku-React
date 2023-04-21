@@ -8,12 +8,12 @@ function App() {
   const [watchlist, setWatchlist] = React.useState([])
   const [watchlistMy, setWatchlistMy] = React.useState([])
   const [findYourFilm, setFindYourFilm] = React.useState(false)
-  const randomLetter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
-                        "ab","ac","ad","ae","af","ba","be","bi","bo","bu","bw","ca","ce","ci","co","cu","da","de","di","do","du",
-                        "fa","fe","fi","fo","fu","ga","ge","gi","go","gu","ha","he","hi","ho","hu","ja","je","ji","jo","ju","ka",
-                        "ke","ki","ko","ku","la","le","li","lo","lu","ma","me","mi","mo","mu","na","ne","ni","no","nu","pa","pe",
-                        "pi","po","pu","qu","ra","re","ri","ro","ru","sa","se","si","so","su","ta","te","ti","to","tu","va","ve",
-                        "vi","vo","vu","wa","we","wi","wo","wu","xa","xe","xi","xo","xu","za","ze","zi","zo","zu"]
+  let randomLetter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+  "ab","ac","ad","ae","af","ba","be","bi","bo","bu","bw","ca","ce","ci","co","cu","da","de","di","do","du",
+  "fa","fe","fi","fo","fu","ga","ge","gi","go","gu","ha","he","hi","ho","hu","ja","je","ji","jo","ju","ka",
+  "ke","ki","ko","ku","la","le","li","lo","lu","ma","me","mi","mo","mu","na","ne","ni","no","nu","pa","pe",
+  "pi","po","pu","qu","ra","re","ri","ro","ru","sa","se","si","so","su","ta","te","ti","to","tu","va","ve",
+  "vi","vo","vu","wa","we","wi","wo","wu","xa","xe","xi","xo","xu","za","ze","zi","zo","zu"]
   let movieSelect = ""
 
   async function resquestApi(quantity, random, search){
@@ -25,24 +25,25 @@ function App() {
         
         if(random == true){
           letter = randomMovies()
+          randomLetter = randomLetter.filter((l) => l !== letter)
         }else{
           letter = search
         }
         const responde = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&t="${letter}"`)
         const data     = await responde.json()
+
         newList.push(data)
       }
       if (findYourFilm == true){
         setWatchlist(newList)
       }else{
-        window.console.log(newList)
         setWatchlistMy(newList)
       }
     }
   }
 
   function requestListMovies(){
-    resquestApi(3, true, "")
+    resquestApi(5, true, "")
   }
 
   function searchMovie(search){
@@ -54,12 +55,35 @@ function App() {
   }
 
   function searchMoviesButton(){
+    setWatchlist([])
     setFindYourFilm(!findYourFilm)
     resquestApi(0, false, "")
   }
 
   function myWatchlistButton(){
     setFindYourFilm(!findYourFilm)
+  }
+
+  function newMovieMyList(title){
+    let addListMovie = []
+
+    for(let i = 0; i < watchlistMy.length; i++){
+      addListMovie.push(watchlistMy[i])
+    }
+
+    for(let i = 0; i < watchlist.length; i++){
+      if(watchlist[i].Title == title){
+        addListMovie.push(watchlist[i])
+      }
+    }
+    setWatchlistMy(addListMovie)
+    setWatchlist([])
+  }
+
+  function removeMovieMyList(title){
+    const removeListMovie = watchlistMy.filter((movie) => movie.Title !== title)
+
+    setWatchlistMy(removeListMovie)
   }
 
   if (findYourFilm == true){
@@ -74,6 +98,7 @@ function App() {
         genre={w.Genre}
         plot={w.Plot}
         findYourFilm={findYourFilm}
+        newMovieMyList={newMovieMyList}
       />
     ))
   }else{
@@ -87,6 +112,7 @@ function App() {
         genre={w.Genre}
         plot={w.Plot}
         findYourFilm={findYourFilm}
+        removeMovieMyList={removeMovieMyList}
       />
     ))
   }

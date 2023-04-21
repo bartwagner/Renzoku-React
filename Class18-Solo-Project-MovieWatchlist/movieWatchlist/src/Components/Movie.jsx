@@ -2,21 +2,29 @@ import React from 'react'
 
 function Movie(props) {
 
-function readMoreFunction() {
-  var dots = document.getElementById(`${props.plot.substr(5,10)}`);
-  var moreText = document.getElementById(`${props.plot.substr(25,10)}`);
-  var btnTextRead = document.getElementById(`${props.plot.substr(45,10)}`);
+  function readMoreFunction() {
+    var dots = document.getElementById(`${props.plot.substr(5,10)}`);
+    var moreText = document.getElementById(`${props.plot.substr(25,10)}`);
+    var btnTextRead = document.getElementById(`${props.plot.substr(45,10)}`);
 
-  if (dots.style.display === "none") {
-    dots.style.display = "inline";
-    btnTextRead.innerHTML = "Read more"; 
-    moreText.style.display = "none";
-  } else {
-    dots.style.display = "none";
-    btnTextRead.innerHTML = "Read less"; 
-    moreText.style.display = "inline";
+    if (dots.style.display === "none") {
+      dots.style.display = "inline";
+      btnTextRead.innerHTML = "Read more"; 
+      moreText.style.display = "none";
+    } else {
+      dots.style.display = "none";
+      btnTextRead.innerHTML = "Read less"; 
+      moreText.style.display = "inline";
+    }
   }
-}
+
+  function addMovieList(){
+    props.newMovieMyList(props.title)
+  }
+
+  function removeMovie(){
+    props.removeMovieMyList(props.title)
+  }
 
     return (
       <div>
@@ -31,14 +39,23 @@ function readMoreFunction() {
           <div className="movie--body">
             <div className="movie--runtime">{props.runtime}</div>
             <div className="movie--genre">{props.genre}</div>
-            {/* <div className="add--div">
-              <img className="add--button" src="./src/Images/"/>
-              <h4 className="add--letter">Add</h4>
-            </div> */}
-            <div className="remove--div">
-              <img className="remove--button" src="./src/Images/removebutton.png"/>
-              <h4 className="remove--letter">Remove</h4>
-            </div>
+            {
+              props.findYourFilm == true
+              ?
+              (
+                <div className="add--div" onClick={addMovieList}>
+                  <img className="add--button" src="./src/Images/addbutton.png"/>
+                  <h4 className="add--letter">Add</h4>
+                </div>
+              )
+              :
+              (
+                <div className="remove--div" onClick={removeMovie}>
+                  <img className="remove--button" src="./src/Images/removebutton.png"/>
+                  <h4 className="remove--letter">Remove</h4>
+                </div>
+              )
+            }
           </div>
           <div className="movie--plot">
           {
