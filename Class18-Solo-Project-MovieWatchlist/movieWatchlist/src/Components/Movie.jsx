@@ -45,7 +45,7 @@ function Movie(props) {
               (
                 <div className="add--div" onClick={addMovieList}>
                   <img className="add--button" src="./src/Images/addbutton.png"/>
-                  <h4 className="add--letter">Add</h4>
+                  <h4 className="add--letter">Watchlist</h4>
                 </div>
               )
               :

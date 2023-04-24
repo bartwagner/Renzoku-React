@@ -283,3 +283,16 @@ body{
   align-items: center;
   cursor: pointer;
 }
+
+.movie--unavailable{
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 20px;
+  text-align: center;
+  color: #DFDDDD;
+  margin-top: 20%;
+}
