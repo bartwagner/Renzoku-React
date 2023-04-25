@@ -1,22 +1,32 @@
 import React from 'react'
 import './App.css'
+import Body from './Components/Body'
 
 function App() {
+  
+  const [dataInfor, setDataInfor] = React.useState([])
 
-  React.useEffect(()=>{
+  React.useEffect(()=> {
+    async function resquestApiBackground() {
+      const response = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
+      const data     = await response.json()
+      setDataInfor(data)
+      document.body.style.backgroundImage = `url(${data.urls.full})`
+      window.console.log(data)
+    }
     resquestApiBackground()
   }, [])
 
-  async function resquestApiBackground(){
-    const response = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
-    const data     = await response.json()
-    document.getElementById('body').style.backgroundImage = `url('${data.urls.full}')`;
-  }
-
+  const bodyInput = (
+    <Body
+      key={dataInfor.id}
+      author={dataInfor.user.name}
+    />
+  )
 
   return (
     <div>
-      aa
+      {bodyInput}
     </div>
   )
 }
