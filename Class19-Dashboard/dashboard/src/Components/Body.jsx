@@ -4,7 +4,7 @@ function Body(props) {
 
 return(
     <div>
-        <div>By: {props.author}</div>
+        <div>By: {props.author}</div> 
     </div>
 )
 
