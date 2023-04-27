@@ -1,8 +1,6 @@
 html, body {
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
 }
 
 body, .root {
@@ -16,7 +14,7 @@ body, .root {
   text-shadow: 3px 5px 2px #474747;
 }
 
-.c-loader {
+.c--loader {
     animation: is-rotating 1s infinite;
     border: 6px solid #e5e5e5;
     border-radius: 50%;
@@ -25,11 +23,32 @@ body, .root {
     width: 150px;
     display: flex;
     justify-content: center;
-    margin-top: 100%;
+    margin-top: 20%;
+    margin-bottom: 20%;
+    margin-left: 45%;
+    margin-right: 45%;
 }
 
 @keyframes is-rotating {
   to {
     transform: rotate(1turn);
   }
+}
+
+.main{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-right: 3%;
+  padding-left: 3%;
+}
+
+.top--website{
+  display: flex;
+  justify-content: space-between;
+}
+
+.time--website {
+  text-align: center;
 }
