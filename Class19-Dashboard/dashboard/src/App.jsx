@@ -4,45 +4,78 @@ import Body from './Components/Body'
 
 function App() {
   
-  const [dataInfor, setDataInfor] = React.useState()
+  const [dataInforImage, setDataInforImage] = React.useState()
+
+  const [dataCurrencyCad, setDataCurrencyCad] = React.useState()
 
   React.useEffect(()=> {
     async function resquestApiBackground() {
-      const response = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
-      const data     = await response.json()
-      setDataInfor(data)
+      // Image and Author
+
+      const imgInfor = {
+        id: "",
+        nameAuthor: "",
+        imgCrypto:"",
+        url: ""
+      }
+
+      try{
+        const responseImage = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
+        if(!responseImage.ok){
+          throw Error("API has a problem")
+        }
+        const dataImage     = await responseImage.json()
+
+        window.console.log(dataImage)
+        if(dataImage.errors)
+        {
+          imgInfor.id = "jlVEj8IDPQc",
+          imgInfor.nameAuthor = "Simon Wilkes",
+          imgInfor.url = "https://images.unsplash.com/photo-1528184039930-bd03972bd974?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDI0NzB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODI1NDkzODA&ixlib=rb-4.0.3&q=85"
+        }else{
+          imgInfor.id = dataImage.id,
+          imgInfor.nameAuthor = dataImage.user.name,
+          imgInfor.url = dataImage.urls.full
+        }
+      }
+      catch(err){
+        imgInfor.id = "jlVEj8IDPQc",
+        imgInfor.nameAuthor = "Simon Wilkes",
+        imgInfor.url = "https://images.unsplash.com/photo-1528184039930-bd03972bd974?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDI0NzB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODI1NDkzODA&ixlib=rb-4.0.3&q=85"
+      }
+
+      setDataInforImage(imgInfor)
+
+      // Crypto Currency
+      const responseCurrency = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin?localization=false")
+      if(!responseCurrency.ok){
+        setDataCurrencyCad("Unavailable this moment")
+      }else{
+        const dataCurrency     = await responseCurrency.json()
+        let num = dataCurrency.market_data.current_price.cad
+        var formatNum = " $" + num.toLocaleString('en-US') + " CAD"
+        setDataCurrencyCad(formatNum)
+      }
     }
     resquestApiBackground()
   }, [])
 
-  if (!dataInfor){
+  if (!dataInforImage){
     return (
       <div className="c--loader"/>
     )
   }
 
-  if(dataInfor.urls){
-    document.body.style.backgroundImage = `url(${dataInfor.urls.full})`
-    return (
-      <div>
-          <Body
-            key={dataInfor.id}
-            author={dataInfor.user.name}
+  document.body.style.backgroundImage = `url(${dataInforImage.url})`
+  return (
+    <div>
+      <Body
+        key={dataInforImage.id}
+        author={dataInforImage.nameAuthor}
+        cryptoBitcoin={dataCurrencyCad}
           />
-      </div>
-    )
-  }else{
-    document.body.style.backgroundImage = "url(https://images.unsplash.com/photo-1528184039930-bd03972bd974?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDI0NzB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODI1NDkzODA&ixlib=rb-4.0.3&q=85)"
-    return (
-      <div>
-          <Body
-            key={"jlVEj8IDPQc"}
-            author={"Simon Wilkes"}
-          />
-      </div>
-      )
-
-  }
+    </div>
+  )
 }
 
 export default App

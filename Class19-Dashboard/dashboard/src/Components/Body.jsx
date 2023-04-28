@@ -5,7 +5,11 @@ function Body(props) {
 return(
     <main className='main'>
         <div className="top--website">
-            <p>Crypto</p>
+            <div className='crypto--Website'>
+                <p>Crypto: </p>
+                <img className='crypto--simbol' src={} />
+                <p className='crypto--value'>  {props.cryptoBitcoin}</p>
+            </div>
             <p>weather</p>
         </div>
 
