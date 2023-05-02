@@ -17,10 +17,12 @@ return(
                     <p className='crypto--value'>👇: {props.cryptoLow}</p>
                 </div>
             </div>
-            <div>
-                {/* <img src={props.weatherCurrency.icon} />
-                <p>{props.weatherCurrency.temp}</p>
-                <p>{props.weatherCurrency.name}</p> */}
+            <div className='weather--div'>
+                <div className='weather--icon--temp'>
+                    <img src={props.weatherCurrency.icon} className='weather--icon'/>
+                    <p className='weather--temp'>{props.weatherCurrency.temperature}</p>
+                </div>
+                <p className='weather--city'>{props.weatherCurrency.city}</p>
             </div>
         </div>
         <h1 className='time--website'>{props.timeCurrency}</h1>

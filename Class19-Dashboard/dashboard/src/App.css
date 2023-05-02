@@ -73,3 +73,33 @@ body, .root {
   display: flex;
   flex-direction: row;
 }
+
+.weather--div{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-self: flex-start;
+  margin-top: -3%;
+}
+
+.weather--icon--temp{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.weather--icon{
+  width: 120px;
+}
+
+.weather--temp{
+  font-size: 30px;
+}
+
+.weather--city{
+  display: flex;
+  flex-direction: column;
+  font-size: 23px;
+  text-align: right;
+  margin-top: -10%;
+}

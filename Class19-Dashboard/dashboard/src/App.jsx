@@ -91,12 +91,13 @@ function App() {
                 throw Error("API has a problem")
               }else{
                 const dataWeather = await responseWeather.json()
-                window.console.log(dataWeather)
-                const iconUrl = `http://openweathermap.org/img/wn/${dataWeather.weather[0].icon}@2x.png`
-                
+                let iconUrl = ""
+                if(dataWeather.weather[0].icon){
+                  iconUrl = `http://openweathermap.org/img/wn/${dataWeather.weather[0].icon}@2x.png`
+                } 
                 WeatherCity.city = dataWeather.name
                 WeatherCity.icon = iconUrl
-                WeatherCity.temperature = dataWeather.main.temp
+                WeatherCity.temperature = Math.round(dataWeather.main.temp)+" º"
               }
           }
           catch(err){
@@ -104,8 +105,6 @@ function App() {
             WeatherCity.icon = ""
             WeatherCity.temperature = "Weather data not available"
           }
-
-          window.console.log(WeatherCity)
           setWeatherCurrency(WeatherCity)
         }
       )    
@@ -119,7 +118,7 @@ function App() {
     imgInfor.url = "https://images.unsplash.com/photo-1528184039930-bd03972bd974?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDI0NzB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODI1NDkzODA&ixlib=rb-4.0.3&q=85"
   }
 
-  if (!(dataCurrencyCad && dataInforImage)){
+  if (!(dataCurrencyCad && dataInforImage && weatherCurrency)){
     return (
       <div className="c--loader"/>
     )
