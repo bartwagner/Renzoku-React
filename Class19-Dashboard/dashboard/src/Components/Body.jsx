@@ -1,6 +1,7 @@
 import React from 'react'
+import moment from 'moment'
 
-function Body(props) {
+function Body(props) {    
 
 return(
     <main className='main'>
@@ -16,9 +17,13 @@ return(
                     <p className='crypto--value'>👇: {props.cryptoLow}</p>
                 </div>
             </div>
-            <p>weather</p>
+            <div>
+                {/* <img src={props.weatherCurrency.icon} />
+                <p>{props.weatherCurrency.temp}</p>
+                <p>{props.weatherCurrency.name}</p> */}
+            </div>
         </div>
-        <h1 className='time--website'>TIME HERE</h1>
+        <h1 className='time--website'>{props.timeCurrency}</h1>
         <p>By: {props.author}</p> 
     </main>
 )

@@ -6,13 +6,22 @@ function App() {
   
   const [dataInforImage, setDataInforImage] = React.useState()
   const [dataCurrencyCad, setDataCurrencyCad] = React.useState()
+  const [timeCurrency, setTimeCurrency] = React.useState()
+  const [weatherCurrency, setWeatherCurrency] = React.useState()
+
   let imgInfor = {
     id: "",
     nameAuthor: "",
     url: ""
   }
 
-  React.useEffect(()=> {
+  function getCurrentTime(){
+      const date = new Date()
+      setTimeCurrency(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
+  }
+  setInterval(getCurrentTime, 1000)
+
+  React.useEffect(()=> {   
     async function resquestApiBackground() {
       
       // Image and Author
@@ -53,8 +62,6 @@ function App() {
       }else{
         const dataCurrency     = await responseCurrency.json()
 
-        window.console.log(dataCurrency)
-
         let num = dataCurrency.market_data.current_price.cad
         var formatNum = " $" + num.toLocaleString('en-US') + " CAD"
         let numHigh = dataCurrency.market_data.high_24h.cad
@@ -69,6 +76,39 @@ function App() {
         CurrencyInfor.nameCurrency = dataCurrency.name
         setDataCurrencyCad(CurrencyInfor)
       }
+      
+      //Weather
+      navigator.geolocation.getCurrentPosition(
+        async position => {
+          let WeatherCity = {
+            city: "",
+            icon: "",
+            temperature: ""
+          }
+          try{
+            const responseWeather = await fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
+              if(!responseWeather.ok){
+                throw Error("API has a problem")
+              }else{
+                const dataWeather = await responseWeather.json()
+                window.console.log(dataWeather)
+                const iconUrl = `http://openweathermap.org/img/wn/${dataWeather.weather[0].icon}@2x.png`
+                
+                WeatherCity.city = dataWeather.name
+                WeatherCity.icon = iconUrl
+                WeatherCity.temperature = dataWeather.main.temp
+              }
+          }
+          catch(err){
+            WeatherCity.city = ""
+            WeatherCity.icon = ""
+            WeatherCity.temperature = "Weather data not available"
+          }
+
+          window.console.log(WeatherCity)
+          setWeatherCurrency(WeatherCity)
+        }
+      )    
     }
     resquestApiBackground()
   }, [])
@@ -96,6 +136,8 @@ function App() {
         cryptoLow    = {dataCurrencyCad.lowPrice}
         cryptoImg    = {dataCurrencyCad.imgCurrency}
         nameCurrency = {dataCurrencyCad.nameCurrency}
+        timeCurrency = {timeCurrency}
+        weatherCurrency = {weatherCurrency}
       />
     </div>
   )
