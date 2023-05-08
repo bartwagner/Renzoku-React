@@ -1,0 +1,85 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body, .root {
+  background: no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 3px 5px 2px #474747;
+}
+
+.c--loader {
+    animation: is-rotating 1s infinite;
+    border: 6px solid #e5e5e5;
+    border-radius: 50%;
+    border-top-color: #51d4db;
+    height: 150px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20%;
+    margin-bottom: 20%;
+    margin-left: 45%;
+    margin-right: 45%;
+}
+
+@keyframes is-rotating {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.main{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-right: 3%;
+  padding-left: 3%;
+}
+
+.top--website{
+  display: flex;
+  justify-content: space-between;
+}
+
+.time--website {
+  text-align: center;
+  font-size: 6.0rem;
+}
+
+.weather--div{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-self: flex-start;
+  margin-top: -3%;
+}
+
+.weather--icon--temp{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.weather--icon{
+  width: 120px;
+}
+
+.weather--temp{
+  font-size: 30px;
+}
+
+.weather--city{
+  display: flex;
+  flex-direction: column;
+  font-size: 23px;
+  text-align: right;
+  margin-top: -10%;
+}
