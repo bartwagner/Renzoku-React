@@ -1,8 +1,16 @@
 import React from 'react'
 
 function SelectOption(props) {
+
+    function selectItem(item){
+        props.selectBrStockItem(item)
+    }    
+
     return(
-        <option value={props.brStock}>{props.brStock}</option>
+        <div className='item' id={props.brStock} onMouseDown={() => selectItem(props.brStock)}>
+            {props.brStock}
+        </div>
+        // <option value={props.brStock}>{props.brStock}</option>
     )
 }
 

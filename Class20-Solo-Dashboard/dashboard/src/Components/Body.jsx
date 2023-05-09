@@ -4,10 +4,27 @@ import SelectOption from './SelectOption'
 
 function Body(props) {
 
+function dropDown(p){
+    var e = document.getElementsByClassName('drop--down')[0];
+    var d = ['block', 'none'];
+    e.style.display = d[p];
+
+    var t = ['0px','0px,-5px']
+    setTimeout(function (){
+        e.style.transform = 'translate('+t[p]+')';
+    },0)
+}
+
+function selectBrStockItem(selected){
+    document.getElementsByClassName('input--stock')[0].value = selected
+    props.brStockInformation(selected)
+}
+
 const options = props.dataBrStocks.map(d =>(
     <SelectOption
         key={nanoid()}
         brStock={d}
+        selectBrStockItem={selectBrStockItem}
     />
 ))
 
@@ -17,9 +34,17 @@ return(
             <div className='weather--div'>
                 <div>
                     <p>BR Stocks:</p>
-                    <select>
+                    <div className='container'>
+                        <input className='input--stock' type="text" name="stock" onFocus={() => dropDown(0)} onBlur={() => dropDown(1)} placeholder='Select one br stock'/>
+                        <div className='drop--down'>
+                            <div className='list--drop--down'>
+                                {options}    
+                            </div>
+                        </div>
+                    </div>
+                    {/* <select className='stock--list'>
                         {options}
-                    </select>
+                    </select> */}
                 </div>
                 <div className='weather--icon--temp'>
                     <img src={props.weatherCurrency.icon} className='weather--icon'/>

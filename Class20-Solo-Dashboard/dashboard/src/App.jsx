@@ -110,6 +110,12 @@ function App() {
     setWeatherCurrency(WeatherCity)
   }
 
+  async function brStockInformation(stock){
+    const respondeStockValue = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
+    const dataStockValue = await respondeStockValue.json()
+    window.console.log(dataStockValue)
+  }
+
   if (!(dataInforImage && weatherCurrency && dataBrStocks)){
     return (
       <div className="c--loader"/>
@@ -125,6 +131,7 @@ function App() {
         timeCurrency    = {timeCurrency}
         dataBrStocks    = {dataBrStocks}
         weatherCurrency = {weatherCurrency}
+        brStockInformation={brStockInformation}
       />
     </div>
   )
