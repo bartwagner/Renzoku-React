@@ -56,7 +56,6 @@ body, .root {
 
 .weather--div{
   display: flex;
-  flex-direction: column;
   justify-content: flex-end;
   align-self: flex-start;
   margin-top: -3%;

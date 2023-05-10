@@ -8,6 +8,7 @@ function App() {
   const [dataBrStocks, setDataBrStocks] = React.useState()
   const [timeCurrency, setTimeCurrency] = React.useState()
   const [weatherCurrency, setWeatherCurrency] = React.useState()
+  const [resultBrStock, setResultBrStock] = React.useState()
 
   let imgInfor = {
     id: "",
@@ -111,9 +112,74 @@ function App() {
   }
 
   async function brStockInformation(stock){
-    const respondeStockValue = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
-    const dataStockValue = await respondeStockValue.json()
-    window.console.log(dataStockValue)
+    let brStock = {
+      currency: '',
+      cashDividends: [],
+      highestPriceOneYear: '',
+      highestChangeOneYear: '',
+      highestChangePercentOneYear: '',
+      lowestPriceOneYear: '',
+      lowestChangeOneYear: '',
+      lowestChangePercentOneYear: '',
+      regularMarketDayHigh: '',
+      regularMarketDayLow: '',
+      regularMarketOpen: '',
+      regularMarketPreviousClose: '',
+      regularMarketPrice: '',
+      regularMarketTime: '',
+      logoUrl: '',
+      longName: '',
+      shortName: '',
+      symbol: ''
+    }
+    try{
+      const respondeStockValue = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
+      if(!respondeStockValue.ok){
+        throw Error("API result br stock has a problem")
+      }else{
+        const dataStockValue = await respondeStockValue.json()
+        brStock.currency = dataStockValue.results[0].currency
+        brStock.cashDividends = dataStockValue.results[0].dividendsData.cashDividends
+        brStock.highestPriceOneYear = dataStockValue.results[0].fiftyTwoWeekHigh
+        brStock.highestChangeOneYear = dataStockValue.results[0].fiftyTwoWeekHighChange
+        brStock.highestChangePercentOneYear = dataStockValue.results[0].fiftyTwoWeekHighChangePercent * 100
+        brStock.lowestPriceOneYear = dataStockValue.results[0].fiftyTwoWeekLow
+        brStock.lowestChangeOneYear = dataStockValue.results[0].fiftyTwoWeekLowChange
+        brStock.lowestChangePercentOneYear = dataStockValue.results[0].fiftyTwoWeekLowChangePercent * 100
+        brStock.regularMarketDayHigh = dataStockValue.results[0].regularMarketDayHigh
+        brStock.regularMarketDayLow = dataStockValue.results[0].regularMarketDayLow
+        brStock.regularMarketOpen = dataStockValue.results[0].regularMarketOpen
+        brStock.regularMarketPreviousClose = dataStockValue.results[0].regularMarketPreviousClose
+        brStock.regularMarketPrice = dataStockValue.results[0].regularMarketPrice
+        brStock.regularMarketTime = dataStockValue.results[0].regularMarketTime
+        brStock.logoUrl = dataStockValue.results[0].logourl
+        brStock.longName = dataStockValue.results[0].longName
+        brStock.shortName = dataStockValue.results[0].shortName
+        brStock.symbol = dataStockValue.results[0].symbol
+      }
+    }
+    catch(err){
+      brStock.currency = 'This Br Stock not available'
+      brStock.cashDividends = ''
+      brStock.highestPriceOneYear = ''
+      brStock.highestChangeOneYear = ''
+      brStock.highestChangePercentOneYear = ''
+      brStock.lowestPriceOneYear = ''
+      brStock.lowestChangeOneYear = ''
+      brStock.lowestChangePercentOneYear = ''
+      brStock.regularMarketDayHigh = ''
+      brStock.regularMarketDayLow = ''
+      brStock.regularMarketOpen = ''
+      brStock.regularMarketPreviousClose = ''
+      brStock.regularMarketPrice = ''
+      brStock.regularMarketTime = ''
+      brStock.logoUrl = ''
+      brStock.longName = ''
+      brStock.shortName = ''
+      brStock.symbol = ''
+    }
+    setResultBrStock(brStock)
+    window.console.log(brStock)
   }
 
   if (!(dataInforImage && weatherCurrency && dataBrStocks)){
