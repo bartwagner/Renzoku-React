@@ -8,6 +8,8 @@ function App() {
   const [dataBrStocks, setDataBrStocks] = React.useState()
   const [timeCurrency, setTimeCurrency] = React.useState()
   const [weatherCurrency, setWeatherCurrency] = React.useState()
+  const [brWeatherCurrency, setBrWeatherCurrency] = React.useState([])
+  const [caWeatherCurrency, setCaWeatherCurrency] = React.useState([])
   const [resultBrStock, setResultBrStock] = React.useState()
 
   let imgInfor = {
@@ -15,6 +17,13 @@ function App() {
     nameAuthor: "",
     url: ""
   }
+  const brWeather = [{city:'São Paulo', latitude:-23.5489, longitude:-46.6388},
+                     {city:'Porto Alegre', latitude:-30.033056, longitude:-51.230000},
+                     {city:'Brasilia', latitude:-15.7801, longitude:-47.9292}]
+
+  const caWeather = [{city:'Victoria', latitude:48.407326, longitude:-123.329773},
+                     {city:'Toronto', latitude:43.70011, longitude:-79.4163},
+                     {city:'Quebec', latitude:46.829853, longitude:-71.254028}]
 
   function getCurrentTime(){
       const date = new Date()
@@ -26,11 +35,18 @@ function App() {
     async function resquestApiBackground() {
       backgroundImage()
       brStocksList()
-      navigator.geolocation.getCurrentPosition(
-        async position => {
-          weatherList(position.coords.latitude, position.coords.longitude)
-        }
-      ) 
+
+      let brArrayWeather = []
+      for(let i = 0; i < brWeather.length; i++){
+        brArrayWeather.push(weatherList(brWeather[i].latitude, brWeather[i].longitude))
+      }
+      setBrWeatherCurrency(brArrayWeather)
+
+      let caArrayWeather = []
+      for(let i = 0; i < caWeather.length; i++){
+        caArrayWeather.push(weatherList(caWeather[i].latitude, caWeather[i].longitude))
+      }
+      setCaWeatherCurrency(caArrayWeather)
     }
     resquestApiBackground()
   }, [])
@@ -108,7 +124,7 @@ function App() {
       WeatherCity.icon = ""
       WeatherCity.temperature = "Weather data not available"
     }
-    setWeatherCurrency(WeatherCity)
+    return WeatherCity
   }
 
   async function brStockInformation(stock){
@@ -182,7 +198,7 @@ function App() {
     window.console.log(brStock)
   }
 
-  if (!(dataInforImage && weatherCurrency && dataBrStocks)){
+  if (!(dataInforImage && brWeatherCurrency && caWeatherCurrency && dataBrStocks)){
     return (
       <div className="c--loader"/>
     )
@@ -196,7 +212,8 @@ function App() {
         author          = {dataInforImage.nameAuthor}
         timeCurrency    = {timeCurrency}
         dataBrStocks    = {dataBrStocks}
-        weatherCurrency = {weatherCurrency}
+        brWeatherCurrency = {brWeatherCurrency}
+        caWeatherCurrency = {caWeatherCurrency}
         brStockInformation={brStockInformation}
       />
     </div>

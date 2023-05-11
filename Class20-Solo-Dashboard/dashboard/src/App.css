@@ -54,17 +54,10 @@ body, .root {
   font-size: 6.0rem;
 }
 
-.weather--div{
-  display: flex;
-  justify-content: flex-end;
-  align-self: flex-start;
-  margin-top: -3%;
-}
-
 .weather--icon--temp{
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  height: 100px;
 }
 
 .weather--icon{
@@ -77,10 +70,28 @@ body, .root {
 
 .weather--city{
   display: flex;
-  flex-direction: column;
   font-size: 23px;
-  text-align: right;
-  margin-top: -10%;
+  margin-top: 0;
+  flex-direction: row-reverse;
+}
+
+.div--infor{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icon--temp{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30%;
+}
+
+.group--weather{
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
 }
 
 .stock--list{
@@ -135,4 +146,8 @@ body, .root {
   background-color: #121212;
   padding-left: 7px;
   transition: 0.3s;
+}
+
+.br--stock--div{
+  width: 20%;
 }

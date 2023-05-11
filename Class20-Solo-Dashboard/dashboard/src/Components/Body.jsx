@@ -1,8 +1,10 @@
 import React from 'react'
 import {nanoid} from 'nanoid'
 import SelectOption from './SelectOption'
+import Weather from './Weather'
 
 function Body(props) {
+
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
     
     function dropDown(p){
@@ -43,12 +45,29 @@ function Body(props) {
         />
     ))
 
+    const brWeather = props.brWeatherCurrency.map(bw =>(
+        <Weather
+            icon={bw.icon}
+            temperature={bw.temperature}
+            city={bw.city}
+        />
+    ))
+    const caWeather = props.caWeatherCurrency.map(ca =>(
+        <Weather
+            icon={ca.icon}
+            temperature={ca.temperature}
+            city={ca.city}
+        />
+    ))
+
     return(
         <main className='main'>
-            <div className="top--website">
-                <div className='weather--div'>
-                    <div>
-                        <p>BR Stocks:</p>
+            <div className='div--infor'>
+                <div className='group--weather'>
+                    {brWeather}
+                </div>
+                <div className='br--stock--div'>
+                    <p>BR Stocks:</p>
                         <div className='container'>
                             <input className='input--stock' type="text" name="stock" onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)} placeholder='Select one br stock'/>
                             <div className='drop--down'>
@@ -57,15 +76,9 @@ function Body(props) {
                                 </div>
                             </div>
                         </div>
-                        {/* <select className='stock--list'>
-                            {options}
-                        </select> */}
-                    </div>
-                    <div className='weather--icon--temp'>
-                        <img src={props.weatherCurrency.icon} className='weather--icon'/>
-                        <p className='weather--temp'>{props.weatherCurrency.temperature}</p>
-                    </div>
-                    <p className='weather--city'>{props.weatherCurrency.city}</p>
+                </div>
+                <div className='group--weather'>
+                    {caWeather}
                 </div>
             </div>
             <h1 className='time--website'>{props.timeCurrency}</h1>
