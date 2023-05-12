@@ -10,7 +10,6 @@ function SelectOption(props) {
         <div className='item' id={props.brStock} onMouseDown={() => selectItem(props.brStock)}>
             {props.brStock}
         </div>
-        // <option value={props.brStock}>{props.brStock}</option>
     )
 }
 

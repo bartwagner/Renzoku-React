@@ -4,19 +4,28 @@ import Body from './Components/Body'
 
 function App() {
   
-  const [dataInforImage, setDataInforImage] = React.useState()
+  const [dataInforImage, setDataInforImage] = React.useState({id: "",
+                                                              nameAuthor: "",
+                                                              url: ""
+                                                            })
   const [dataBrStocks, setDataBrStocks] = React.useState()
   const [timeCurrency, setTimeCurrency] = React.useState()
-  const [weatherCurrency, setWeatherCurrency] = React.useState()
   const [brWeatherCurrency, setBrWeatherCurrency] = React.useState([])
   const [caWeatherCurrency, setCaWeatherCurrency] = React.useState([])
-  const [resultBrStock, setResultBrStock] = React.useState()
+  const [resultBrStock, setResultBrStock] = React.useState({currency: '',
+                                                            cashDividends: [],
+                                                            highestPriceOneYear: '',
+                                                            lowestPriceOneYear: '',
+                                                            regularMarketDayHigh: '',
+                                                            regularMarketDayLow: '',
+                                                            regularMarketOpen: '',
+                                                            regularMarketPreviousClose: '',
+                                                            regularMarketPrice: '',
+                                                            logoUrl: '',
+                                                            shortName: '',
+                                                            symbol: ''
+                                                          })
 
-  let imgInfor = {
-    id: "",
-    nameAuthor: "",
-    url: ""
-  }
   const brWeather = [{city:'São Paulo', latitude:-23.5489, longitude:-46.6388},
                      {city:'Porto Alegre', latitude:-30.033056, longitude:-51.230000},
                      {city:'Brasilia', latitude:-15.7801, longitude:-47.9292}]
@@ -25,28 +34,12 @@ function App() {
                      {city:'Toronto', latitude:43.70011, longitude:-79.4163},
                      {city:'Quebec', latitude:46.829853, longitude:-71.254028}]
 
-  function getCurrentTime(){
-      const date = new Date()
-      setTimeCurrency(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
-  }
-  setInterval(getCurrentTime, 1000)
-
   React.useEffect(()=> {   
     async function resquestApiBackground() {
       backgroundImage()
       brStocksList()
-
-      let brArrayWeather = []
-      for(let i = 0; i < brWeather.length; i++){
-        brArrayWeather.push(weatherList(brWeather[i].latitude, brWeather[i].longitude))
-      }
-      setBrWeatherCurrency(brArrayWeather)
-
-      let caArrayWeather = []
-      for(let i = 0; i < caWeather.length; i++){
-        caArrayWeather.push(weatherList(caWeather[i].latitude, caWeather[i].longitude))
-      }
-      setCaWeatherCurrency(caArrayWeather)
+      weatherBr()
+      weatherCa()
     }
     resquestApiBackground()
   }, [])
@@ -63,21 +56,46 @@ function App() {
         {
           erroImgAuthor()
         }else{
-          imgInfor.id = dataImage.id,
-          imgInfor.nameAuthor = dataImage.user.name,
-          imgInfor.url = dataImage.urls.full
+          setDataInforImage({
+            id: dataImage.id,
+            nameAuthor: dataImage.user.name,
+            url: dataImage.urls.full
+          }) 
         }
       }
       catch(err){
         erroImgAuthor()
       }
-      setDataInforImage(imgInfor)
   }
 
+  function getCurrentTime(){
+    const date = new Date()
+    setTimeCurrency(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
+  }
+  setInterval(getCurrentTime, 1000)
+
   function erroImgAuthor(){
-    imgInfor.id = "jlVEj8IDPQc",
-    imgInfor.nameAuthor = "Simon Wilkes",
-    imgInfor.url = "https://images.unsplash.com/photo-1528184039930-bd03972bd974?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDI0NzB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODI1NDkzODA&ixlib=rb-4.0.3&q=85"
+    setDataInforImage({
+      id: "jlVEj8IDPQc",
+      nameAuthor: "Simon Wilkes",
+      url: "https://images.unsplash.com/photo-1528184039930-bd03972bd974?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDI0NzB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODI1NDkzODA&ixlib=rb-4.0.3&q=85"
+    }) 
+  }
+
+  function weatherBr(){
+    let brArrayWeather = []
+    for(let i = 0; i < brWeather.length; i++){
+      brArrayWeather.push(weatherList(brWeather[i].latitude, brWeather[i].longitude))
+    }
+    setBrWeatherCurrency(brArrayWeather)
+  }
+
+  function weatherCa(){
+    let caArrayWeather = []
+    for(let i = 0; i < caWeather.length; i++){
+      caArrayWeather.push(weatherList(caWeather[i].latitude, caWeather[i].longitude))
+    }
+    setCaWeatherCurrency(caArrayWeather)
   }
 
   async function brStocksList(){
@@ -97,105 +115,67 @@ function App() {
     setDataBrStocks(brStocks)
   }
 
-  async function weatherList(latitude, longitude){
+  function weatherList(latitude, longitude){
     //Weather
     let WeatherCity = {
       city: "",
       icon: "",
       temperature: ""
     }
-    try{
-      const responseWeather = await fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial`)
-      if(!responseWeather.ok){
-        throw Error("API has a problem")
-      }else{
-        const dataWeather = await responseWeather.json()
-        let iconUrl = ""
-        if(dataWeather.weather[0].icon){
-          iconUrl = `http://openweathermap.org/img/wn/${dataWeather.weather[0].icon}@2x.png`
-        } 
-        WeatherCity.city = dataWeather.name
-        WeatherCity.icon = iconUrl
-        WeatherCity.temperature = Math.round(dataWeather.main.temp)+" º"
-      }
-    }
-    catch(err){
-      WeatherCity.city = ""
-      WeatherCity.icon = ""
-      WeatherCity.temperature = "Weather data not available"
-    }
+    fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial`)
+      .then(responseWeather => responseWeather.json())
+      .then(dataWeatherRetorn => {
+        WeatherCity.icon = `http://openweathermap.org/img/wn/${dataWeatherRetorn.weather[0].icon}@2x.png`
+        WeatherCity.city = dataWeatherRetorn.name
+        WeatherCity.temperature = Math.round(dataWeatherRetorn.main.temp)+" º"
+      })
+      .catch(
+        WeatherCity.city = "",
+        WeatherCity.icon = "",
+        WeatherCity.temperature = "Weather data not available"
+      )
     return WeatherCity
   }
 
   async function brStockInformation(stock){
-    let brStock = {
-      currency: '',
-      cashDividends: [],
-      highestPriceOneYear: '',
-      highestChangeOneYear: '',
-      highestChangePercentOneYear: '',
-      lowestPriceOneYear: '',
-      lowestChangeOneYear: '',
-      lowestChangePercentOneYear: '',
-      regularMarketDayHigh: '',
-      regularMarketDayLow: '',
-      regularMarketOpen: '',
-      regularMarketPreviousClose: '',
-      regularMarketPrice: '',
-      regularMarketTime: '',
-      logoUrl: '',
-      longName: '',
-      shortName: '',
-      symbol: ''
-    }
     try{
       const respondeStockValue = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
       if(!respondeStockValue.ok){
         throw Error("API result br stock has a problem")
       }else{
         const dataStockValue = await respondeStockValue.json()
-        brStock.currency = dataStockValue.results[0].currency
-        brStock.cashDividends = dataStockValue.results[0].dividendsData.cashDividends
-        brStock.highestPriceOneYear = dataStockValue.results[0].fiftyTwoWeekHigh
-        brStock.highestChangeOneYear = dataStockValue.results[0].fiftyTwoWeekHighChange
-        brStock.highestChangePercentOneYear = dataStockValue.results[0].fiftyTwoWeekHighChangePercent * 100
-        brStock.lowestPriceOneYear = dataStockValue.results[0].fiftyTwoWeekLow
-        brStock.lowestChangeOneYear = dataStockValue.results[0].fiftyTwoWeekLowChange
-        brStock.lowestChangePercentOneYear = dataStockValue.results[0].fiftyTwoWeekLowChangePercent * 100
-        brStock.regularMarketDayHigh = dataStockValue.results[0].regularMarketDayHigh
-        brStock.regularMarketDayLow = dataStockValue.results[0].regularMarketDayLow
-        brStock.regularMarketOpen = dataStockValue.results[0].regularMarketOpen
-        brStock.regularMarketPreviousClose = dataStockValue.results[0].regularMarketPreviousClose
-        brStock.regularMarketPrice = dataStockValue.results[0].regularMarketPrice
-        brStock.regularMarketTime = dataStockValue.results[0].regularMarketTime
-        brStock.logoUrl = dataStockValue.results[0].logourl
-        brStock.longName = dataStockValue.results[0].longName
-        brStock.shortName = dataStockValue.results[0].shortName
-        brStock.symbol = dataStockValue.results[0].symbol
+        setResultBrStock({
+          currency: dataStockValue.results[0].currency,
+          cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
+          highestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekHigh,
+          lowestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekLow,
+          regularMarketDayHigh: dataStockValue.results[0].regularMarketDayHigh,
+          regularMarketDayLow: dataStockValue.results[0].regularMarketDayLow,
+          regularMarketOpen: dataStockValue.results[0].regularMarketOpen,
+          regularMarketPreviousClose: dataStockValue.results[0].regularMarketPreviousClose,
+          regularMarketPrice: dataStockValue.results[0].regularMarketPrice,
+          logoUrl: dataStockValue.results[0].logourl,
+          shortName: dataStockValue.results[0].shortName,
+          symbol: dataStockValue.results[0].symbol
+        })
       }
     }
     catch(err){
-      brStock.currency = 'This Br Stock not available'
-      brStock.cashDividends = ''
-      brStock.highestPriceOneYear = ''
-      brStock.highestChangeOneYear = ''
-      brStock.highestChangePercentOneYear = ''
-      brStock.lowestPriceOneYear = ''
-      brStock.lowestChangeOneYear = ''
-      brStock.lowestChangePercentOneYear = ''
-      brStock.regularMarketDayHigh = ''
-      brStock.regularMarketDayLow = ''
-      brStock.regularMarketOpen = ''
-      brStock.regularMarketPreviousClose = ''
-      brStock.regularMarketPrice = ''
-      brStock.regularMarketTime = ''
-      brStock.logoUrl = ''
-      brStock.longName = ''
-      brStock.shortName = ''
-      brStock.symbol = ''
+      setResultBrStock({
+        currency: 'This Br Stock not available',
+        cashDividends: '',
+        highestPriceOneYear: '',
+        lowestPriceOneYear: '',
+        regularMarketDayHigh: '',
+        regularMarketDayLow: '',
+        regularMarketOpen: '',
+        regularMarketPreviousClose: '',
+        regularMarketPrice: '',
+        logoUrl: '',
+        shortName: '',
+        symbol: ''
+      })
     }
-    setResultBrStock(brStock)
-    window.console.log(brStock)
   }
 
   if (!(dataInforImage && brWeatherCurrency && caWeatherCurrency && dataBrStocks)){
@@ -215,6 +195,7 @@ function App() {
         brWeatherCurrency = {brWeatherCurrency}
         caWeatherCurrency = {caWeatherCurrency}
         brStockInformation={brStockInformation}
+        resultBrStock={resultBrStock}
       />
     </div>
   )

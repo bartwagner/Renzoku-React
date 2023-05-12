@@ -1,7 +1,6 @@
 import React from 'react'
 
 function Weather(props) {
-    window.console.log(props)
     return(
         <div className='weather--icon--temp'>
             <div className='icon--temp'>
