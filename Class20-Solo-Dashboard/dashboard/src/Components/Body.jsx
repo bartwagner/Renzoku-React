@@ -2,12 +2,17 @@ import React from 'react'
 import {nanoid} from 'nanoid'
 import SelectOption from './SelectOption'
 import Weather from './Weather'
+import ChartStock from './ChartStock'
 
 function Body(props) {
 
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
     
-    window.console.log(props.resultBrStock)
+    // window.console.log(props.resultBrStock)
+
+    // for(let i = 0; i < 12; i++){
+    //     props.resultBrStock.cashDividends[i]
+    // }
 
     function dropDown(p){
         var e = document.getElementsByClassName('drop--down')[0];
@@ -23,7 +28,6 @@ function Body(props) {
     function selectBrStockItem(selected){
         if(selected !=''){
             document.getElementById('input--stock--br').value = selected
-            window.console.log(selected)
             props.brStockInformation(selected)
         }
     }
@@ -72,7 +76,7 @@ function Body(props) {
                     {brWeather}
                 </div>
                 <div className='br--stock--div'>
-                    <p>BR Stocks:</p>
+                    <p className='p--br--stock'>BR Stocks:</p>
                         <div className='container'>
                             <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)} placeholder='Select one br stock'/>
                             <div className='drop--down'>
@@ -83,8 +87,10 @@ function Body(props) {
                         </div>
                 </div>
                 <div className='div--result--br'>
-                    {/*props.resultBrStock.logoUrl: '', */}
-                    <p>Symbol: {props.resultBrStock.symbol}</p>
+                    <div className='img--symbol'>
+                        <img src={props.resultBrStock.logoUrl} className='icon--stock--br'/>
+                        <p>Symbol: {props.resultBrStock.symbol}</p>
+                    </div>
                     <p>Short Name: {props.resultBrStock.shortName}</p>
                     <p>Currency: {props.resultBrStock.currency}</p>
                     <p>Highest Price One Year: {props.resultBrStock.highestPriceOneYear}</p>
@@ -94,14 +100,17 @@ function Body(props) {
                     <p>Regular Market Previous Close: {props.resultBrStock.regularMarketPreviousClose}</p>
                     <p>Regular Market Day High: {props.resultBrStock.regularMarketDayHigh}</p>
                     <p>Regular Market Day Low: {props.resultBrStock.regularMarketDayLow}</p>
-                    <p>Cash Dividends: {}</p> {/*cashDividends: [], */}
+                    <p>Cash Dividends: {}</p>
                 </div>
                 <div className='group--weather'>
                     {caWeather}
                 </div>
             </div>
+            <ChartStock className='chart--stock'
+                resultStock = {props.resultBrStock}
+            />
             <h1 className='time--website'>{props.timeCurrency}</h1>
-            <p>By: {props.author}</p> 
+            <p className='author--img'>By: {props.author}</p> 
         </main>
     )
 }

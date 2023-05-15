@@ -106,8 +106,8 @@ function App() {
       if(!responseBrStocks.ok){
         throw Error("API has a problem Stocks")
       }
-      const dataStocks       = await responseBrStocks.json()
-      brStocks = dataStocks.stocks.sort()
+      const dataBrStocks       = await responseBrStocks.json()
+      brStocks = dataBrStocks.stocks.sort()
     }
     catch(err){
       brStocks = ["Br Stocks data not available"]
