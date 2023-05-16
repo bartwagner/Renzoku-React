@@ -83,17 +83,19 @@ function ChartStock(props) {
         }
     }
 
-    if(props.resultStock.cashDividends.length > 0){
-        let countStocks = 0
-        if(props.resultStock.cashDividends.length < 12){
-            countStocks = props.resultStock.cashDividends.length
-        }else{
-            countStocks = 12
-        }
-        for(let i = 0; i < countStocks; i++){
-            series[0].data.push(props.resultStock.cashDividends[i].rate.toFixed(3))
-            var d = new Date(props.resultStock.cashDividends[i].paymentDate);
-            options.xaxis.categories.push(d.getUTCDate()+'/'+(d.getUTCMonth()+1)+'/'+d.getUTCFullYear())
+    if(props.resultStock.cashDividends){
+        if(props.resultStock.cashDividends.length > 0){
+            let countStocks = 0
+            if(props.resultStock.cashDividends.length < 12){
+                countStocks = props.resultStock.cashDividends.length
+            }else{
+                countStocks = 12
+            }
+            for(let i = 0; i < countStocks; i++){
+                series[0].data.push(props.resultStock.cashDividends[i].rate.toFixed(3))
+                var d = new Date(props.resultStock.cashDividends[i].paymentDate);
+                options.xaxis.categories.push(d.getUTCDate()+'/'+(d.getUTCMonth()+1)+'/'+d.getUTCFullYear())
+            }
         }
     }
     return (

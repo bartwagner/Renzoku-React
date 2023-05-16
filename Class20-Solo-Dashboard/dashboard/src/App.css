@@ -180,6 +180,7 @@ body, .root {
   background-color: #121212;
   color: white;
   text-shadow: 0px 0px 0px #FFFFFF;
+  border-radius: 5px;
 }
 
 .icon--stock--br{
@@ -194,5 +195,13 @@ body, .root {
 }
 
 .chart--stock{
-  color: black;
+  background-color: #121212;
+  width: 500px;
+  height: 150px;
+  border-radius: 5px;
+}
+
+.grafic--data{
+  color: white;
+  text-shadow: 3px 5px 2px #474747; 
 }

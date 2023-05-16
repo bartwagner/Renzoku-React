@@ -144,6 +144,9 @@ function App() {
         throw Error("API result br stock has a problem")
       }else{
         const dataStockValue = await respondeStockValue.json()
+
+window.console.log(dataStockValue)
+
         setResultBrStock({
           currency: dataStockValue.results[0].currency,
           cashDividends: dataStockValue.results[0].dividendsData.cashDividends,

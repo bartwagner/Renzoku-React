@@ -7,12 +7,21 @@ import ChartStock from './ChartStock'
 function Body(props) {
 
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
-    
-    // window.console.log(props.resultBrStock)
 
-    // for(let i = 0; i < 12; i++){
-    //     props.resultBrStock.cashDividends[i]
-    // }
+    let cashDividendTotal = 0
+    if(props.resultBrStock.cashDividends){
+        if(props.resultBrStock.cashDividends.length > 0){
+            let countStocks = 0
+            if(props.resultBrStock.cashDividends.length < 12){
+                countStocks = props.resultBrStock.cashDividends.length
+            }else{
+                countStocks = 12
+            }
+            for(let i = 0; i < countStocks; i++){
+                cashDividendTotal = cashDividendTotal + props.resultBrStock.cashDividends[i].rate
+            }
+        }
+    }
 
     function dropDown(p){
         var e = document.getElementsByClassName('drop--down')[0];
@@ -100,15 +109,18 @@ function Body(props) {
                     <p>Regular Market Previous Close: {props.resultBrStock.regularMarketPreviousClose}</p>
                     <p>Regular Market Day High: {props.resultBrStock.regularMarketDayHigh}</p>
                     <p>Regular Market Day Low: {props.resultBrStock.regularMarketDayLow}</p>
-                    <p>Cash Dividends: {}</p>
+                    <p>Cash Dividends: {cashDividendTotal.toFixed(3)}</p>
                 </div>
                 <div className='group--weather'>
                     {caWeather}
                 </div>
             </div>
-            <ChartStock className='chart--stock'
-                resultStock = {props.resultBrStock}
-            />
+            <h3 className='grafic--data'>Dividens: {props.resultBrStock.symbol}</h3>
+            <div className='chart--stock'>
+                <ChartStock
+                    resultStock = {props.resultBrStock}
+                />
+            </div>
             <h1 className='time--website'>{props.timeCurrency}</h1>
             <p className='author--img'>By: {props.author}</p> 
         </main>
