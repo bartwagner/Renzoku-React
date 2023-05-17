@@ -3,6 +3,11 @@ import React from 'react'
 function NavBar(props) {
 
   var searchMovie = document.getElementById("textSearch");
+  var searhDiv = document.getElementById("searchNav");
+
+  if(props.inputSearch === true){
+    searhDiv.style.display = "flex";
+  }
 
   function searchMovieButton(){
     props.searchMovie(searchMovie.value)
@@ -12,7 +17,6 @@ function NavBar(props) {
   function searchingData(){
 
     var btnTextSearch = document.getElementById("lookNav");
-    var searhDiv = document.getElementById("searchNav");
     var titleNav = document.getElementById("titleNav");
 
     if (btnTextSearch.innerHTML === "Search for movies") {
