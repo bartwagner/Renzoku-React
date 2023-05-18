@@ -4,20 +4,26 @@ function NavBar(props) {
 
   var searchMovie = document.getElementById("textSearch");
   var searhDiv = document.getElementById("searchNav");
+  var btnTextSearch = document.getElementById("lookNav");
+  var titleNav = document.getElementById("titleNav");
 
   if(props.inputSearch === true){
+    btnTextSearch.innerHTML = "My Watchlist";
+    titleNav.innerHTML = "Find your film";
     searhDiv.style.display = "flex";
+    if (searchMovie != null){
+      searchMovie.value =""
+    }
   }
 
   function searchMovieButton(){
-    props.searchMovie(searchMovie.value)
+    props.resquestApiAll(searchMovie.value)
     searchMovie.value =""
   }
 
   function searchingData(){
 
-    var btnTextSearch = document.getElementById("lookNav");
-    var titleNav = document.getElementById("titleNav");
+    window.console.log(btnTextSearch.innerHTML)
 
     if (btnTextSearch.innerHTML === "Search for movies") {
       btnTextSearch.innerHTML = "My Watchlist";

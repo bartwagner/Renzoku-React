@@ -10,32 +10,28 @@ function App() {
   const [findYourFilm, setFindYourFilm] = React.useState(false)
   const [messageError, setMessageError] = React.useState("")
   const[inputSearch, setInputSearch] = React.useState(false)
-  const[allResults, setAllResults] = React.useState([])
 
   let movieSelect = ""
 
-
+  //search the movies
   async function resquestApiAll(search){
     const responseFirst = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&s="${search}"`)
     const dataFirst     = await responseFirst.json()
     if(dataFirst.Error){
-      setMessageError(dataFirst.Error)
+      resquestApi(dataFirst.Error)
     }else{
-      setAllResults(dataFirst)
+      resquestApi(dataFirst)
       setMessageError("")
     }
   }
   
-  async function resquestApi(){
+  //get more details of the movies
+  async function resquestApi(movie){
     let newList = []
 
-    window.console.log(allResults)
-
-    for(let i = 0; i< allResults.Search.length; i++){
-      const response = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&i=${allResults.Search[i].imdbID}`)
+    for(let i = 0; i< movie.Search.length; i++){
+      const response = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&i=${movie.Search[i].imdbID}`)
       const data     = await response.json()
-
-      window.console.log(data)
 
       if(data.Error){
         setMessageError(data.Error)
@@ -44,57 +40,40 @@ function App() {
         setMessageError("")
       }
     }
-    if (findYourFilm == true){
-      setWatchlist(newList)
-    }else{
-      setWatchlistMy(newList)
-    }
-    window.console.log(newList)
+    setWatchlist(newList)
+    setFindYourFilm(true)
   }
 
-  function searchMovie(search){
-    resquestApiAll(search)
-    loadApp()
-    resquestApi()
+  //Add my list
+  function newMovieMyList(title){
+    let addListMovie = []
+    let removeWatchList = []
+    addListMovie = [].concat(watchlistMy)
+
+    for(let i = 0; i < watchlist.length; i++){
+      if(watchlist[i].Title == title){
+        addListMovie.push(watchlist[i])
+        removeWatchList = watchlist.filter((movie) => movie.Title !== title)
+      }
+    }
+    setWatchlistMy(addListMovie)
+    setWatchlist(removeWatchList)
+  }
+
+  //remove my list
+  function removeMovieMyList(title){
+    const removeListMovie = watchlistMy.filter((movie) => movie.Title !== title)
+    setWatchlistMy(removeListMovie)
   }
 
   function searchMoviesButton(){
     setWatchlist([])
     setFindYourFilm(!findYourFilm)
-    resquestApi(0, false, "")
   }
 
   function myWatchlistButton(){
     setFindYourFilm(!findYourFilm)
     setMessageError("")
-  }
-
-  function newMovieMyList(title){
-    let addListMovie = []
-
-    for(let i = 0; i < watchlistMy.length; i++){
-      addListMovie.push(watchlistMy[i])
-    }
-
-    for(let i = 0; i < watchlist.length; i++){
-      if(watchlist[i].Title == title){
-        addListMovie.push(watchlist[i])
-      }
-    }
-    setWatchlistMy(addListMovie)
-    setWatchlist([])
-  }
-
-  function removeMovieMyList(title){
-    const removeListMovie = watchlistMy.filter((movie) => movie.Title !== title)
-
-    setWatchlistMy(removeListMovie)
-  }
-
-
-  function abilityMovies(){
-    setFindYourFilm(!findYourFilm)
-    searchingDataInput()
   }
 
   function searchingDataInput(){
@@ -114,6 +93,7 @@ function App() {
         plot={w.Plot}
         findYourFilm={findYourFilm}
         newMovieMyList={newMovieMyList}
+        messageError={messageError}
       />
     ))
   }else{
@@ -132,36 +112,15 @@ function App() {
     ))
   }
 
-  function loadApp(){
-    if (!allResults.Search){
-      return(
-        <div className="App">
-          <NavBar 
-            searchMoviesButton={searchMoviesButton}
-            myWatchlistButton={myWatchlistButton}
-            searchMovie={searchMovie}
-            inputSearch={inputSearch}
-          />
-          <div className="c--loader"/>
-        </div>
-      )
-    }
-  }
-
   return (
     <div className="App">
-      <NavBar 
+      <NavBar
         searchMoviesButton={searchMoviesButton}
         myWatchlistButton={myWatchlistButton}
-        searchMovie={searchMovie}
+        resquestApiAll={resquestApiAll}
         inputSearch={inputSearch}
       />
       {
-        messageError != ""
-        ?(
-          <div className='movie--unavailable'>Unable to find what you’re looking for. Please try another search.</div>
-        )
-        :
         (
           (watchlist =="" && watchlistMy =="") || (watchlist =="" && findYourFilm == true)
           ?(
@@ -175,7 +134,7 @@ function App() {
                 <div className="result">
                   <h1 className="empty--watchlist">Your watchlist is looking a little empty...</h1>
                   <div className="empty--div">
-                    <img className="empty--add" src="./src/Images/addbutton.png" onClick={abilityMovies}/>
+                    <img className="empty--add" src="./src/Images/addbutton.png" onClick={searchingDataInput}/>
                     <h3 className="empty--add--letter">Let’s add some movies!</h3>
                   </div>
                 </div>
