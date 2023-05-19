@@ -2,11 +2,14 @@ import React from 'react'
 
 function NavBar(props) {
 
+  //get the Elements informations on the NavBar 
   var searchMovie = document.getElementById("textSearch");
   var searhDiv = document.getElementById("searchNav");
   var btnTextSearch = document.getElementById("lookNav");
   var titleNav = document.getElementById("titleNav");
 
+  //case you don't have movies in your list, and you click on +Let’s add some movies!
+  //ability like search after that ask the inputSearchFalse 
   if(props.inputSearch === true){
     btnTextSearch.innerHTML = "My Watchlist";
     titleNav.innerHTML = "Find your film";
@@ -14,16 +17,17 @@ function NavBar(props) {
     if (searchMovie != null){
       searchMovie.value =""
     }
+    props.setInputSearch(false)
   }
 
+  //search movies
   function searchMovieButton(){
     props.resquestApiAll(searchMovie.value)
     searchMovie.value =""
   }
 
-  function searchingData(){
-
-    window.console.log(btnTextSearch.innerHTML)
+  //ability elements in the NavBar
+  function searchingWatchlistData(){
 
     if (btnTextSearch.innerHTML === "Search for movies") {
       btnTextSearch.innerHTML = "My Watchlist";
@@ -32,12 +36,12 @@ function NavBar(props) {
       if (searchMovie != null){
         searchMovie.value =""
       }
-      props.searchMoviesButton();
+      props.changeStatusFindYourFilm();
     } else {
       btnTextSearch.innerHTML = "Search for movies";
       titleNav.innerHTML = "My Watchlist:";
       searhDiv.style.display = "none";
-      props.myWatchlistButton();
+      props.changeStatusFindYourFilm();
     }
     
   }
@@ -45,7 +49,7 @@ function NavBar(props) {
   return (
     <div className="nav--bar">
         <h1 id="titleNav" className="title--nav">My Watchlist:</h1>
-        <button id="lookNav" className="look--nav" onClick={searchingData}>Search for movies</button>
+        <button id="lookNav" className="look--nav" onClick={searchingWatchlistData}>Search for movies</button>
         <div id="searchNav" className="search--nav">
           <input id="textSearch" type="text" className="text--search" placeholder="🔍 Searching something with no data"/>
           <button className="button--search" onClick={searchMovieButton}>Search</button>

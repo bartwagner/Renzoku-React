@@ -9,7 +9,7 @@ function App() {
   const [watchlistMy, setWatchlistMy] = React.useState([])
   const [findYourFilm, setFindYourFilm] = React.useState(false)
   const [messageError, setMessageError] = React.useState("")
-  const[inputSearch, setInputSearch] = React.useState(false)
+  const [inputSearch, setInputSearch] = React.useState(false)
 
   let movieSelect = ""
 
@@ -18,9 +18,13 @@ function App() {
     const responseFirst = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&s="${search}"`)
     const dataFirst     = await responseFirst.json()
     if(dataFirst.Error){
-      resquestApi(dataFirst.Error)
+      setMessageError(dataFirst.Error)
+      window.console.log(dataFirst.Error)
+
+
+      
     }else{
-      resquestApi(dataFirst)
+      resquestApi(dataFirst.Search)
       setMessageError("")
     }
   }
@@ -29,8 +33,10 @@ function App() {
   async function resquestApi(movie){
     let newList = []
 
-    for(let i = 0; i< movie.Search.length; i++){
-      const response = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&i=${movie.Search[i].imdbID}`)
+    let movieFilter = filterResult(movie)
+
+    for(let i = 0; i< movieFilter.length; i++){
+      const response = await fetch (`https://www.omdbapi.com/?apikey=aa1364b0&plot=full&i=${movieFilter[i].imdbID}`)
       const data     = await response.json()
 
       if(data.Error){
@@ -42,6 +48,12 @@ function App() {
     }
     setWatchlist(newList)
     setFindYourFilm(true)
+  }
+
+  //Case in my results have movies in my list, the system make a filter 
+  function filterResult(listIdMovies){ 
+    let listFilter =  listIdMovies.filter(id => watchlistMy.findIndex(idMyList => idMyList.imdbID === id.imdbID) === -1)
+    return listFilter
   }
 
   //Add my list
@@ -66,17 +78,15 @@ function App() {
     setWatchlistMy(removeListMovie)
   }
 
-  function searchMoviesButton(){
-    setWatchlist([])
-    setFindYourFilm(!findYourFilm)
-  }
-
-  function myWatchlistButton(){
+  //change the statusFindYourFilm like ability input or not, depends of whom ask
+  function changeStatusFindYourFilm(){
     setFindYourFilm(!findYourFilm)
     setMessageError("")
   }
 
+  //ability input in this case and change to true my input
   function searchingDataInput(){
+    setFindYourFilm(!findYourFilm)
     setInputSearch(true)
   }
 
@@ -115,12 +125,18 @@ function App() {
   return (
     <div className="App">
       <NavBar
-        searchMoviesButton={searchMoviesButton}
-        myWatchlistButton={myWatchlistButton}
+        changeStatusFindYourFilm={changeStatusFindYourFilm}
         resquestApiAll={resquestApiAll}
         inputSearch={inputSearch}
+        setInputSearch={setInputSearch}
+        findYourFilm={findYourFilm}
       />
       {
+        messageError != ''
+        ?(
+          <div className="error--result">{messageError}</div>
+        ) 
+        :
         (
           (watchlist =="" && watchlistMy =="") || (watchlist =="" && findYourFilm == true)
           ?(
