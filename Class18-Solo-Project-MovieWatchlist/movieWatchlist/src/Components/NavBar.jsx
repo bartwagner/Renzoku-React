@@ -1,6 +1,9 @@
 import React from 'react'
+import { inputSearchAuth } from './auth'
 
 function NavBar(props) {
+
+  const {inputSearchMovie, setInputSearchMovie} = inputSearchAuth()
 
   //get the Elements informations on the NavBar 
   var searchMovie = document.getElementById("textSearch");
@@ -9,15 +12,15 @@ function NavBar(props) {
   var titleNav = document.getElementById("titleNav");
 
   //case you don't have movies in your list, and you click on +Let’s add some movies!
-  //ability like search after that ask the inputSearchFalse 
-  if(props.inputSearch === true){
+  //ability like search after that ask my context 
+  if(inputSearchMovie === true){
     btnTextSearch.innerHTML = "My Watchlist";
     titleNav.innerHTML = "Find your film";
     searhDiv.style.display = "flex";
     if (searchMovie != null){
       searchMovie.value =""
     }
-    props.setInputSearch(false)
+    setInputSearchMovie(false)
   }
 
   //search movies

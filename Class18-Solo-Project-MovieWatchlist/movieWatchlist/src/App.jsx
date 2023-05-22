@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import NavBar from './Components/NavBar'
 import Movie from './Components/Movie'
+import { inputSearchAuth } from './Components/auth'
 
 function App() {
-
+  const {setInputSearchMovie} = inputSearchAuth()        //MyContext test
   const [watchlist, setWatchlist] = React.useState([])
   const [watchlistMy, setWatchlistMy] = React.useState([])
   const [findYourFilm, setFindYourFilm] = React.useState(false)
   const [messageError, setMessageError] = React.useState("")
-  const [inputSearch, setInputSearch] = React.useState(false)
-
   let movieSelect = ""
+
+  //Check my localStorage
+  useEffect(() => {
+    const userStorage = localStorage.getItem('MyListMovies')
+    if(userStorage){
+      setWatchlistMy(JSON.parse(userStorage))
+    }
+    else{
+      setWatchlistMy([])
+    }
+  }, [])
 
   //search the movies
   async function resquestApiAll(search){
@@ -19,10 +29,7 @@ function App() {
     const dataFirst     = await responseFirst.json()
     if(dataFirst.Error){
       setMessageError(dataFirst.Error)
-      window.console.log(dataFirst.Error)
-
-
-      
+      setWatchlist([])
     }else{
       resquestApi(dataFirst.Search)
       setMessageError("")
@@ -68,6 +75,7 @@ function App() {
         removeWatchList = watchlist.filter((movie) => movie.Title !== title)
       }
     }
+    newMovieLocalStorage(addListMovie)
     setWatchlistMy(addListMovie)
     setWatchlist(removeWatchList)
   }
@@ -76,6 +84,7 @@ function App() {
   function removeMovieMyList(title){
     const removeListMovie = watchlistMy.filter((movie) => movie.Title !== title)
     setWatchlistMy(removeListMovie)
+    newMovieLocalStorage(removeListMovie)
   }
 
   //change the statusFindYourFilm like ability input or not, depends of whom ask
@@ -87,7 +96,12 @@ function App() {
   //ability input in this case and change to true my input
   function searchingDataInput(){
     setFindYourFilm(!findYourFilm)
-    setInputSearch(true)
+    setInputSearchMovie(true)
+  }
+
+  //update my list in the localStorage
+  function newMovieLocalStorage(Movie){
+    localStorage.setItem('MyListMovies', JSON.stringify(Movie))
   }
 
   if (findYourFilm == true){
@@ -127,8 +141,6 @@ function App() {
       <NavBar
         changeStatusFindYourFilm={changeStatusFindYourFilm}
         resquestApiAll={resquestApiAll}
-        inputSearch={inputSearch}
-        setInputSearch={setInputSearch}
         findYourFilm={findYourFilm}
       />
       {
