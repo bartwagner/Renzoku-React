@@ -25,11 +25,12 @@ function App() {
                                                             shortName: '',
                                                             symbol: ''
                                                           })
-
+  //Brazilian Weather
   const brWeather = [{city:'São Paulo', latitude:-23.5489, longitude:-46.6388},
                      {city:'Porto Alegre', latitude:-30.033056, longitude:-51.230000},
                      {city:'Brasilia', latitude:-15.7801, longitude:-47.9292}]
 
+  //Canada Weather
   const caWeather = [{city:'Victoria', latitude:48.407326, longitude:-123.329773},
                      {city:'Toronto', latitude:43.70011, longitude:-79.4163},
                      {city:'Quebec', latitude:46.829853, longitude:-71.254028}]
@@ -37,15 +38,15 @@ function App() {
   React.useEffect(()=> {   
     async function resquestApiBackground() {
       backgroundImage()
-      brStocksList()
       weatherBr()
       weatherCa()
+      brStocksList()
     }
     resquestApiBackground()
   }, [])
 
+  //Image and Author
   async function backgroundImage(){
-    // Image and Author
       try{
         const responseImage = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
         if(!responseImage.ok){
@@ -67,13 +68,7 @@ function App() {
         erroImgAuthor()
       }
   }
-
-  function getCurrentTime(){
-    const date = new Date()
-    setTimeCurrency(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
-  }
-  setInterval(getCurrentTime, 1000)
-
+  //If erro, this will be the image and author
   function erroImgAuthor(){
     setDataInforImage({
       id: "jlVEj8IDPQc",
@@ -82,6 +77,14 @@ function App() {
     }) 
   }
 
+  //Get the time
+  function getCurrentTime(){
+    const date = new Date()
+    setTimeCurrency(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
+  }
+  setInterval(getCurrentTime, 1000)
+
+  //Get the brazilian weather
   function weatherBr(){
     let brArrayWeather = []
     for(let i = 0; i < brWeather.length; i++){
@@ -89,7 +92,7 @@ function App() {
     }
     setBrWeatherCurrency(brArrayWeather)
   }
-
+  //Get the canada weather
   function weatherCa(){
     let caArrayWeather = []
     for(let i = 0; i < caWeather.length; i++){
@@ -97,24 +100,7 @@ function App() {
     }
     setCaWeatherCurrency(caArrayWeather)
   }
-
-  async function brStocksList(){
-    //Br Stocks
-    let brStocks = []
-    try{
-      const responseBrStocks = await fetch("https://brapi.dev/api/available")
-      if(!responseBrStocks.ok){
-        throw Error("API has a problem Stocks")
-      }
-      const dataBrStocks       = await responseBrStocks.json()
-      brStocks = dataBrStocks.stocks.sort()
-    }
-    catch(err){
-      brStocks = ["Br Stocks data not available"]
-    }
-    setDataBrStocks(brStocks)
-  }
-
+  //Get the weather informations
   function weatherList(latitude, longitude){
     //Weather
     let WeatherCity = {
@@ -137,6 +123,25 @@ function App() {
     return WeatherCity
   }
 
+  //Get the stock list
+  async function brStocksList(){
+    //Br Stocks
+    let brStocks = []
+    try{
+      const responseBrStocks = await fetch("https://brapi.dev/api/available")
+      if(!responseBrStocks.ok){
+        throw Error("API has a problem Stocks")
+      }
+      const dataBrStocks       = await responseBrStocks.json()
+      brStocks = dataBrStocks.stocks.sort()
+    }
+    catch(err){
+      brStocks = ["Br Stocks data not available"]
+    }
+    setDataBrStocks(brStocks)
+  }
+
+  //Get the stock informations
   async function brStockInformation(stock){
     try{
       const respondeStockValue = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
@@ -144,9 +149,7 @@ function App() {
         throw Error("API result br stock has a problem")
       }else{
         const dataStockValue = await respondeStockValue.json()
-
 window.console.log(dataStockValue)
-
         setResultBrStock({
           currency: dataStockValue.results[0].currency,
           cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
