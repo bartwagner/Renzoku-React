@@ -3,25 +3,11 @@ import {nanoid} from 'nanoid'
 import SelectOption from './SelectOption'
 import Weather from './Weather'
 import ChartStock from './ChartStock'
+import ResultStock from './ResultStock'
 
 function Body(props) {
 
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
-
-    let cashDividendTotal = 0
-    if(props.resultBrStock.cashDividends){
-        if(props.resultBrStock.cashDividends.length > 0){
-            let countStocks = 0
-            if(props.resultBrStock.cashDividends.length < 12){
-                countStocks = props.resultBrStock.cashDividends.length
-            }else{
-                countStocks = 12
-            }
-            for(let i = 0; i < countStocks; i++){
-                cashDividendTotal = cashDividendTotal + props.resultBrStock.cashDividends[i].rate
-            }
-        }
-    }
 
     function dropDown(p){
         var e = document.getElementsByClassName('drop--down')[0];
@@ -56,11 +42,12 @@ function Body(props) {
     const options = searchBrStock.map(d =>(
         <SelectOption
             key={nanoid()}
-            brStock={d}
-            selectBrStockItem={selectBrStockItem}
+            Stock={d}
+            selectStockItem={selectBrStockItem}
         />
     ))
 
+    // start weather
     const brWeather = props.brWeatherCurrency.map(bw =>(
         <Weather
             key={nanoid()}
@@ -69,14 +56,23 @@ function Body(props) {
             city={bw.city}
         />
     ))
-    const caWeather = props.caWeatherCurrency.map(ca =>(
+    const localweather = (
         <Weather
             key={nanoid()}
-            icon={ca.icon}
-            temperature={ca.temperature}
-            city={ca.city}
+            icon={props.weatherCurrency.icon}
+            temperature={props.weatherCurrency.temperature}
+            city={props.weatherCurrency.city}
+        />
+    )
+    const usWeather = props.usWeatherCurrency.map(us =>(
+        <Weather
+            key={nanoid()}
+            icon={us.icon}
+            temperature={us.temperature}
+            city={us.city}
         />
     ))
+    // end weather
 
     return(
         <main className='main'>
@@ -84,8 +80,8 @@ function Body(props) {
                 <div className='group--weather'>
                     {brWeather}
                 </div>
-                <div className='br--stock--div'>
-                    <p className='p--br--stock'>BR Stocks:</p>
+                <div className='stock--div'>
+                    <p className='p--stock'>BR Stocks:</p>
                         <div className='container'>
                             <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)} placeholder='Select one br stock'/>
                             <div className='drop--down'>
@@ -95,24 +91,28 @@ function Body(props) {
                             </div>
                         </div>
                 </div>
-                <div className='div--result--br'>
-                    <div className='img--symbol'>
-                        <img src={props.resultBrStock.logoUrl} className='icon--stock--br'/>
-                        <p>Symbol: {props.resultBrStock.symbol}</p>
-                    </div>
-                    <p>Short Name: {props.resultBrStock.shortName}</p>
-                    <p>Currency: {props.resultBrStock.currency}</p>
-                    <p>Highest Price One Year: {props.resultBrStock.highestPriceOneYear}</p>
-                    <p>Lowest Price One Year: {props.resultBrStock.lowestPriceOneYear}</p>
-                    <p>Regular Market Open: {props.resultBrStock.regularMarketOpen}</p>
-                    <p>Regular Market Price: {props.resultBrStock.regularMarketPrice}</p>
-                    <p>Regular Market Previous Close: {props.resultBrStock.regularMarketPreviousClose}</p>
-                    <p>Regular Market Day High: {props.resultBrStock.regularMarketDayHigh}</p>
-                    <p>Regular Market Day Low: {props.resultBrStock.regularMarketDayLow}</p>
-                    <p>Cash Dividends: {cashDividendTotal.toFixed(3)}</p>
+                <ResultStock
+                   resultStock ={props.resultBrStock}
+                />
+                <div className='group--weather'>
+                    {localweather}
+                </div>
+                <ResultStock
+                   resultStock ={props.resultBrStock}
+                />
+                <div className='stock--div'>
+                    <p className='p--stock'>US Stocks:</p>
+                        <div className='container'>
+                            <input id='input--stock--ca' className='input--stock' type="text" name="stock" /*onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)}*/ placeholder='Select one us stock'/>
+                            <div className='drop--down'>
+                                <div className='list--drop--down'>
+
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div className='group--weather'>
-                    {caWeather}
+                    {usWeather}
                 </div>
             </div>
             <h3 className='grafic--data'>Dividens: {props.resultBrStock.symbol}</h3>

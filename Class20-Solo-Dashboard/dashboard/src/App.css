@@ -125,7 +125,7 @@ body, .root {
 ::-webkit-input-placeholder{color: #777;}
 .input--stock::-moz-placeholder{color: #777}
 
-.p--br--stock{
+.p--stock{
   color: white;
   text-shadow: 3px 5px 2px #474747;
   margin-top: 2px;
@@ -169,12 +169,12 @@ body, .root {
   transition: 0.3s;
 }
 
-.br--stock--div{
+.stock--div{
   width: 15%;
   height: 96%;
 }
 
-.div--result--br{
+.div--result{
   font-size: 10px;
   width: 190px;
   background-color: #121212;
@@ -183,7 +183,7 @@ body, .root {
   border-radius: 5px;
 }
 
-.icon--stock--br{
+.icon--stock{
   width: 40px;
   height: 40px;
 }

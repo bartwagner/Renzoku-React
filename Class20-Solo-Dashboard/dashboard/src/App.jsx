@@ -11,7 +11,8 @@ function App() {
   const [dataBrStocks, setDataBrStocks] = React.useState()
   const [timeCurrency, setTimeCurrency] = React.useState()
   const [brWeatherCurrency, setBrWeatherCurrency] = React.useState([])
-  const [caWeatherCurrency, setCaWeatherCurrency] = React.useState([])
+  const [weatherCurrency, setWeatherCurrency] = React.useState()
+  const [usWeatherCurrency, setUsWeatherCurrency] = React.useState([])
   const [resultBrStock, setResultBrStock] = React.useState({currency: '',
                                                             cashDividends: [],
                                                             highestPriceOneYear: '',
@@ -30,16 +31,17 @@ function App() {
                      {city:'Porto Alegre', latitude:-30.033056, longitude:-51.230000},
                      {city:'Brasilia', latitude:-15.7801, longitude:-47.9292}]
 
-  //Canada Weather
-  const caWeather = [{city:'Victoria', latitude:48.407326, longitude:-123.329773},
-                     {city:'Toronto', latitude:43.70011, longitude:-79.4163},
-                     {city:'Quebec', latitude:46.829853, longitude:-71.254028}]
+  //United State Weather
+  const usWeather = [{city:'New York', latitude:40.71427, longitude:-74.00597},
+                     {city:'Washington DC', latitude:38.89511, longitude:-77.03637},
+                     {city:'California', latitude:38.3004, longitude:-76.50745}]
 
   React.useEffect(()=> {   
     async function resquestApiBackground() {
       backgroundImage()
       weatherBr()
-      weatherCa()
+      weatherLocation()
+      weatherUs()
       brStocksList()
     }
     resquestApiBackground()
@@ -92,13 +94,23 @@ function App() {
     }
     setBrWeatherCurrency(brArrayWeather)
   }
-  //Get the canada weather
-  function weatherCa(){
-    let caArrayWeather = []
-    for(let i = 0; i < caWeather.length; i++){
-      caArrayWeather.push(weatherList(caWeather[i].latitude, caWeather[i].longitude))
+  //Get the location weather
+  function weatherLocation(){
+    navigator.geolocation.getCurrentPosition( 
+      async position => {
+        let localWeather = ''
+        localWeather = weatherList(position.coords.latitude, position.coords.longitude)
+        setWeatherCurrency(localWeather)
+      }
+    )  
+  }
+  //Get the United States weather
+  function weatherUs(){
+    let usArrayWeather = []
+    for(let i = 0; i < usWeather.length; i++){
+      usArrayWeather.push(weatherList(usWeather[i].latitude, usWeather[i].longitude))
     }
-    setCaWeatherCurrency(caArrayWeather)
+    setUsWeatherCurrency(usArrayWeather)
   }
   //Get the weather informations
   function weatherList(latitude, longitude){
@@ -123,7 +135,7 @@ function App() {
     return WeatherCity
   }
 
-  //Get the stock list
+  //Get the br stock list
   async function brStocksList(){
     //Br Stocks
     let brStocks = []
@@ -149,7 +161,6 @@ function App() {
         throw Error("API result br stock has a problem")
       }else{
         const dataStockValue = await respondeStockValue.json()
-window.console.log(dataStockValue)
         setResultBrStock({
           currency: dataStockValue.results[0].currency,
           cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
@@ -184,7 +195,25 @@ window.console.log(dataStockValue)
     }
   }
 
-  if (!(dataInforImage && brWeatherCurrency && caWeatherCurrency && dataBrStocks)){
+  //Get the us stock list
+  async function usStocksList(){
+    //Us Stocks
+    // let brStocks = []
+    // try{
+    //   const responseBrStocks = await fetch("https://brapi.dev/api/available")
+    //   if(!responseBrStocks.ok){
+    //     throw Error("API has a problem Stocks")
+    //   }
+    //   const dataBrStocks       = await responseBrStocks.json()
+    //   brStocks = dataBrStocks.stocks.sort()
+    // }
+    // catch(err){
+    //   brStocks = ["Br Stocks data not available"]
+    // }
+    // setDataBrStocks(brStocks)
+  }
+
+  if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks)){
     return (
       <div className="c--loader"/>
     )
@@ -195,12 +224,13 @@ window.console.log(dataStockValue)
     <div>
       <Body
         key={dataInforImage.id}
-        author          = {dataInforImage.nameAuthor}
-        timeCurrency    = {timeCurrency}
-        dataBrStocks    = {dataBrStocks}
-        brWeatherCurrency = {brWeatherCurrency}
-        caWeatherCurrency = {caWeatherCurrency}
-        brStockInformation={brStockInformation}
+        author             = {dataInforImage.nameAuthor}
+        timeCurrency       = {timeCurrency}
+        dataBrStocks       = {dataBrStocks}
+        brWeatherCurrency  = {brWeatherCurrency}
+        weatherCurrency    = {weatherCurrency}
+        usWeatherCurrency  = {usWeatherCurrency}
+        brStockInformation = {brStockInformation}
         resultBrStock={resultBrStock}
       />
     </div>
