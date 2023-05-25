@@ -8,6 +8,7 @@ import ResultStock from './ResultStock'
 function Body(props) {
 
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
+    const[searchUsStock, setSearchUsStock] = React.useState(props.dataUsStocks)
 
     function dropDown(p){
         var e = document.getElementsByClassName('drop--down')[0];
@@ -81,7 +82,8 @@ function Body(props) {
                     {brWeather}
                 </div>
                 <div className='stock--div'>
-                    <p className='p--stock'>BR Stocks:</p>
+                    <div className='stock--org'>
+                        <p className='p--stock'>BR Stocks:</p>
                         <div className='container'>
                             <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)} placeholder='Select one br stock'/>
                             <div className='drop--down'>
@@ -90,6 +92,7 @@ function Body(props) {
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
                 <ResultStock
                    resultStock ={props.resultBrStock}
@@ -101,7 +104,8 @@ function Body(props) {
                    resultStock ={props.resultBrStock}
                 />
                 <div className='stock--div'>
-                    <p className='p--stock'>US Stocks:</p>
+                    <div className='stock--org'>
+                        <p className='p--stock'>US Stocks:</p>
                         <div className='container'>
                             <input id='input--stock--ca' className='input--stock' type="text" name="stock" /*onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)}*/ placeholder='Select one us stock'/>
                             <div className='drop--down'>
@@ -110,6 +114,7 @@ function Body(props) {
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
                 <div className='group--weather'>
                     {usWeather}

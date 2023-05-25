@@ -4,15 +4,33 @@ import Body from './Components/Body'
 
 function App() {
   
+  //Image and Author Image 
   const [dataInforImage, setDataInforImage] = React.useState({id: "",
                                                               nameAuthor: "",
                                                               url: ""
                                                             })
+  
+  //List br and us Stock State
   const [dataBrStocks, setDataBrStocks] = React.useState()
+  const [dataUsStocks, setDataUsStocks] = React.useState()
+  
+  //Time
   const [timeCurrency, setTimeCurrency] = React.useState()
+
+  //Brazilian Weather
+  const brWeather = [{city:'São Paulo', latitude:-23.5489, longitude:-46.6388},
+                     {city:'Porto Alegre', latitude:-30.033056, longitude:-51.230000},
+                     {city:'Brasilia', latitude:-15.7801, longitude:-47.9292}]
+  //United State Weather
+  const usWeather = [{city:'New York', latitude:40.71427, longitude:-74.00597},
+                     {city:'Washington DC', latitude:38.89511, longitude:-77.03637},
+                     {city:'California', latitude:38.3004, longitude:-76.50745}]
+  //Weather States
   const [brWeatherCurrency, setBrWeatherCurrency] = React.useState([])
   const [weatherCurrency, setWeatherCurrency] = React.useState()
   const [usWeatherCurrency, setUsWeatherCurrency] = React.useState([])
+  
+  //Stock Result Information 
   const [resultBrStock, setResultBrStock] = React.useState({currency: '',
                                                             cashDividends: [],
                                                             highestPriceOneYear: '',
@@ -26,16 +44,6 @@ function App() {
                                                             shortName: '',
                                                             symbol: ''
                                                           })
-  //Brazilian Weather
-  const brWeather = [{city:'São Paulo', latitude:-23.5489, longitude:-46.6388},
-                     {city:'Porto Alegre', latitude:-30.033056, longitude:-51.230000},
-                     {city:'Brasilia', latitude:-15.7801, longitude:-47.9292}]
-
-  //United State Weather
-  const usWeather = [{city:'New York', latitude:40.71427, longitude:-74.00597},
-                     {city:'Washington DC', latitude:38.89511, longitude:-77.03637},
-                     {city:'California', latitude:38.3004, longitude:-76.50745}]
-
   React.useEffect(()=> {   
     async function resquestApiBackground() {
       backgroundImage()
@@ -43,6 +51,7 @@ function App() {
       weatherLocation()
       weatherUs()
       brStocksList()
+      usStocksList()
     }
     resquestApiBackground()
   }, [])
@@ -152,8 +161,7 @@ function App() {
     }
     setDataBrStocks(brStocks)
   }
-
-  //Get the stock informations
+  //Get the br stock informations
   async function brStockInformation(stock){
     try{
       const respondeStockValue = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
@@ -198,19 +206,27 @@ function App() {
   //Get the us stock list
   async function usStocksList(){
     //Us Stocks
-    // let brStocks = []
-    // try{
-    //   const responseBrStocks = await fetch("https://brapi.dev/api/available")
-    //   if(!responseBrStocks.ok){
-    //     throw Error("API has a problem Stocks")
-    //   }
-    //   const dataBrStocks       = await responseBrStocks.json()
-    //   brStocks = dataBrStocks.stocks.sort()
-    // }
-    // catch(err){
-    //   brStocks = ["Br Stocks data not available"]
-    // }
-    // setDataBrStocks(brStocks)
+    let usStocks = []
+      try{
+        const responseUsStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=59a6edd12aa027ccd0282c9b51d5855c")
+        if(!responseUsStocks.ok){
+          throw Error("API has a problem Stocks")
+        }
+        const dataUsStocks       = await responseUsStocks.json()
+
+        window.console.log(
+          dataUsStocks.filter(
+            (item) => (item.indexOf('.') > -1)
+          )
+        )
+        window.console.log(dataUsStocks)
+
+        usStocks = dataUsStocks
+    }
+    catch(err){
+      usStocks = ["Us Stocks data not available"]
+    }
+    setDataUsStocks(usStocks)
   }
 
   if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks)){
@@ -227,6 +243,7 @@ function App() {
         author             = {dataInforImage.nameAuthor}
         timeCurrency       = {timeCurrency}
         dataBrStocks       = {dataBrStocks}
+        dataUsStocks       = {dataUsStocks}
         brWeatherCurrency  = {brWeatherCurrency}
         weatherCurrency    = {weatherCurrency}
         usWeatherCurrency  = {usWeatherCurrency}
