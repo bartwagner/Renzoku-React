@@ -4,9 +4,14 @@ import SelectOption from './SelectOption'
 import Weather from './Weather'
 import ChartStock from './ChartStock'
 import ResultStock from './ResultStock'
+import Select from 'react-select'
 
 function Body(props) {
 
+    const[listBrStock, setListBrStock] = React.useState([
+                                                         {value: props.dataBrStocks,
+                                                          label: props.dataBrStocks}
+                                                       ])
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
     const[searchUsStock, setSearchUsStock] = React.useState(props.dataUsStocks)
 
@@ -40,7 +45,7 @@ function Body(props) {
         }
     }
 
-    const options = searchBrStock.map(d =>(
+    const brListStock = searchBrStock.map(d =>(
         <SelectOption
             key={nanoid()}
             Stock={d}
@@ -81,6 +86,11 @@ function Body(props) {
                 <div className='group--weather'>
                     {brWeather}
                 </div>
+
+                <Select 
+                    options={listBrStock}
+                />
+
                 <div className='stock--div'>
                     <div className='stock--org'>
                         <p className='p--stock'>BR Stocks:</p>
@@ -88,12 +98,14 @@ function Body(props) {
                             <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)} placeholder='Select one br stock'/>
                             <div className='drop--down'>
                                 <div className='list--drop--down'>
-                                    {options}    
+                                    {brListStock}    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
                 <ResultStock
                    resultStock ={props.resultBrStock}
                 />
