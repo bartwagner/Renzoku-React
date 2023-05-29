@@ -213,15 +213,7 @@ function App() {
           throw Error("API has a problem Stocks")
         }
         const dataUsStocks       = await responseUsStocks.json()
-
-        window.console.log(
-          dataUsStocks.filter(
-            (item) => (item.indexOf('.') > -1)
-          )
-        )
-        window.console.log(dataUsStocks)
-
-        usStocks = dataUsStocks
+        usStocks = dataUsStocks.filter((item) => (!item.includes('.')))
     }
     catch(err){
       usStocks = ["Us Stocks data not available"]
