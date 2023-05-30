@@ -10,8 +10,10 @@ function Body(props) {
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
     const[searchUsStock, setSearchUsStock] = React.useState(props.dataUsStocks)
 
-    function dropDown(p){
-        var e = document.getElementsByClassName('drop--down')[0];
+    function dropDown(p, dropDown){
+
+        var e = document.getElementById(`${dropDown}`);
+
         var d = ['block', 'none'];
         e.style.display = d[p];
 
@@ -27,10 +29,16 @@ function Body(props) {
             props.brStockInformation(selected)
         }
     }
+    function selectUsStockItem(selected){
+        if(selected !=''){
+            document.getElementById('input--stock--us').value = selected
+            // props.brStockInformation(selected)
+        }
+    }
+
 
     function orderListBrStock(){
         let typeWrite = document.getElementById('input--stock--br').value
-    
         if(typeWrite === ''){
             setSearchBrStock(props.dataBrStocks)
         } else {
@@ -39,12 +47,30 @@ function Body(props) {
             )
         }
     }
+    function orderListUsStock(){
+        let typeWrite = document.getElementById('input--stock--us').value
+        if(typeWrite === ''){
+            setSearchUsStock(props.dataUsStocks)
+        } else {
+            setSearchUsStock(
+                props.dataUsStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
+            )
+        }
+    }
 
-    const options = searchBrStock.map(d =>(
+    // list of stocks (br and us)
+    const optionsBrStockList = searchBrStock.map(d =>(
         <SelectOption
             key={nanoid()}
             Stock={d}
             selectStockItem={selectBrStockItem}
+        />
+    ))
+    const optionsUsStockList = searchUsStock.map(d =>(
+        <SelectOption
+            key={nanoid()}
+            Stock={d}
+            selectStockItem={selectUsStockItem}
         />
     ))
 
@@ -85,10 +111,10 @@ function Body(props) {
                     <div className='stock--org'>
                         <p className='p--stock'>BR Stocks:</p>
                         <div className='container'>
-                            <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)} placeholder='Select one br stock'/>
-                            <div className='drop--down'>
+                            <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={orderListBrStock} onFocus={() => dropDown(0, 'drop--down--br')} onBlur={() => dropDown(1, 'drop--down--br')} placeholder='Select one br stock'/>
+                            <div id="drop--down--br" className='drop--down'>
                                 <div className='list--drop--down'>
-                                    {options}    
+                                    {optionsBrStockList}    
                                 </div>
                             </div>
                         </div>
@@ -107,10 +133,10 @@ function Body(props) {
                     <div className='stock--org'>
                         <p className='p--stock'>US Stocks:</p>
                         <div className='container'>
-                            <input id='input--stock--ca' className='input--stock' type="text" name="stock" /*onKeyUp={orderListBrStock} onFocus={() => dropDown(0)} onBlur={() => dropDown(1)}*/ placeholder='Select one us stock'/>
-                            <div className='drop--down'>
+                            <input id='input--stock--us' className='input--stock' type="text" name="stock" onKeyUp={orderListUsStock} onFocus={() => dropDown(0, 'drop--down--us')} onBlur={() => dropDown(1, 'drop--down--us')} placeholder='Select one us stock'/>
+                            <div id="drop--down--us" className='drop--down'>
                                 <div className='list--drop--down'>
-
+                                    {optionsUsStockList}
                                 </div>
                             </div>
                         </div>

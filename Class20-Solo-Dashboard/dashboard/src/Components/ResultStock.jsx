@@ -1,10 +1,6 @@
 import React from 'react'
-import {nanoid} from 'nanoid'
-import SelectOption from './SelectOption'
-import Weather from './Weather'
-import ChartStock from './ChartStock'
 
-function Body(props) {
+function ResultStock(props) {
 
     let cashDividendTotal = 0
     if(props.resultStock.cashDividends){
@@ -40,4 +36,4 @@ function Body(props) {
         </div>
     )    
 }
-export default Body
+export default ResultStock

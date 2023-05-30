@@ -1,9 +1,9 @@
 import React from 'react'
 import './App.css'
 import Body from './Components/Body'
+import yahooFinance from 'yahoo-finance2'
 
 function App() {
-  
   //Image and Author Image 
   const [dataInforImage, setDataInforImage] = React.useState({id: "",
                                                               nameAuthor: "",
@@ -52,6 +52,7 @@ function App() {
       weatherUs()
       brStocksList()
       usStocksList()
+      usStockInformation()
     }
     resquestApiBackground()
   }, [])
@@ -220,8 +221,13 @@ function App() {
     }
     setDataUsStocks(usStocks)
   }
+  async function usStockInformation(){
+    const resultUs = await yahooFinance.quoteSummary('AAPL')
+    const name = resultUs.price.shortName
+    window.console.log(name)
+  }
 
-  if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks)){
+  if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks && dataUsStocks)){
     return (
       <div className="c--loader"/>
     )
