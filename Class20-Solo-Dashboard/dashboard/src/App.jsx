@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.css'
 import Body from './Components/Body'
-import yahooFinance from 'yahoo-finance2'
 
 function App() {
   //Image and Author Image 
@@ -37,13 +36,26 @@ function App() {
                                                             lowestPriceOneYear: '',
                                                             regularMarketDayHigh: '',
                                                             regularMarketDayLow: '',
+                                                            regularMarketPrice: '',
                                                             regularMarketOpen: '',
                                                             regularMarketPreviousClose: '',
-                                                            regularMarketPrice: '',
                                                             logoUrl: '',
                                                             shortName: '',
                                                             symbol: ''
                                                           })
+  const [resultUsStock, setResultUsStock] = React.useState({currency: '',
+                                                          cashDividends: [],
+                                                          highestPriceOneYear: '',
+                                                          lowestPriceOneYear: '',
+                                                          regularMarketDayHigh: '',
+                                                          regularMarketDayLow: '',
+                                                          regularMarketPrice: '',
+                                                          regularMarketOpen: '',
+                                                          regularMarketPreviousClose: '',
+                                                          logoUrl: '',
+                                                          shortName: '',
+                                                          symbol: ''
+                                                        })
   React.useEffect(()=> {   
     async function resquestApiBackground() {
       backgroundImage()
@@ -52,7 +64,6 @@ function App() {
       weatherUs()
       brStocksList()
       usStocksList()
-      usStockInformation()
     }
     resquestApiBackground()
   }, [])
@@ -165,11 +176,11 @@ function App() {
   //Get the br stock informations
   async function brStockInformation(stock){
     try{
-      const respondeStockValue = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
-      if(!respondeStockValue.ok){
+      const respondeStockValueBr = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
+      if(!respondeStockValueBr.ok){
         throw Error("API result br stock has a problem")
       }else{
-        const dataStockValue = await respondeStockValue.json()
+        const dataStockValue = await respondeStockValueBr.json()
         setResultBrStock({
           currency: dataStockValue.results[0].currency,
           cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
@@ -177,9 +188,9 @@ function App() {
           lowestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekLow,
           regularMarketDayHigh: dataStockValue.results[0].regularMarketDayHigh,
           regularMarketDayLow: dataStockValue.results[0].regularMarketDayLow,
+          regularMarketPrice: dataStockValue.results[0].regularMarketPrice,
           regularMarketOpen: dataStockValue.results[0].regularMarketOpen,
           regularMarketPreviousClose: dataStockValue.results[0].regularMarketPreviousClose,
-          regularMarketPrice: dataStockValue.results[0].regularMarketPrice,
           logoUrl: dataStockValue.results[0].logourl,
           shortName: dataStockValue.results[0].shortName,
           symbol: dataStockValue.results[0].symbol
@@ -194,8 +205,6 @@ function App() {
         lowestPriceOneYear: '',
         regularMarketDayHigh: '',
         regularMarketDayLow: '',
-        regularMarketOpen: '',
-        regularMarketPreviousClose: '',
         regularMarketPrice: '',
         logoUrl: '',
         shortName: '',
@@ -221,10 +230,46 @@ function App() {
     }
     setDataUsStocks(usStocks)
   }
+  //Get the us stock informations
   async function usStockInformation(){
-    const resultUs = await yahooFinance.quoteSummary('AAPL')
-    const name = resultUs.price.shortName
-    window.console.log(name)
+    try{
+      const respondeStockValueUs = await fetch ("https://financialmodelingprep.com/api/v3/quote/GOOG?apikey=59a6edd12aa027ccd0282c9b51d5855c")
+      if(!respondeStockValueUs.ok){
+        throw Error("API result br stock has a problem")
+      }else{
+        const dataStockValue = await respondeStockValueUs.json()
+        window.console.log(dataStockValue)
+        
+        setResultUsStock({
+          // currency: dataStockValue.results[0].currency,
+          // cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
+          highestPriceOneYear: dataStockValue[0].yearHigh,          //
+          lowestPriceOneYear: dataStockValue[0].yearLow,            //
+          regularMarketDayHigh: dataStockValue[0].dayHigh,     //
+          regularMarketDayLow: dataStockValue[0].dayLow,       //
+          regularMarketPrice: dataStockValue[0].price,         //
+          regularMarketOpen: dataStockValue[0].open,
+          regularMarketPreviousClose: dataStockValue[0].previousClose,
+          // logoUrl: dataStockValue.results[0].logourl,
+          shortName: dataStockValue[0].name,                           //
+          symbol: dataStockValue[0].symbol                                  //
+        })
+      }
+    }
+    catch(err){
+      setResultUsStock({
+        currency: 'This Br Stock not available',
+        cashDividends: '',
+        highestPriceOneYear: '',
+        lowestPriceOneYear: '',
+        regularMarketDayHigh: '',
+        regularMarketDayLow: '',
+        regularMarketPrice: '',
+        logoUrl: '',
+        shortName: '',
+        symbol: ''
+      })
+    }
   }
 
   if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks && dataUsStocks)){
@@ -246,7 +291,9 @@ function App() {
         weatherCurrency    = {weatherCurrency}
         usWeatherCurrency  = {usWeatherCurrency}
         brStockInformation = {brStockInformation}
-        resultBrStock={resultBrStock}
+        usStockInformation = {usStockInformation}
+        resultBrStock      = {resultBrStock}
+        resultUsStock      = {resultUsStock}
       />
     </div>
   )

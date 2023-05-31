@@ -27,8 +27,8 @@ function ResultStock(props) {
             <p>Currency: {props.resultStock.currency}</p>
             <p>Highest Price One Year: {props.resultStock.highestPriceOneYear}</p>
             <p>Lowest Price One Year: {props.resultStock.lowestPriceOneYear}</p>
-            <p>Regular Market Open: {props.resultStock.regularMarketOpen}</p>
             <p>Regular Market Price: {props.resultStock.regularMarketPrice}</p>
+            <p>Regular Market Open: {props.resultStock.regularMarketOpen}</p>
             <p>Regular Market Previous Close: {props.resultStock.regularMarketPreviousClose}</p>
             <p>Regular Market Day High: {props.resultStock.regularMarketDayHigh}</p>
             <p>Regular Market Day Low: {props.resultStock.regularMarketDayLow}</p>

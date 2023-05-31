@@ -32,7 +32,7 @@ function Body(props) {
     function selectUsStockItem(selected){
         if(selected !=''){
             document.getElementById('input--stock--us').value = selected
-            // props.brStockInformation(selected)
+            props.usStockInformation(selected)
         }
     }
 
@@ -127,7 +127,7 @@ function Body(props) {
                     {localweather}
                 </div>
                 <ResultStock
-                   resultStock ={props.resultBrStock}
+                   resultStock ={props.resultUsStock}
                 />
                 <div className='stock--div'>
                     <div className='stock--org'>
