@@ -19,10 +19,7 @@ function ResultStock(props) {
 
     return(
         <div className='div--result'>
-            <div className='img--symbol'>
-                <img src={props.resultStock.logoUrl} className='icon--stock'/>
-                <p>Symbol: {props.resultStock.symbol}</p>
-            </div>
+            <p>Symbol: {props.resultStock.symbol}</p>
             <p>Short Name: {props.resultStock.shortName}</p>
             <p>Currency: {props.resultStock.currency}</p>
             <p>Highest Price One Year: {props.resultStock.highestPriceOneYear}</p>

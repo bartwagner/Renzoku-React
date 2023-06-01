@@ -39,7 +39,6 @@ function App() {
                                                             regularMarketPrice: '',
                                                             regularMarketOpen: '',
                                                             regularMarketPreviousClose: '',
-                                                            logoUrl: '',
                                                             shortName: '',
                                                             symbol: ''
                                                           })
@@ -52,7 +51,6 @@ function App() {
                                                           regularMarketPrice: '',
                                                           regularMarketOpen: '',
                                                           regularMarketPreviousClose: '',
-                                                          logoUrl: '',
                                                           shortName: '',
                                                           symbol: ''
                                                         })
@@ -67,6 +65,7 @@ function App() {
     }
     resquestApiBackground()
   }, [])
+
 
   //Image and Author
   async function backgroundImage(){
@@ -100,12 +99,14 @@ function App() {
     }) 
   }
 
+
   //Get the time
   function getCurrentTime(){
     const date = new Date()
     setTimeCurrency(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
   }
   setInterval(getCurrentTime, 1000)
+
 
   //Get the brazilian weather
   function weatherBr(){
@@ -156,6 +157,7 @@ function App() {
     return WeatherCity
   }
 
+
   //Get the br stock list
   async function brStocksList(){
     //Br Stocks
@@ -173,6 +175,25 @@ function App() {
     }
     setDataBrStocks(brStocks)
   }
+  //Get the us stock list
+  async function usStocksList(){
+    //Us Stocks
+    let usStocks = []
+      try{
+        const responseUsStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=59a6edd12aa027ccd0282c9b51d5855c")
+        if(!responseUsStocks.ok){
+          throw Error("API has a problem Stocks")
+        }
+        const dataUsStocks       = await responseUsStocks.json()
+        usStocks = dataUsStocks.filter((item) => (!item.includes('.')))
+      }
+      catch(err){
+        usStocks = ["Us Stocks data not available"]
+      }
+      setDataUsStocks(usStocks)
+  }
+
+
   //Get the br stock informations
   async function brStockInformation(stock){
     try{
@@ -191,7 +212,6 @@ function App() {
           regularMarketPrice: dataStockValue.results[0].regularMarketPrice,
           regularMarketOpen: dataStockValue.results[0].regularMarketOpen,
           regularMarketPreviousClose: dataStockValue.results[0].regularMarketPreviousClose,
-          logoUrl: dataStockValue.results[0].logourl,
           shortName: dataStockValue.results[0].shortName,
           symbol: dataStockValue.results[0].symbol
         })
@@ -206,71 +226,75 @@ function App() {
         regularMarketDayHigh: '',
         regularMarketDayLow: '',
         regularMarketPrice: '',
-        logoUrl: '',
         shortName: '',
         symbol: ''
       })
     }
   }
-
-  //Get the us stock list
-  async function usStocksList(){
-    //Us Stocks
-    let usStocks = []
-      try{
-        const responseUsStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=59a6edd12aa027ccd0282c9b51d5855c")
-        if(!responseUsStocks.ok){
-          throw Error("API has a problem Stocks")
-        }
-        const dataUsStocks       = await responseUsStocks.json()
-        usStocks = dataUsStocks.filter((item) => (!item.includes('.')))
-    }
-    catch(err){
-      usStocks = ["Us Stocks data not available"]
-    }
-    setDataUsStocks(usStocks)
-  }
   //Get the us stock informations
-  async function usStockInformation(){
+  async function usStockInformation(stock){
     try{
-      const respondeStockValueUs = await fetch ("https://financialmodelingprep.com/api/v3/quote/GOOG?apikey=59a6edd12aa027ccd0282c9b51d5855c")
-      if(!respondeStockValueUs.ok){
+      const respondeStockValueUs = await fetch (`https://financialmodelingprep.com/api/v3/quote/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+      const responseStockDividendsUs = await fetch (`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+      const responseStockCurrencyUs = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${stock}?limit=120&apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+      if(!respondeStockValueUs.ok || !responseStockDividendsUs.ok || !responseStockCurrencyUs.ok){
         throw Error("API result br stock has a problem")
       }else{
-        const dataStockValue = await respondeStockValueUs.json()
-        window.console.log(dataStockValue)
-        
+        const dataStockValue    = await respondeStockValueUs.json()
+        const dataDividendValue = await responseStockDividendsUs.json()
+        const dataCurrencyValue = await responseStockCurrencyUs.json()
+        let arrayDividends =[]
+        let countDividends = 0
+        if(dataDividendValue.historical){
+          if(dataDividendValue.historical.length < 12){
+            countDividends = dataDividendValue.historical.length
+          }else{
+            countDividends = 12
+          }
+          for(let i = 0; i < countDividends; i++){
+            arrayDividends.push(dividendOrganizer(dataDividendValue.historical[i]))
+          }
+        }
         setResultUsStock({
-          // currency: dataStockValue.results[0].currency,
-          // cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
-          highestPriceOneYear: dataStockValue[0].yearHigh,          //
-          lowestPriceOneYear: dataStockValue[0].yearLow,            //
-          regularMarketDayHigh: dataStockValue[0].dayHigh,     //
-          regularMarketDayLow: dataStockValue[0].dayLow,       //
-          regularMarketPrice: dataStockValue[0].price,         //
+          currency: dataCurrencyValue[0].reportedCurrency,
+          cashDividends: arrayDividends,
+          highestPriceOneYear: dataStockValue[0].yearHigh,
+          lowestPriceOneYear: dataStockValue[0].yearLow,
+          regularMarketDayHigh: dataStockValue[0].dayHigh,
+          regularMarketDayLow: dataStockValue[0].dayLow,
+          regularMarketPrice: dataStockValue[0].price,
           regularMarketOpen: dataStockValue[0].open,
           regularMarketPreviousClose: dataStockValue[0].previousClose,
-          // logoUrl: dataStockValue.results[0].logourl,
-          shortName: dataStockValue[0].name,                           //
-          symbol: dataStockValue[0].symbol                                  //
+          shortName: dataStockValue[0].name,
+          symbol: dataStockValue[0].symbol
         })
       }
     }
     catch(err){
       setResultUsStock({
-        currency: 'This Br Stock not available',
+        currency: 'This Us Stock not available',
         cashDividends: '',
         highestPriceOneYear: '',
         lowestPriceOneYear: '',
         regularMarketDayHigh: '',
         regularMarketDayLow: '',
         regularMarketPrice: '',
-        logoUrl: '',
         shortName: '',
         symbol: ''
       })
     }
   }
+  //Organizer Us Dividends
+  function dividendOrganizer(dividendsArray){
+    let dividendResult = [{
+      rate:"",
+      paymentDate:""
+    }]
+    dividendResult.rate = dividendsArray.dividend
+    dividendResult.paymentDate = dividendsArray.paymentDate
+    return dividendResult
+  }
+
 
   if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks && dataUsStocks)){
     return (

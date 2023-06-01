@@ -36,7 +36,6 @@ function Body(props) {
         }
     }
 
-
     function orderListBrStock(){
         let typeWrite = document.getElementById('input--stock--br').value
         if(typeWrite === ''){
