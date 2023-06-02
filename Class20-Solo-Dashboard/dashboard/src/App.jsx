@@ -57,38 +57,34 @@ function App() {
   React.useEffect(()=> {   
     async function resquestApiBackground() {
       backgroundImage()
-      weatherBr()
-      weatherLocation()
-      weatherUs()
-      brStocksList()
-      usStocksList()
+      weather()
+      stocksList()
     }
     resquestApiBackground()
   }, [])
 
-
   //Image and Author
   async function backgroundImage(){
-      try{
-        const responseImage = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
-        if(!responseImage.ok){
-          throw Error("API has a problem Image and Author")
-        }
-        const dataImage     = await responseImage.json()
-        if(dataImage.errors)
-        {
-          erroImgAuthor()
-        }else{
-          setDataInforImage({
-            id: dataImage.id,
-            nameAuthor: dataImage.user.name,
-            url: dataImage.urls.full
-          }) 
-        }
+    try{
+      const responseImage = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
+      if(!responseImage.ok){
+        throw Error("API has a problem Image and Author")
       }
-      catch(err){
+      const dataImage     = await responseImage.json()
+      if(dataImage.errors)
+      {
         erroImgAuthor()
+      }else{
+        setDataInforImage({
+          id: dataImage.id,
+          nameAuthor: dataImage.user.name,
+          url: dataImage.urls.full
+        }) 
       }
+    }
+    catch(err){
+      erroImgAuthor()
+    }
   }
   //If erro, this will be the image and author
   function erroImgAuthor(){
@@ -99,25 +95,24 @@ function App() {
     }) 
   }
 
-
-  //Get the time
+  //Get the time and setTimeCurrency
   function getCurrentTime(){
     const date = new Date()
     setTimeCurrency(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
   }
   setInterval(getCurrentTime, 1000)
 
-
-  //Get the brazilian weather
-  function weatherBr(){
+  //Get the Brazil, United States and your location weathers
+  function weather(){
     let brArrayWeather = []
+    let usArrayWeather = []
+    
     for(let i = 0; i < brWeather.length; i++){
       brArrayWeather.push(weatherList(brWeather[i].latitude, brWeather[i].longitude))
     }
-    setBrWeatherCurrency(brArrayWeather)
-  }
-  //Get the location weather
-  function weatherLocation(){
+    for(let i = 0; i < usWeather.length; i++){
+      usArrayWeather.push(weatherList(usWeather[i].latitude, usWeather[i].longitude))
+    }
     navigator.geolocation.getCurrentPosition( 
       async position => {
         let localWeather = ''
@@ -125,13 +120,7 @@ function App() {
         setWeatherCurrency(localWeather)
       }
     )  
-  }
-  //Get the United States weather
-  function weatherUs(){
-    let usArrayWeather = []
-    for(let i = 0; i < usWeather.length; i++){
-      usArrayWeather.push(weatherList(usWeather[i].latitude, usWeather[i].longitude))
-    }
+    setBrWeatherCurrency(brArrayWeather)
     setUsWeatherCurrency(usArrayWeather)
   }
   //Get the weather informations
@@ -157,41 +146,40 @@ function App() {
     return WeatherCity
   }
 
-
-  //Get the br stock list
-  async function brStocksList(){
+  //Get the stock list
+  async function stocksList(){
     //Br Stocks
-    let brStocks = []
+    let stocksBr = []
+    let stocksUs = []
     try{
       const responseBrStocks = await fetch("https://brapi.dev/api/available")
       if(!responseBrStocks.ok){
         throw Error("API has a problem Stocks")
       }
       const dataBrStocks       = await responseBrStocks.json()
-      brStocks = dataBrStocks.stocks.sort()
+      stocksBr = dataBrStocks.stocks.sort()
     }
     catch(err){
-      brStocks = ["Br Stocks data not available"]
+      stocksBr = ["Br Stocks data not available"]
     }
-    setDataBrStocks(brStocks)
-  }
-  //Get the us stock list
-  async function usStocksList(){
     //Us Stocks
-    let usStocks = []
-      try{
-        const responseUsStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=59a6edd12aa027ccd0282c9b51d5855c")
-        if(!responseUsStocks.ok){
-          throw Error("API has a problem Stocks")
-        }
-        const dataUsStocks       = await responseUsStocks.json()
-        usStocks = dataUsStocks.filter((item) => (!item.includes('.')))
+    try{
+      const responseUsStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=59a6edd12aa027ccd0282c9b51d5855c")
+      if(!responseUsStocks.ok){
+        throw Error("API has a problem Stocks")
       }
-      catch(err){
-        usStocks = ["Us Stocks data not available"]
-      }
-      setDataUsStocks(usStocks)
+      const dataUsStocks       = await responseUsStocks.json()
+      stocksUs = dataUsStocks.filter((item) => (!item.includes('.')))
+    }
+    catch(err){
+      stocksUs = ["Us Stocks data not available"]
+    }
+    setDataUsStocks(stocksUs)
+    setDataBrStocks(stocksBr)
   }
+
+
+
 
 
   //Get the br stock informations
