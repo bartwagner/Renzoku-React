@@ -26,15 +26,22 @@ function Body(props) {
     function selectBrStockItem(selected){
         if(selected !=''){
             document.getElementById('input--stock--br').value = selected
-            props.brStockInformation(selected)
+            props.stockInformation(selected, "BR")
         }
     }
     function selectUsStockItem(selected){
         if(selected !=''){
             document.getElementById('input--stock--us').value = selected
-            props.usStockInformation(selected)
+            props.stockInformation(selected, "US")
         }
     }
+
+
+
+
+
+
+
 
     function orderListBrStock(){
         let typeWrite = document.getElementById('input--stock--br').value
@@ -57,7 +64,34 @@ function Body(props) {
         }
     }
 
-    // list of stocks (br and us)
+    function orderListStock(inputValue){
+        let typeWrite = document.getElementById(`${inputValue}`).value
+        if(inputValue == 'input--stock--br'){
+            if(typeWrite === ''){
+                setSearchBrStock(props.dataBrStocks)
+            } else {
+                setSearchBrStock(
+                    props.dataBrStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
+                )
+            }
+        }else{
+            if(typeWrite === ''){
+                setSearchUsStock(props.dataUsStocks)
+            } else {
+                setSearchUsStock(
+                    props.dataUsStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
+                )
+            }
+        }
+    }
+
+
+
+
+
+
+
+    // start list of stocks (br and us)
     const optionsBrStockList = searchBrStock.map(d =>(
         <SelectOption
             key={nanoid()}
@@ -72,6 +106,7 @@ function Body(props) {
             selectStockItem={selectUsStockItem}
         />
     ))
+    // end list of stocks (br and us)
 
     // start weather
     const brWeather = props.brWeatherCurrency.map(bw =>(
@@ -110,7 +145,7 @@ function Body(props) {
                     <div className='stock--org'>
                         <p className='p--stock'>BR Stocks:</p>
                         <div className='container'>
-                            <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={orderListBrStock} onFocus={() => dropDown(0, 'drop--down--br')} onBlur={() => dropDown(1, 'drop--down--br')} placeholder='Select one br stock'/>
+                            <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={() => orderListStock('input--stock--br')} onFocus={() => dropDown(0, 'drop--down--br')} onBlur={() => dropDown(1, 'drop--down--br')} placeholder='Select one br stock'/>
                             <div id="drop--down--br" className='drop--down'>
                                 <div className='list--drop--down'>
                                     {optionsBrStockList}    
@@ -132,7 +167,7 @@ function Body(props) {
                     <div className='stock--org'>
                         <p className='p--stock'>US Stocks:</p>
                         <div className='container'>
-                            <input id='input--stock--us' className='input--stock' type="text" name="stock" onKeyUp={orderListUsStock} onFocus={() => dropDown(0, 'drop--down--us')} onBlur={() => dropDown(1, 'drop--down--us')} placeholder='Select one us stock'/>
+                            <input id='input--stock--us' className='input--stock' type="text" name="stock" onKeyUp={() => orderListStock('input--stock--us')} onFocus={() => dropDown(0, 'drop--down--us')} onBlur={() => dropDown(1, 'drop--down--us')} placeholder='Select one us stock'/>
                             <div id="drop--down--us" className='drop--down'>
                                 <div className='list--drop--down'>
                                     {optionsUsStockList}

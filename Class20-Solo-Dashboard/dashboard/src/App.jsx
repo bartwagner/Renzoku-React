@@ -54,6 +54,7 @@ function App() {
                                                           shortName: '',
                                                           symbol: ''
                                                         })
+
   React.useEffect(()=> {   
     async function resquestApiBackground() {
       backgroundImage()
@@ -63,7 +64,9 @@ function App() {
     resquestApiBackground()
   }, [])
 
-  //Image and Author
+  ////////////////////
+  //Image and Author//
+  ////////////////////
   async function backgroundImage(){
     try{
       const responseImage = await fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
@@ -86,7 +89,9 @@ function App() {
       erroImgAuthor()
     }
   }
-  //If erro, this will be the image and author
+  //////////////////////////////////////////////
+  //If erro, this will be the image and author//
+  //////////////////////////////////////////////
   function erroImgAuthor(){
     setDataInforImage({
       id: "jlVEj8IDPQc",
@@ -95,14 +100,18 @@ function App() {
     }) 
   }
 
-  //Get the time and setTimeCurrency
+  ////////////////////////////////////
+  //Get the time and setTimeCurrency//
+  ////////////////////////////////////
   function getCurrentTime(){
     const date = new Date()
     setTimeCurrency(date.toLocaleTimeString("en-us", {timeStyle: "short"}))
   }
   setInterval(getCurrentTime, 1000)
 
-  //Get the Brazil, United States and your location weathers
+  ////////////////////////////////////////////////////////////
+  //Get the Brazil, United States and your location weathers//
+  ////////////////////////////////////////////////////////////
   function weather(){
     let brArrayWeather = []
     let usArrayWeather = []
@@ -123,7 +132,9 @@ function App() {
     setBrWeatherCurrency(brArrayWeather)
     setUsWeatherCurrency(usArrayWeather)
   }
-  //Get the weather informations
+  ////////////////////////////////
+  //Get the weather informations//
+  ////////////////////////////////
   function weatherList(latitude, longitude){
     //Weather
     let WeatherCity = {
@@ -146,7 +157,9 @@ function App() {
     return WeatherCity
   }
 
-  //Get the stock list
+  //////////////////////
+  //Get the stock list//
+  //////////////////////
   async function stocksList(){
     //Br Stocks
     let stocksBr = []
@@ -178,101 +191,101 @@ function App() {
     setDataBrStocks(stocksBr)
   }
 
-
-
-
-
-  //Get the br stock informations
-  async function brStockInformation(stock){
-    try{
-      const respondeStockValueBr = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
-      if(!respondeStockValueBr.ok){
-        throw Error("API result br stock has a problem")
-      }else{
-        const dataStockValue = await respondeStockValueBr.json()
-        setResultBrStock({
-          currency: dataStockValue.results[0].currency,
-          cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
-          highestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekHigh,
-          lowestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekLow,
-          regularMarketDayHigh: dataStockValue.results[0].regularMarketDayHigh,
-          regularMarketDayLow: dataStockValue.results[0].regularMarketDayLow,
-          regularMarketPrice: dataStockValue.results[0].regularMarketPrice,
-          regularMarketOpen: dataStockValue.results[0].regularMarketOpen,
-          regularMarketPreviousClose: dataStockValue.results[0].regularMarketPreviousClose,
-          shortName: dataStockValue.results[0].shortName,
-          symbol: dataStockValue.results[0].symbol
-        })
-      }
-    }
-    catch(err){
-      setResultBrStock({
-        currency: 'This Br Stock not available',
-        cashDividends: '',
-        highestPriceOneYear: '',
-        lowestPriceOneYear: '',
-        regularMarketDayHigh: '',
-        regularMarketDayLow: '',
-        regularMarketPrice: '',
-        shortName: '',
-        symbol: ''
-      })
-    }
-  }
-  //Get the us stock informations
-  async function usStockInformation(stock){
-    try{
-      const respondeStockValueUs = await fetch (`https://financialmodelingprep.com/api/v3/quote/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
-      const responseStockDividendsUs = await fetch (`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
-      const responseStockCurrencyUs = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${stock}?limit=120&apikey=59a6edd12aa027ccd0282c9b51d5855c`)
-      if(!respondeStockValueUs.ok || !responseStockDividendsUs.ok || !responseStockCurrencyUs.ok){
-        throw Error("API result br stock has a problem")
-      }else{
-        const dataStockValue    = await respondeStockValueUs.json()
-        const dataDividendValue = await responseStockDividendsUs.json()
-        const dataCurrencyValue = await responseStockCurrencyUs.json()
-        let arrayDividends =[]
-        let countDividends = 0
-        if(dataDividendValue.historical){
-          if(dataDividendValue.historical.length < 12){
-            countDividends = dataDividendValue.historical.length
-          }else{
-            countDividends = 12
-          }
-          for(let i = 0; i < countDividends; i++){
-            arrayDividends.push(dividendOrganizer(dataDividendValue.historical[i]))
-          }
+  //////////////////////////////
+  //Get the stock informations//
+  //////////////////////////////
+  async function stockInformation(stock, country){
+    if(country === "BR"){
+      try{
+        const respondeStockValueBr = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
+        if(!respondeStockValueBr.ok){
+          throw Error("API result br stock has a problem")
+        }else{
+          const dataStockValue = await respondeStockValueBr.json()
+          setResultBrStock({
+            currency: dataStockValue.results[0].currency,
+            cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
+            highestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekHigh,
+            lowestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekLow,
+            regularMarketDayHigh: dataStockValue.results[0].regularMarketDayHigh,
+            regularMarketDayLow: dataStockValue.results[0].regularMarketDayLow,
+            regularMarketPrice: dataStockValue.results[0].regularMarketPrice,
+            regularMarketOpen: dataStockValue.results[0].regularMarketOpen,
+            regularMarketPreviousClose: dataStockValue.results[0].regularMarketPreviousClose,
+            shortName: dataStockValue.results[0].shortName,
+            symbol: dataStockValue.results[0].symbol
+          })
         }
+      }
+      catch(err){
+        setResultBrStock({
+          currency: 'This Br Stock not available',
+          cashDividends: '',
+          highestPriceOneYear: '',
+          lowestPriceOneYear: '',
+          regularMarketDayHigh: '',
+          regularMarketDayLow: '',
+          regularMarketPrice: '',
+          shortName: '',
+          symbol: ''
+        })
+      }
+    }else{
+      try{
+        const respondeStockValueUs = await fetch (`https://financialmodelingprep.com/api/v3/quote/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+        const responseStockDividendsUs = await fetch (`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+        const responseStockCurrencyUs = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${stock}?limit=120&apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+        if(!respondeStockValueUs.ok || !responseStockDividendsUs.ok || !responseStockCurrencyUs.ok){
+          throw Error("API result br stock has a problem")
+        }else{
+          const dataStockValue    = await respondeStockValueUs.json()
+          const dataDividendValue = await responseStockDividendsUs.json()
+          const dataCurrencyValue = await responseStockCurrencyUs.json()
+          let arrayDividends =[]
+          let countDividends = 0
+          if(dataDividendValue.historical){
+            if(dataDividendValue.historical.length < 12){
+              countDividends = dataDividendValue.historical.length
+            }else{
+              countDividends = 12
+            }
+            for(let i = 0; i < countDividends; i++){
+              arrayDividends.push(dividendOrganizer(dataDividendValue.historical[i]))
+            }
+          }
+          setResultUsStock({
+            currency: dataCurrencyValue[0].reportedCurrency,
+            cashDividends: arrayDividends,
+            highestPriceOneYear: dataStockValue[0].yearHigh,
+            lowestPriceOneYear: dataStockValue[0].yearLow,
+            regularMarketDayHigh: dataStockValue[0].dayHigh,
+            regularMarketDayLow: dataStockValue[0].dayLow,
+            regularMarketPrice: dataStockValue[0].price,
+            regularMarketOpen: dataStockValue[0].open,
+            regularMarketPreviousClose: dataStockValue[0].previousClose,
+            shortName: dataStockValue[0].name,
+            symbol: dataStockValue[0].symbol
+          })
+        }
+      }
+      catch(err){
         setResultUsStock({
-          currency: dataCurrencyValue[0].reportedCurrency,
-          cashDividends: arrayDividends,
-          highestPriceOneYear: dataStockValue[0].yearHigh,
-          lowestPriceOneYear: dataStockValue[0].yearLow,
-          regularMarketDayHigh: dataStockValue[0].dayHigh,
-          regularMarketDayLow: dataStockValue[0].dayLow,
-          regularMarketPrice: dataStockValue[0].price,
-          regularMarketOpen: dataStockValue[0].open,
-          regularMarketPreviousClose: dataStockValue[0].previousClose,
-          shortName: dataStockValue[0].name,
-          symbol: dataStockValue[0].symbol
+          currency: 'This Us Stock not available',
+          cashDividends: '',
+          highestPriceOneYear: '',
+          lowestPriceOneYear: '',
+          regularMarketDayHigh: '',
+          regularMarketDayLow: '',
+          regularMarketPrice: '',
+          shortName: '',
+          symbol: ''
         })
       }
     }
-    catch(err){
-      setResultUsStock({
-        currency: 'This Us Stock not available',
-        cashDividends: '',
-        highestPriceOneYear: '',
-        lowestPriceOneYear: '',
-        regularMarketDayHigh: '',
-        regularMarketDayLow: '',
-        regularMarketPrice: '',
-        shortName: '',
-        symbol: ''
-      })
-    }
   }
-  //Organizer Us Dividends
+  //////////////////////////
+  //Organizer Us Dividends//
+  //////////////////////////
   function dividendOrganizer(dividendsArray){
     let dividendResult = [{
       rate:"",
@@ -290,6 +303,7 @@ function App() {
     )
   }
 
+
   document.body.style.backgroundImage = `url(${dataInforImage.url})`
   return (
     <div>
@@ -302,8 +316,7 @@ function App() {
         brWeatherCurrency  = {brWeatherCurrency}
         weatherCurrency    = {weatherCurrency}
         usWeatherCurrency  = {usWeatherCurrency}
-        brStockInformation = {brStockInformation}
-        usStockInformation = {usStockInformation}
+        stockInformation   = {stockInformation}
         resultBrStock      = {resultBrStock}
         resultUsStock      = {resultUsStock}
       />
