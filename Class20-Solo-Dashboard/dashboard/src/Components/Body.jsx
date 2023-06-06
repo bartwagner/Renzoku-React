@@ -10,66 +10,36 @@ function Body(props) {
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
     const[searchUsStock, setSearchUsStock] = React.useState(props.dataUsStocks)
 
+    //dropDrown object
     function dropDown(p, dropDown){
-
         var e = document.getElementById(`${dropDown}`);
-
         var d = ['block', 'none'];
         e.style.display = d[p];
-
         var t = ['0px','0px,-5px']
         setTimeout(function (){
             e.style.transform = 'translate('+t[p]+')';
         },0)
     }
 
-    function selectBrStockItem(selected){
-        if(selected !=''){
+    //after the user selected the stock, it gets the stock information
+    function selectStockItem(selected, country){
+        if(country == 'BR'){
             document.getElementById('input--stock--br').value = selected
-            props.stockInformation(selected, "BR")
-        }
-    }
-    function selectUsStockItem(selected){
-        if(selected !=''){
+        }else{
             document.getElementById('input--stock--us').value = selected
-            props.stockInformation(selected, "US")
+        }            
+        if(selected !=''){
+            props.stockInformation(selected, country)
         }
     }
 
-
-
-
-
-
-
-
-    function orderListBrStock(){
-        let typeWrite = document.getElementById('input--stock--br').value
-        if(typeWrite === ''){
-            setSearchBrStock(props.dataBrStocks)
-        } else {
-            setSearchBrStock(
-                props.dataBrStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
-            )
-        }
-    }
-    function orderListUsStock(){
-        let typeWrite = document.getElementById('input--stock--us').value
-        if(typeWrite === ''){
-            setSearchUsStock(props.dataUsStocks)
-        } else {
-            setSearchUsStock(
-                props.dataUsStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
-            )
-        }
-    }
-
+    //filter what the stock the user is looking for
     function orderListStock(inputValue){
         let typeWrite = document.getElementById(`${inputValue}`).value
         if(inputValue == 'input--stock--br'){
             if(typeWrite === ''){
                 setSearchBrStock(props.dataBrStocks)
-            } else {
+            }else {
                 setSearchBrStock(
                     props.dataBrStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
                 )
@@ -77,7 +47,7 @@ function Body(props) {
         }else{
             if(typeWrite === ''){
                 setSearchUsStock(props.dataUsStocks)
-            } else {
+            }else {
                 setSearchUsStock(
                     props.dataUsStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
                 )
@@ -85,25 +55,21 @@ function Body(props) {
         }
     }
 
-
-
-
-
-
-
     // start list of stocks (br and us)
     const optionsBrStockList = searchBrStock.map(d =>(
         <SelectOption
             key={nanoid()}
             Stock={d}
-            selectStockItem={selectBrStockItem}
+            selectStockItem={selectStockItem}
+            country={"BR"}
         />
     ))
     const optionsUsStockList = searchUsStock.map(d =>(
         <SelectOption
             key={nanoid()}
             Stock={d}
-            selectStockItem={selectUsStockItem}
+            selectStockItem={selectStockItem}
+            country={"US"}
         />
     ))
     // end list of stocks (br and us)
@@ -165,7 +131,7 @@ function Body(props) {
                 />
                 <div className='stock--div'>
                     <div className='stock--org'>
-                        <p className='p--stock'>US Stocks:</p>
+                        <p className='p--stock'>US/CA Stocks:</p>
                         <div className='container'>
                             <input id='input--stock--us' className='input--stock' type="text" name="stock" onKeyUp={() => orderListStock('input--stock--us')} onFocus={() => dropDown(0, 'drop--down--us')} onBlur={() => dropDown(1, 'drop--down--us')} placeholder='Select one us stock'/>
                             <div id="drop--down--us" className='drop--down'>
@@ -180,11 +146,23 @@ function Body(props) {
                     {usWeather}
                 </div>
             </div>
-            <h3 className='grafic--data'>Dividens: {props.resultBrStock.symbol}</h3>
-            <div className='chart--stock'>
-                <ChartStock
-                    resultStock = {props.resultBrStock}
-                />
+            <div className='group--dividend'>
+                <div className='div--dividend'>
+                    <h3 className='grafic--data'>Dividens: {props.resultBrStock.symbol}</h3>
+                    <div className='chart--stock'>
+                        <ChartStock
+                            resultStock = {props.resultBrStock}
+                        />
+                    </div>
+                </div>
+                <div className='div--dividend'>
+                    <h3 className='grafic--data'>Dividens: {props.resultUsStock.symbol}</h3>
+                    <div className='chart--stock'>
+                        <ChartStock
+                            resultStock = {props.resultUsStock}
+                        />
+                    </div>
+                </div>
             </div>
             <h1 className='time--website'>{props.timeCurrency}</h1>
             <p className='author--img'>By: {props.author}</p> 

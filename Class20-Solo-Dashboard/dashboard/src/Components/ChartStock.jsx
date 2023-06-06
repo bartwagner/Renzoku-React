@@ -3,7 +3,7 @@ import ApexChart from 'react-apexcharts'
 
 function ChartStock(props) {
     let series = [{
-        name: 'brStock',
+        name: 'stock',
         data: []
     }]
     let options = {
@@ -73,7 +73,7 @@ function ChartStock(props) {
             }
         },
         title: {
-            text: 'BR STOCK',
+            text: 'STOCK',
             floating: true,
             offsetY: 330,
             align: 'center',

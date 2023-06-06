@@ -3,7 +3,7 @@ import React from 'react'
 function SelectOption(props) {
 
     function selectItem(item){
-        props.selectStockItem(item)
+        props.selectStockItem(item, props.country)
     }    
 
     return(

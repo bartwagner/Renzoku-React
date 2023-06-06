@@ -60,6 +60,7 @@ function App() {
       backgroundImage()
       weather()
       stocksList()
+      currencyQuotation()
     }
     resquestApiBackground()
   }, [])
@@ -294,6 +295,21 @@ function App() {
     dividendResult.rate = dividendsArray.dividend
     dividendResult.paymentDate = dividendsArray.paymentDate
     return dividendResult
+  }
+
+  async function currencyQuotation(){
+    try{
+      const currencyMoney = await fetch (`https://api.frankfurter.app/latest?amount=1&from=GBP&to=USD`)
+      if(!currencyMoney.ok){
+        throw Error("API quotation has a problem")
+      }else{
+        const dataCurrencyValue = await currencyMoney.json()
+        window.console.log(dataCurrencyValue)
+      }
+    }
+    catch(er){
+      window.console.log("Error")
+    }
   }
 
 
