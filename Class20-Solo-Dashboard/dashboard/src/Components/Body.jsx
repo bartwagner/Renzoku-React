@@ -4,11 +4,14 @@ import SelectOption from './SelectOption'
 import Weather from './Weather'
 import ChartStock from './ChartStock'
 import ResultStock from './ResultStock'
+import Exchange from './Exchange'
 
 function Body(props) {
 
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
     const[searchUsStock, setSearchUsStock] = React.useState(props.dataUsStocks)
+
+window.console.log(props.quotationMoney)
 
     //dropDrown object
     function dropDown(p, dropDown){
@@ -54,6 +57,15 @@ function Body(props) {
             }
         }
     }
+
+    // const exchangeMoney = props.props.quotationMoney.map(ex =>(
+    //     <Exchange
+    //         key={nanoid()}
+    //         icon={bw.icon}
+    //         temperature={bw.temperature}
+    //         city={bw.city}
+    //     />
+    // ))
 
     // start list of stocks (br and us)
     const optionsBrStockList = searchBrStock.map(d =>(

@@ -25,15 +25,9 @@ function App() {
                      {city:'Washington DC', latitude:38.89511, longitude:-77.03637},
                      {city:'California', latitude:38.3004, longitude:-76.50745}]
 
-  const currencyExchange = [{base: 'CAD', exchange: 'USD'}, {base: 'CAD', exchange: 'GBP'}, {base: 'CAD', exchange: 'CHF'},{base: 'CAD', exchange: 'EUR'},{base: 'CAD', exchange: 'AUD'},{base: 'CAD', exchange: 'CNY'},{base: 'CAD', exchange: 'BRL'}, {base: 'CAD', exchange: 'MXN'},  //Canadian Dollar
-                            {base: 'USD', exchange: 'CAD'}, {base: 'USD', exchange: 'GBP'}, {base: 'USD', exchange: 'CHF'},{base: 'USD', exchange: 'EUR'},{base: 'USD', exchange: 'AUD'},{base: 'USD', exchange: 'CNY'},{base: 'USD', exchange: 'BRL'}, {base: 'USD', exchange: 'MXN'},  //American Dollar
-                            {base: 'GBP', exchange: 'CAD'}, {base: 'GBP', exchange: 'USD'}, {base: 'GBP', exchange: 'CHF'},{base: 'GBP', exchange: 'EUR'},{base: 'GBP', exchange: 'AUD'},{base: 'GBP', exchange: 'CNY'},{base: 'GBP', exchange: 'BRL'}, {base: 'GBP', exchange: 'MXN'},  //Pound
-                            {base: 'CHF', exchange: 'CAD'}, {base: 'CHF', exchange: 'USD'}, {base: 'CHF', exchange: 'GBP'},{base: 'CHF', exchange: 'EUR'},{base: 'CHF', exchange: 'AUD'},{base: 'CHF', exchange: 'CNY'},{base: 'CHF', exchange: 'BRL'}, {base: 'CHF', exchange: 'MXN'},  //Swiss Franc
-                            {base: 'EUR', exchange: 'CAD'}, {base: 'EUR', exchange: 'USD'}, {base: 'EUR', exchange: 'GBP'},{base: 'EUR', exchange: 'CHF'},{base: 'EUR', exchange: 'AUD'},{base: 'EUR', exchange: 'CNY'},{base: 'EUR', exchange: 'BRL'}, {base: 'EUR', exchange: 'MXN'},  //Euro
-                            {base: 'AUD', exchange: 'CAD'}, {base: 'AUD', exchange: 'USD'}, {base: 'AUD', exchange: 'GBP'},{base: 'AUD', exchange: 'CHF'},{base: 'AUD', exchange: 'EUR'},{base: 'AUD', exchange: 'CNY'},{base: 'AUD', exchange: 'BRL'}, {base: 'AUD', exchange: 'MXN'},  //Australian Dollar
-                            {base: 'CNY', exchange: 'CAD'}, {base: 'CNY', exchange: 'USD'}, {base: 'CNY', exchange: 'GBP'},{base: 'CNY', exchange: 'CHF'},{base: 'CNY', exchange: 'EUR'},{base: 'CNY', exchange: 'AUD'},{base: 'CNY', exchange: 'BRL'}, {base: 'CNY', exchange: 'MXN'},  //Yuan Chinese our 
-                            {base: 'BRL', exchange: 'CAD'}, {base: 'BRL', exchange: 'USD'}, {base: 'BRL', exchange: 'GBP'},{base: 'BRL', exchange: 'CHF'},{base: 'BRL', exchange: 'EUR'},{base: 'BRL', exchange: 'AUD'},{base: 'BRL', exchange: 'CNY'}, {base: 'BRL', exchange: 'MXN'},  //Brazilian Real
-                            {base: 'MXN', exchange: 'CAD'}, {base: 'MXN', exchange: 'USD'}, {base: 'MXN', exchange: 'GBP'},{base: 'MXN', exchange: 'CHF'},{base: 'MXN', exchange: 'EUR'},{base: 'MXN', exchange: 'AUD'},{base: 'MXN', exchange: 'CNY'}, {base: 'MXN', exchange: 'BRL'}]  //Mexican Peso
+  const currencyExchange = [{base: 'USD', exchange: 'CAD'}, {base: 'USD', exchange: 'BRL'}, 
+                            {base: 'CAD', exchange: 'USD'}, {base: 'CAD', exchange: 'BRL'},                          
+                            {base: 'BRL', exchange: 'USD'}, {base: 'BRL', exchange: 'CAD'}]
   //Weather States
   const [brWeatherCurrency, setBrWeatherCurrency] = React.useState([])
   const [weatherCurrency, setWeatherCurrency] = React.useState()
@@ -309,40 +303,23 @@ function App() {
     return dividendResult
   }
 
-
-
-
-  function currencyQuotation(){
+  async function currencyQuotation(){
     let exchangeCurrency = []
+
     for(let i = 0; i < currencyExchange.length; i++){
-      exchangeCurrency.push(apiQuotation(currencyExchange[i].base, currencyExchange[i].exchange))
+      try{
+        const currencyMoney = await fetch (`https://api.frankfurter.app/latest?amount=1&from=${currencyExchange[i].base}&to=${currencyExchange[i].exchange}`)
+        const dataCurrencyValue = await currencyMoney.json()
+        exchangeCurrency.push(dataCurrencyValue)
+      }
+      catch(er){
+        exchangeCurrency.push("N/A")
+      }
     }
     setQuotationMoney(exchangeCurrency)
   }
 
-  async function apiQuotation(base, exchange){
-    let exchangeCurrency = [{base: '',
-                             currency: '',
-                             quotation: ''}]
-    try{
-      const currencyMoney = await fetch (`https://api.frankfurter.app/latest?amount=1&from=${base}&to=${exchange}`)
-      if(!currencyMoney.ok){
-        throw Error("Quotation unavailable")
-      }else{
-        const dataCurrencyValue = await currencyMoney.json()
-        exchangeCurrency.base = dataCurrencyValue.base
-        exchangeCurrency.currency = dataCurrencyValue.exchange
-        exchangeCurrency.quotation = dataCurrencyValue.rates
-      }
-    }
-    catch(er){
-      window.console.log("Quotation unavailable")
-    }
-    return exchangeCurrency
-  }
-
-
-  if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks && dataUsStocks)){
+  if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks && dataUsStocks && quotationMoney)){
     return (
       <div className="c--loader"/>
     )
@@ -364,6 +341,7 @@ function App() {
         stockInformation   = {stockInformation}
         resultBrStock      = {resultBrStock}
         resultUsStock      = {resultUsStock}
+        quotationMoney     = {quotationMoney}
       />
     </div>
   )
