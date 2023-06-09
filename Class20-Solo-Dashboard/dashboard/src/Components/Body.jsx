@@ -11,8 +11,6 @@ function Body(props) {
     const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
     const[searchUsStock, setSearchUsStock] = React.useState(props.dataUsStocks)
 
-window.console.log(props.quotationMoney)
-
     //dropDrown object
     function dropDown(p, dropDown){
         var e = document.getElementById(`${dropDown}`);
@@ -58,14 +56,13 @@ window.console.log(props.quotationMoney)
         }
     }
 
-    // const exchangeMoney = props.props.quotationMoney.map(ex =>(
-    //     <Exchange
-    //         key={nanoid()}
-    //         icon={bw.icon}
-    //         temperature={bw.temperature}
-    //         city={bw.city}
-    //     />
-    // ))
+    const exchangeMoney = props.quotationMoney.map(ex =>(
+        <Exchange
+            key={nanoid()}
+            base={ex.base}
+            rates={ex.rates}
+        />
+    ))
 
     // start list of stocks (br and us)
     const optionsBrStockList = searchBrStock.map(d =>(
@@ -175,6 +172,9 @@ window.console.log(props.quotationMoney)
                         />
                     </div>
                 </div>
+            </div>
+            <div>
+                {exchangeMoney}
             </div>
             <h1 className='time--website'>{props.timeCurrency}</h1>
             <p className='author--img'>By: {props.author}</p> 

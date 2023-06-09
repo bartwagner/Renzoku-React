@@ -25,9 +25,9 @@ function App() {
                      {city:'Washington DC', latitude:38.89511, longitude:-77.03637},
                      {city:'California', latitude:38.3004, longitude:-76.50745}]
 
-  const currencyExchange = [{base: 'USD', exchange: 'CAD'}, {base: 'USD', exchange: 'BRL'}, 
-                            {base: 'CAD', exchange: 'USD'}, {base: 'CAD', exchange: 'BRL'},                          
-                            {base: 'BRL', exchange: 'USD'}, {base: 'BRL', exchange: 'CAD'}]
+  const currencyExchange = [{base: 'USD', exchange1: 'CAD', exchange2: 'BRL'}, 
+                            {base: 'CAD', exchange1: 'USD', exchange2: 'BRL'},                          
+                            {base: 'BRL', exchange1: 'USD', exchange2: 'CAD'}]
   //Weather States
   const [brWeatherCurrency, setBrWeatherCurrency] = React.useState([])
   const [weatherCurrency, setWeatherCurrency] = React.useState()
@@ -308,7 +308,7 @@ function App() {
 
     for(let i = 0; i < currencyExchange.length; i++){
       try{
-        const currencyMoney = await fetch (`https://api.frankfurter.app/latest?amount=1&from=${currencyExchange[i].base}&to=${currencyExchange[i].exchange}`)
+        const currencyMoney = await fetch (`https://api.frankfurter.app/latest?amount=1&from=${currencyExchange[i].base}&to=${currencyExchange[i].exchange1},${currencyExchange[i].exchange2}`)
         const dataCurrencyValue = await currencyMoney.json()
         exchangeCurrency.push(dataCurrencyValue)
       }
@@ -324,7 +324,6 @@ function App() {
       <div className="c--loader"/>
     )
   }
-
 
   document.body.style.backgroundImage = `url(${dataInforImage.url})`
   return (
