@@ -155,6 +155,11 @@ function Body(props) {
                     {usWeather}
                 </div>
             </div>
+
+
+
+
+
             <div className='group--dividend'>
                 <div className='div--dividend'>
                     <h3 className='grafic--data'>Dividens: {props.resultBrStock.symbol}</h3>
@@ -173,7 +178,7 @@ function Body(props) {
                     </div>
                 </div>
             </div>
-            <div>
+            <div className='exchange'>
                 {exchangeMoney}
             </div>
             <h1 className='time--website'>{props.timeCurrency}</h1>

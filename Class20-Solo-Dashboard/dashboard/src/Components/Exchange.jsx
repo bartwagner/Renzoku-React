@@ -1,5 +1,6 @@
 import React from 'react'
 import {nanoid} from 'nanoid'
+import ExchangeValue from './ExchangeValue'
 
 function Exchange(props) {
 
@@ -11,15 +12,20 @@ function Exchange(props) {
                             value: ""
                             }]
         arrayOrganize.currency = moneyExchange[i]
-        arrayOrganize.value = valueExchange[i]
+        arrayOrganize.value = valueExchange[i].toFixed(2)
         arrayCurrency.push(arrayOrganize)
     }
-    const returnCurrency = arrayCurrency.map(ex =>
-                                                (<p>{ex.currency}: {ex.value}</p>)
-                                            )
+
+    const returnCurrency = arrayCurrency.map(ex =>(
+        <ExchangeValue
+            key={nanoid()}
+            currency={ex.currency}
+            value={ex.value}
+        />
+    ))
     return(
-        <div>
-            <p>{props.base}</p>
+        <div className='exchange--money'>
+            <p className='exchange--base'>{props.base}: </p>
             {returnCurrency}
         </div>
     )

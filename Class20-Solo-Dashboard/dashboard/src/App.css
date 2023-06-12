@@ -47,20 +47,6 @@ body, .root {
   justify-content: space-between;
 }
 
-.time--website {
-  text-align: center;
-  color: white;
-  text-shadow: 3px 5px 2px #474747;
-  font-size: 6.0rem;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.author--img{
-  color: white;
-  text-shadow: 3px 5px 2px #474747;
-}
-
 .weather--icon--temp{
   display: flex;
   flex-direction: column;
@@ -186,11 +172,23 @@ body, .root {
   border-radius: 5px;
 }
 
-.chart--stock{
-  background-color: #121212;
-  width: 500px;
-  height: 150px;
-  border-radius: 5px;
+
+
+
+
+
+/*//////////////////////////*/
+/* Start Dividend Grafic CSS*/
+/*//////////////////////////*/
+.group--dividend{
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.div--dividend{
+  margin-right: 6%;
+  margin-left: -2%;
 }
 
 .grafic--data{
@@ -198,10 +196,79 @@ body, .root {
   text-shadow: 3px 5px 2px #474747; 
 }
 
-.group--dividend{
+.chart--stock{
+  background-color: #121212;
+  width: 500px;
+  height: 150px;
+  border-radius: 5px;
+}
+/*//////////////////////////*/
+/* End Dividend Grafic CSS  */
+/*//////////////////////////*/
+
+/*//////////////////////////*/
+/*/// Start Exchange CSS ///*/
+/*//////////////////////////*/
+.exchange{
   display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  text-align: center;
+  flex-direction: row;
 }
 
-.div--dividend{
-  width: 50%;
+.exchange--money{
+  display: flex;
+  color: white;
+  text-shadow: 3px 5px 2px #474747;
+  background-color: #1d1d1d;
+  border-color: #d8d8d8;
+  border-radius: 5px;
+  padding-right: 2%;
+  padding-left: 2%;
+  margin-right: 1%;
+  margin-left: 1%;
+  width: 150px;
 }
+
+.exchange--base{
+  margin-right: 4%;
+  text-align: center;
+}
+
+.exchange--currency{
+  padding-right: 2%;
+  padding-left: 2%;
+}
+/*//////////////////////////*/
+/*//// End Exchange CSS ////*/
+/*//////////////////////////*/
+
+/*//////////////////////////*/
+/*///// Start Time CSS /////*/
+/*//////////////////////////*/
+.time--website {
+  text-align: center;
+  color: white;
+  text-shadow: 3px 5px 2px #474747;
+  font-size: 6.0rem;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+/*//////////////////////////*/
+/*////// End Time CSS //////*/
+/*//////////////////////////*/
+
+/*//////////////////////////*/
+/*// Start Author Img CSS //*/
+/*//////////////////////////*/
+.author--img{
+  color: white;
+  text-shadow: 3px 5px 2px #474747;
+  background-color: #1d1d1d;
+  border-radius: 5px;
+}
+/*//////////////////////////*/
+/*/// End Author Img CSS ///*/
+/*//////////////////////////*/
