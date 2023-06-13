@@ -12,6 +12,18 @@ body, .root {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.main{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-right: 1%;
+  padding-left: 1%;
+}
+
+/*//////////////////////////*/
+/*//// Start loading CSS////*/
+/*//////////////////////////*/
 .c--loader {
     animation: is-rotating 1s infinite;
     border: 6px solid #e5e5e5;
@@ -32,25 +44,39 @@ body, .root {
     transform: rotate(1turn);
   }
 }
+/*//////////////////////////*/
+/*///// End loading CSS/////*/
+/*//////////////////////////*/
 
-.main{
-  height: 100vh;
+/*//////////////////////////*/
+/* Start Wtr & Inf Stock CSS*/
+/*//////////////////////////*/
+.div--infor{
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding-right: 1%;
-  padding-left: 1%;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.top--website{
+/* Start Weather */
+.group--weather{
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  padding: 20px 20px 20px 20px;
 }
 
 .weather--icon--temp{
   display: flex;
   flex-direction: column;
   height: 80px;
+}
+
+.icon--temp{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30%;
 }
 
 .weather--icon{
@@ -72,25 +98,20 @@ body, .root {
   margin-top: 9%;
   flex-direction: row-reverse;
 }
+/* End Weather */
 
-.div--infor{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
+/*//////////////////////////*/
+/* End Weath & Inf Stock CSS*/
+/*//////////////////////////*/
 
-.icon--temp{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 30%;
-}
 
-.group--weather{
-  display: flex;
-  flex-direction: column;
-  padding-right: 20px;
-}
+
+
+
+
+
+
+
 
 .stock--list{
   font-family: Arial, Helvetica, sans-serif;
@@ -171,6 +192,14 @@ body, .root {
   text-shadow: 0px 0px 0px #FFFFFF;
   border-radius: 5px;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -263,11 +292,17 @@ body, .root {
 /*//////////////////////////*/
 /*// Start Author Img CSS //*/
 /*//////////////////////////*/
+.div--author{
+  display: flex;
+}
+
 .author--img{
+  background-color: #1d1d1d;
   color: white;
   text-shadow: 3px 5px 2px #474747;
-  background-color: #1d1d1d;
   border-radius: 5px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 /*//////////////////////////*/
 /*/// End Author Img CSS ///*/

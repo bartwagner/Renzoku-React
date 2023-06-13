@@ -6,9 +6,13 @@ import ChartStock from './ChartStock'
 import ResultStock from './ResultStock'
 import Exchange from './Exchange'
 
+import Option from './Option'
+
+
+
 function Body(props) {
 
-    const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
+    // const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
     const[searchUsStock, setSearchUsStock] = React.useState(props.dataUsStocks)
 
     //dropDrown object
@@ -65,14 +69,14 @@ function Body(props) {
     ))
 
     // start list of stocks (br and us)
-    const optionsBrStockList = searchBrStock.map(d =>(
-        <SelectOption
-            key={nanoid()}
-            Stock={d}
-            selectStockItem={selectStockItem}
-            country={"BR"}
-        />
-    ))
+    // const optionsBrStockList = searchBrStock.map(d =>(
+    //     <SelectOption
+    //         key={nanoid()}
+    //         Stock={d}
+    //         selectStockItem={selectStockItem}
+    //         country={"BR"}
+    //     />
+    // ))
     const optionsUsStockList = searchUsStock.map(d =>(
         <SelectOption
             key={nanoid()}
@@ -116,7 +120,23 @@ function Body(props) {
                 <div className='group--weather'>
                     {brWeather}
                 </div>
-                <div className='stock--div'>
+                <Option
+                    dataBrStocks={props.dataBrStocks}
+                    stockInformation={props.stockInformation}
+                    country='br'
+                />
+
+
+
+
+
+
+
+
+
+
+
+                {/* <div className='stock--div'>
                     <div className='stock--org'>
                         <p className='p--stock'>BR Stocks:</p>
                         <div className='container'>
@@ -128,7 +148,12 @@ function Body(props) {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
+                
+                
+                
+                
+                
                 <ResultStock
                    resultStock ={props.resultBrStock}
                 />
@@ -138,6 +163,13 @@ function Body(props) {
                 <ResultStock
                    resultStock ={props.resultUsStock}
                 />
+
+
+
+
+
+
+
                 <div className='stock--div'>
                     <div className='stock--org'>
                         <p className='p--stock'>US/CA Stocks:</p>
@@ -151,15 +183,23 @@ function Body(props) {
                         </div>
                     </div>
                 </div>
+                
+                
+                
+                
+
+
+
+
+
+
+                
+                
+                
                 <div className='group--weather'>
                     {usWeather}
                 </div>
             </div>
-
-
-
-
-
             <div className='group--dividend'>
                 <div className='div--dividend'>
                     <h3 className='grafic--data'>Dividens: {props.resultBrStock.symbol}</h3>
@@ -182,7 +222,9 @@ function Body(props) {
                 {exchangeMoney}
             </div>
             <h1 className='time--website'>{props.timeCurrency}</h1>
-            <p className='author--img'>By: {props.author}</p> 
+            <div className='div--author'>
+                <p className='author--img'>By: {props.author}</p> 
+            </div>
         </main>
     )
 }

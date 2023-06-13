@@ -17,13 +17,13 @@ function App() {
   const [timeCurrency, setTimeCurrency] = React.useState()
 
   //Brazilian Weather
-  const brWeather = [{city:'São Paulo', latitude:-23.5489, longitude:-46.6388},
+  const brWeather = [{city:'São Paulo',    latitude:-23.5489,   longitude:-46.6388},
                      {city:'Porto Alegre', latitude:-30.033056, longitude:-51.230000},
-                     {city:'Brasilia', latitude:-15.7801, longitude:-47.9292}]
+                     {city:'Brasilia',     latitude:-15.7801,   longitude:-47.9292}]
   //United State Weather
-  const usWeather = [{city:'New York', latitude:40.71427, longitude:-74.00597},
-                     {city:'Washington DC', latitude:38.89511, longitude:-77.03637},
-                     {city:'California', latitude:38.3004, longitude:-76.50745}]
+  const usWeather = [{city:'Toronto',  latitude:43.70011, longitude:-79.4163},
+                     {city:'New York', latitude:40.71427,  longitude:-74.00597},
+                     {city:'Quebec',   latitude:46.829853, longitude:-71.254028}]
 
   const currencyExchange = [{base: 'USD', exchange1: 'CAD', exchange2: 'BRL'}, 
                             {base: 'CAD', exchange1: 'USD', exchange2: 'BRL'},                          
