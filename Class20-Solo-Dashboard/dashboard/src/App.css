@@ -104,18 +104,22 @@ body, .root {
 /* End Weath & Inf Stock CSS*/
 /*//////////////////////////*/
 
+/*//////////////////////////*/
+/*/ Start DropDown List CSS/*/
+/*//////////////////////////*/
+.stock--div{
+  width: 15%;
+  height: 96%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-
-
-
-
-
-
-
-
-.stock--list{
-  font-family: Arial, Helvetica, sans-serif;
-  border-radius: 10px; 
+.p--stock{
+  color: white;
+  text-shadow: 3px 5px 2px #474747;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .input--stock{
@@ -132,11 +136,15 @@ body, .root {
 ::-webkit-input-placeholder{color: #777;}
 .input--stock::-moz-placeholder{color: #777}
 
-.p--stock{
-  color: white;
-  text-shadow: 3px 5px 2px #474747;
-  margin-top: 2px;
-  margin-bottom: 2px;
+::-webkit-scrollbar{
+  background-color: #1d1d1d;
+  width: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+::-webkit-scrollbar-thumb{
+  background-color: #5b5b5b;
+  border-radius: 5px;
 }
 
 .drop--down{
@@ -152,16 +160,29 @@ body, .root {
   display: none;
   transform:  translate(0px, -5px);
 }
-::-webkit-scrollbar{
-  background-color: #1d1d1d;
-  width: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+/*//////////////////////////*/
+/*// End DropDown List CSS//*/
+/*//////////////////////////*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+.stock--list{
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 10px; 
 }
-::-webkit-scrollbar-thumb{
-  background-color: #5b5b5b;
-  border-radius: 5px;
-}
+
+
+
 
 .item{
   height: 15px;
@@ -176,14 +197,6 @@ body, .root {
   transition: 0.3s;
 }
 
-.stock--div{
-  width: 15%;
-  height: 96%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .div--result{
   font-size: 10px;
   width: 190px;
@@ -192,6 +205,12 @@ body, .root {
   text-shadow: 0px 0px 0px #FFFFFF;
   border-radius: 5px;
 }
+
+
+
+
+
+
 
 
 

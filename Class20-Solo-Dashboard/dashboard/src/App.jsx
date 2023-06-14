@@ -202,11 +202,11 @@ function App() {
   //Get the stock informations//
   //////////////////////////////
   async function stockInformation(stock, country){
-    if(country === "BR"){
+    if(country === "br"){
       try{
         const respondeStockValueBr = await fetch (`https://brapi.dev/api/quote/${stock}?range=2y&interval=1mo&fundamental=true&dividends=true`)
         if(!respondeStockValueBr.ok){
-          throw Error("API result br stock has a problem")
+          throw Error("API result BR stock has a problem")
         }else{
           const dataStockValue = await respondeStockValueBr.json()
           setResultBrStock({
@@ -226,7 +226,7 @@ function App() {
       }
       catch(err){
         setResultBrStock({
-          currency: 'This Br Stock not available',
+          currency: 'This BR Stock not available',
           cashDividends: '',
           highestPriceOneYear: '',
           lowestPriceOneYear: '',
@@ -243,7 +243,7 @@ function App() {
         const responseStockDividendsUs = await fetch (`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
         const responseStockCurrencyUs = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${stock}?limit=120&apikey=59a6edd12aa027ccd0282c9b51d5855c`)
         if(!respondeStockValueUs.ok || !responseStockDividendsUs.ok || !responseStockCurrencyUs.ok){
-          throw Error("API result br stock has a problem")
+          throw Error("API result CA/US stock has a problem")
         }else{
           const dataStockValue    = await respondeStockValueUs.json()
           const dataDividendValue = await responseStockDividendsUs.json()
@@ -277,7 +277,7 @@ function App() {
       }
       catch(err){
         setResultUsStock({
-          currency: 'This Us Stock not available',
+          currency: 'This CA/US Stock not available',
           cashDividends: '',
           highestPriceOneYear: '',
           lowestPriceOneYear: '',

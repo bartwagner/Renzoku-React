@@ -4,8 +4,7 @@ import SelectOption from './SelectOption'
 
 function Option(props) {
 
-    const[searchBrStock, setSearchBrStock] = React.useState(props.dataBrStocks)
-    const[searchUsStock, setSearchUsStock] = React.useState() //props.dataUsStocks
+    const[searchStock, setSearchStock] = React.useState(props.dataStocks)
 
     //dropDrown object
     function dropDown(p, dropDown){
@@ -20,7 +19,7 @@ function Option(props) {
 
     //after the user selected the stock, it gets the stock information
     function selectStockItem(selected, country){
-        if(country == 'BR'){
+        if(country == 'br'){
             document.getElementById('input--stock--br').value = selected
         }else{
             document.getElementById('input--stock--us').value = selected
@@ -35,44 +34,47 @@ function Option(props) {
         let typeWrite = document.getElementById(`${inputValue}`).value
         if(inputValue == 'input--stock--br'){
             if(typeWrite === ''){
-                setSearchBrStock(props.dataBrStocks)
+                setSearchStock(props.dataStocks)
             }else {
-                setSearchBrStock(
-                    props.dataBrStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
+                setSearchStock(
+                    props.dataStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
                 )
             }
         }else{
             if(typeWrite === ''){
-                setSearchUsStock(props.dataUsStocks)
+                setSearchStock(props.dataStocks)
             }else {
-                setSearchUsStock(
-                    props.dataUsStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
+                setSearchStock(
+                    props.dataStocks.filter(item => (item.toUpperCase().indexOf(typeWrite.toUpperCase()) > -1))
                 )
             }
         }
     }
 
     // start list of stocks (br and us)
-    const optionsBrStockList = searchBrStock.map(d =>(
+    const optionsStockList = searchStock.map(d =>(
         <SelectOption
             key={nanoid()}
             Stock={d}
             selectStockItem={selectStockItem}
-            country={"BR"}
+            country={props.country}
         />
     ))
 
     return(
         <div className='stock--div'>
-            <div className='stock--org'>
-                <p className='p--stock'>BR Stocks:</p>
-                <div className='container'>
-                    <input id='input--stock--br' className='input--stock' type="text" name="stock" onKeyUp={() => orderListStock('input--stock--br')} onFocus={() => dropDown(0, 'drop--down--br')} onBlur={() => dropDown(1, 'drop--down--br')} placeholder='Select one br stock'/>
-                    <div id="drop--down--br" className='drop--down'>
-                        <div className='list--drop--down'>
-                            {optionsBrStockList}    
-                        </div>
-                    </div>
+            <p className='p--stock'>{
+                                        props.country === 'us'
+                                        ?(
+                                            'CA/'+props.country.toUpperCase()
+                                        ):(
+                                            props.country.toUpperCase()
+                                        )
+                                    } Stocks:</p>
+            <div className='container'>
+                <input id={'input--stock--'+props.country} className='input--stock' type="text" name="stock" onKeyUp={() => orderListStock(`input--stock--${props.country}`)} onFocus={() => dropDown(0, `drop--down--${props.country}`)} onBlur={() => dropDown(1, `drop--down--${props.country}`)} placeholder={'Select one ' + props.country + ' stock'}/>
+                <div id={'drop--down--'+props.country} className='drop--down'>
+                    {optionsStockList}
                 </div>
             </div>
         </div>
