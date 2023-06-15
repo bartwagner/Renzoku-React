@@ -2,7 +2,7 @@ import React from 'react'
 import {nanoid} from 'nanoid'
 import SelectOption from './SelectOption'
 
-function Option(props) {
+function DropDownObject(props) {
 
     const[searchStock, setSearchStock] = React.useState(props.dataStocks)
 
@@ -22,7 +22,7 @@ function Option(props) {
         if(country == 'br'){
             document.getElementById('input--stock--br').value = selected
         }else{
-            document.getElementById('input--stock--us').value = selected
+            document.getElementById('input--stock--ca/us').value = selected
         }            
         if(selected !=''){
             props.stockInformation(selected, country)
@@ -63,16 +63,9 @@ function Option(props) {
 
     return(
         <div className='stock--div'>
-            <p className='p--stock'>{
-                                        props.country === 'us'
-                                        ?(
-                                            'CA/'+props.country.toUpperCase()
-                                        ):(
-                                            props.country.toUpperCase()
-                                        )
-                                    } Stocks:</p>
+            <p className='p--stock'>{props.country.toUpperCase()} Stocks:</p>
             <div className='container'>
-                <input id={'input--stock--'+props.country} className='input--stock' type="text" name="stock" onKeyUp={() => orderListStock(`input--stock--${props.country}`)} onFocus={() => dropDown(0, `drop--down--${props.country}`)} onBlur={() => dropDown(1, `drop--down--${props.country}`)} placeholder={'Select one ' + props.country + ' stock'}/>
+                <input id={'input--stock--'+props.country} className='input--stock' type="text" name="stock" onKeyUp={() => orderListStock(`input--stock--${props.country}`)} onFocus={() => dropDown(0, `drop--down--${props.country}`)} onBlur={() => dropDown(1, `drop--down--${props.country}`)} placeholder={'Select one stock'}/>
                 <div id={'drop--down--'+props.country} className='drop--down'>
                     {optionsStockList}
                 </div>
@@ -81,4 +74,4 @@ function Option(props) {
     )
 }
 
-export default Option
+export default DropDownObject

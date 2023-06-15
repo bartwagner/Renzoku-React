@@ -160,29 +160,6 @@ body, .root {
   display: none;
   transform:  translate(0px, -5px);
 }
-/*//////////////////////////*/
-/*// End DropDown List CSS//*/
-/*//////////////////////////*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-.stock--list{
-  font-family: Arial, Helvetica, sans-serif;
-  border-radius: 10px; 
-}
-
-
-
 
 .item{
   height: 15px;
@@ -196,7 +173,13 @@ body, .root {
   padding-left: 7px;
   transition: 0.3s;
 }
+/*//////////////////////////*/
+/*// End DropDown List CSS//*/
+/*//////////////////////////*/
 
+/*//////////////////////////*/
+/*/ Start Result Stock CSS /*/
+/*//////////////////////////*/
 .div--result{
   font-size: 10px;
   width: 190px;
@@ -205,24 +188,9 @@ body, .root {
   text-shadow: 0px 0px 0px #FFFFFF;
   border-radius: 5px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*//////////////////////////*/
+/*// End Result Stock CSS //*/
+/*//////////////////////////*/
 
 
 /*//////////////////////////*/

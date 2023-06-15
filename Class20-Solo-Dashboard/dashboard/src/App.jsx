@@ -9,9 +9,9 @@ function App() {
                                                               url: ""
                                                             })
   
-  //List br and us Stock State
-  const [dataBrStocks, setDataBrStocks] = React.useState()
-  const [dataUsStocks, setDataUsStocks] = React.useState()
+  //List br and ca/us Stock State
+  const [dataBrStocks,   setDataBrStocks]   = React.useState()
+  const [dataUsCaStocks, setDataUsCaStocks] = React.useState()
   
   //Time
   const [timeCurrency, setTimeCurrency] = React.useState()
@@ -20,10 +20,10 @@ function App() {
   const brWeather = [{city:'São Paulo',    latitude:-23.5489,   longitude:-46.6388},
                      {city:'Porto Alegre', latitude:-30.033056, longitude:-51.230000},
                      {city:'Brasilia',     latitude:-15.7801,   longitude:-47.9292}]
-  //United State Weather
-  const usWeather = [{city:'Toronto',  latitude:43.70011, longitude:-79.4163},
-                     {city:'New York', latitude:40.71427,  longitude:-74.00597},
-                     {city:'Quebec',   latitude:46.829853, longitude:-71.254028}]
+  //Canada and United State Weather
+  const usCaWeather = [{city:'Toronto',  latitude:43.70011, longitude:-79.4163},
+                       {city:'New York', latitude:40.71427,  longitude:-74.00597},
+                       {city:'Quebec',   latitude:46.829853, longitude:-71.254028}]
 
   const currencyExchange = [{base: 'USD', exchange1: 'CAD', exchange2: 'BRL'}, 
                             {base: 'CAD', exchange1: 'USD', exchange2: 'BRL'},                          
@@ -31,7 +31,7 @@ function App() {
   //Weather States
   const [brWeatherCurrency, setBrWeatherCurrency] = React.useState([])
   const [weatherCurrency, setWeatherCurrency] = React.useState()
-  const [usWeatherCurrency, setUsWeatherCurrency] = React.useState([])
+  const [usCaWeatherCurrency, setUsCaWeatherCurrency] = React.useState([])
   
   //Stock Result Information 
   const [resultBrStock, setResultBrStock] = React.useState({currency: '',
@@ -46,7 +46,7 @@ function App() {
                                                             shortName: '',
                                                             symbol: ''
                                                           })
-  const [resultUsStock, setResultUsStock] = React.useState({currency: '',
+  const [resultUsCaStock, setResultUsCaStock] = React.useState({currency: '',
                                                           cashDividends: [],
                                                           highestPriceOneYear: '',
                                                           lowestPriceOneYear: '',
@@ -116,18 +116,18 @@ function App() {
   }
   setInterval(getCurrentTime, 1000)
 
-  ////////////////////////////////////////////////////////////
-  //Get the Brazil, United States and your location weathers//
-  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
+  //Get the Brazil, Canada, United States your location weathers//
+  ////////////////////////////////////////////////////////////////
   function weather(){
     let brArrayWeather = []
-    let usArrayWeather = []
+    let usCaArrayWeather = []
     
     for(let i = 0; i < brWeather.length; i++){
       brArrayWeather.push(weatherList(brWeather[i].latitude, brWeather[i].longitude))
     }
-    for(let i = 0; i < usWeather.length; i++){
-      usArrayWeather.push(weatherList(usWeather[i].latitude, usWeather[i].longitude))
+    for(let i = 0; i < usCaWeather.length; i++){
+      usCaArrayWeather.push(weatherList(usCaWeather[i].latitude, usCaWeather[i].longitude))
     }
     navigator.geolocation.getCurrentPosition( 
       async position => {
@@ -137,7 +137,7 @@ function App() {
       }
     )  
     setBrWeatherCurrency(brArrayWeather)
-    setUsWeatherCurrency(usArrayWeather)
+    setUsCaWeatherCurrency(usCaArrayWeather)
   }
   ////////////////////////////////
   //Get the weather informations//
@@ -168,9 +168,9 @@ function App() {
   //Get the stock list//
   //////////////////////
   async function stocksList(){
-    //Br Stocks
     let stocksBr = []
-    let stocksUs = []
+    let stocksUsCa = []
+    //Br Stocks
     try{
       const responseBrStocks = await fetch("https://brapi.dev/api/available")
       if(!responseBrStocks.ok){
@@ -180,21 +180,21 @@ function App() {
       stocksBr = dataBrStocks.stocks.sort()
     }
     catch(err){
-      stocksBr = ["Br Stocks data not available"]
+      stocksBr = ["BR Stocks data not available"]
     }
     //Us Stocks
     try{
-      const responseUsStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=59a6edd12aa027ccd0282c9b51d5855c")
-      if(!responseUsStocks.ok){
+      const responseUsCaStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=59a6edd12aa027ccd0282c9b51d5855c")
+      if(!responseUsCaStocks.ok){
         throw Error("API has a problem Stocks")
       }
-      const dataUsStocks       = await responseUsStocks.json()
-      stocksUs = dataUsStocks.filter((item) => (!item.includes('.')))
+      const dataUsCaStocks       = await responseUsCaStocks.json()
+      stocksUsCa = dataUsCaStocks.filter((item) => (!item.includes('.')))
     }
     catch(err){
-      stocksUs = ["Us Stocks data not available"]
+      stocksUsCa = ["CA/US Stocks data not available"]
     }
-    setDataUsStocks(stocksUs)
+    setDataUsCaStocks(stocksUsCa)
     setDataBrStocks(stocksBr)
   }
 
@@ -211,7 +211,7 @@ function App() {
           const dataStockValue = await respondeStockValueBr.json()
           setResultBrStock({
             currency: dataStockValue.results[0].currency,
-            cashDividends: dataStockValue.results[0].dividendsData.cashDividends,
+            cashDividends: dataStockValue.results[0].dividendsData.cashDividends ? dataStockValue.results[0].dividendsData.cashDividends : 0,
             highestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekHigh,
             lowestPriceOneYear: dataStockValue.results[0].fiftyTwoWeekLow,
             regularMarketDayHigh: dataStockValue.results[0].regularMarketDayHigh,
@@ -239,15 +239,15 @@ function App() {
       }
     }else{
       try{
-        const respondeStockValueUs = await fetch (`https://financialmodelingprep.com/api/v3/quote/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
-        const responseStockDividendsUs = await fetch (`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
-        const responseStockCurrencyUs = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${stock}?limit=120&apikey=59a6edd12aa027ccd0282c9b51d5855c`)
-        if(!respondeStockValueUs.ok || !responseStockDividendsUs.ok || !responseStockCurrencyUs.ok){
+        const respondeStockValueUsCa = await fetch (`https://financialmodelingprep.com/api/v3/quote/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+        const responseStockDividendsUsCa = await fetch (`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+        const responseStockCurrencyUsCa = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${stock}?limit=120&apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+        if(!respondeStockValueUsCa.ok || !responseStockDividendsUsCa.ok || !responseStockCurrencyUsCa.ok){
           throw Error("API result CA/US stock has a problem")
         }else{
-          const dataStockValue    = await respondeStockValueUs.json()
-          const dataDividendValue = await responseStockDividendsUs.json()
-          const dataCurrencyValue = await responseStockCurrencyUs.json()
+          const dataStockValue    = await respondeStockValueUsCa.json()
+          const dataDividendValue = await responseStockDividendsUsCa.json()
+          const dataCurrencyValue = await responseStockCurrencyUsCa.json()
           let arrayDividends =[]
           let countDividends = 0
           if(dataDividendValue.historical){
@@ -260,7 +260,7 @@ function App() {
               arrayDividends.push(dividendOrganizer(dataDividendValue.historical[i]))
             }
           }
-          setResultUsStock({
+          setResultUsCaStock({
             currency: dataCurrencyValue[0].reportedCurrency,
             cashDividends: arrayDividends,
             highestPriceOneYear: dataStockValue[0].yearHigh,
@@ -276,7 +276,7 @@ function App() {
         }
       }
       catch(err){
-        setResultUsStock({
+        setResultUsCaStock({
           currency: 'This CA/US Stock not available',
           cashDividends: '',
           highestPriceOneYear: '',
@@ -290,9 +290,9 @@ function App() {
       }
     }
   }
-  //////////////////////////
-  //Organizer Us Dividends//
-  //////////////////////////
+  /////////////////////////////
+  //Organizer Ca/Us Dividends//
+  /////////////////////////////
   function dividendOrganizer(dividendsArray){
     let dividendResult = [{
       rate:"",
@@ -303,6 +303,9 @@ function App() {
     return dividendResult
   }
 
+  ////////////////////////////
+  /////Currency Quotation/////
+  ////////////////////////////
   async function currencyQuotation(){
     let exchangeCurrency = []
 
@@ -319,12 +322,18 @@ function App() {
     setQuotationMoney(exchangeCurrency)
   }
 
-  if (!(dataInforImage && brWeatherCurrency && usWeatherCurrency && dataBrStocks && dataUsStocks && quotationMoney)){
+  ///////////////////////////
+  /////// Grafic Load ///////
+  ///////////////////////////
+  if (!(dataInforImage && brWeatherCurrency && usCaWeatherCurrency && dataBrStocks && dataUsCaStocks && quotationMoney)){
     return (
       <div className="c--loader"/>
     )
   }
 
+  /////////////////////////////////////////////////////////////////
+  /////// Set BackGroundImage and send the app informarions ///////
+  /////////////////////////////////////////////////////////////////
   document.body.style.backgroundImage = `url(${dataInforImage.url})`
   return (
     <div>
@@ -333,13 +342,13 @@ function App() {
         author             = {dataInforImage.nameAuthor}
         timeCurrency       = {timeCurrency}
         dataBrStocks       = {dataBrStocks}
-        dataUsStocks       = {dataUsStocks}
+        dataUsCaStocks     = {dataUsCaStocks}
         brWeatherCurrency  = {brWeatherCurrency}
         weatherCurrency    = {weatherCurrency}
-        usWeatherCurrency  = {usWeatherCurrency}
+        usCaWeatherCurrency= {usCaWeatherCurrency}
         stockInformation   = {stockInformation}
         resultBrStock      = {resultBrStock}
-        resultUsStock      = {resultUsStock}
+        resultUsCaStock    = {resultUsCaStock}
         quotationMoney     = {quotationMoney}
       />
     </div>

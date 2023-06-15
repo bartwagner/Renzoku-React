@@ -4,13 +4,13 @@ import Weather from './Weather'
 import ChartStock from './ChartStock'
 import ResultStock from './ResultStock'
 import Exchange from './Exchange'
-
-import Option from './Option'
-
-
+import DropDownObject from './DropDownObject'
 
 function Body(props) {
 
+    //////////////////////////////////////////////////////////////////
+    // Send the currency and your exchanges for the Exchange Object //
+    //////////////////////////////////////////////////////////////////
     const exchangeMoney = props.quotationMoney.map(ex =>(
         <Exchange
             key={nanoid()}
@@ -19,7 +19,9 @@ function Body(props) {
         />
     ))
 
-    // start weather
+    /////////////////////////////////////////////
+    // Send the Weather for the Weather Object //
+    /////////////////////////////////////////////
     const brWeather = props.brWeatherCurrency.map(bw =>(
         <Weather
             key={nanoid()}
@@ -36,7 +38,7 @@ function Body(props) {
             city={props.weatherCurrency.city}
         />
     )
-    const usWeather = props.usWeatherCurrency.map(us =>(
+    const usCaWeather = props.usCaWeatherCurrency.map(us =>(
         <Weather
             key={nanoid()}
             icon={us.icon}
@@ -44,38 +46,45 @@ function Body(props) {
             city={us.city}
         />
     ))
-    // end weather
 
     return(
         <main className='main'>
             <div className='div--infor'>
+                {/*Br weather*/}
                 <div className='group--weather'>
                     {brWeather}
                 </div>
-                <Option
+                {/*Drop List BR*/}
+                <DropDownObject
                     dataStocks={props.dataBrStocks}
                     stockInformation={props.stockInformation}
                     country={'br'}
                 />
+                {/*Result Stock BR Stock*/}
                 <ResultStock
                    resultStock ={props.resultBrStock}
                 />
+                {/*local weather*/}
                 <div className='group--weather'>
                     {localweather}
                 </div>
+                {/*Result Stock CA/US Stock*/}
                 <ResultStock
-                   resultStock ={props.resultUsStock}
+                   resultStock ={props.resultUsCaStock}
                 />
-                <Option
-                    dataStocks={props.dataUsStocks}
+                {/*Drop List CA/US*/}
+                <DropDownObject
+                    dataStocks={props.dataUsCaStocks}
                     stockInformation={props.stockInformation}
-                    country={'us'}
+                    country={'ca/us'}
                 />
+                {/*Us and Ca weather*/}
                 <div className='group--weather'>
-                    {usWeather}
+                    {usCaWeather}
                 </div>
             </div>
             <div className='group--dividend'>
+                {/*Grafic BR Stock Dividends*/}
                 <div className='div--dividend'>
                     <h3 className='grafic--data'>Dividens: {props.resultBrStock.symbol}</h3>
                     <div className='chart--stock'>
@@ -84,19 +93,23 @@ function Body(props) {
                         />
                     </div>
                 </div>
+                {/*Grafic CA/US Stock Dividends*/}
                 <div className='div--dividend'>
-                    <h3 className='grafic--data'>Dividens: {props.resultUsStock.symbol}</h3>
+                    <h3 className='grafic--data'>Dividens: {props.resultUsCaStock.symbol}</h3>
                     <div className='chart--stock'>
                         <ChartStock
-                            resultStock = {props.resultUsStock}
+                            resultStock = {props.resultUsCaStock}
                         />
                     </div>
                 </div>
             </div>
+            {/*Exchange Money*/}
             <div className='exchange'>
                 {exchangeMoney}
             </div>
+            {/*Time*/}
             <h1 className='time--website'>{props.timeCurrency}</h1>
+            {/*Img Author*/}
             <div className='div--author'>
                 <p className='author--img'>By: {props.author}</p> 
             </div>
