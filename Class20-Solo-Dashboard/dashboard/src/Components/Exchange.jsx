@@ -4,6 +4,9 @@ import ExchangeValue from './ExchangeValue'
 
 function Exchange(props) {
 
+    //////////////////////////////////////
+    // New Array and organize a new one //
+    //////////////////////////////////////
     let arrayCurrency = []
     var moneyExchange = Object.keys(props.rates)
     var valueExchange = Object.values(props.rates)
@@ -16,6 +19,9 @@ function Exchange(props) {
         arrayCurrency.push(arrayOrganize)
     }
 
+    ////////////////////////////////////////////
+    // Object that show the exchanges results //
+    ////////////////////////////////////////////
     const returnCurrency = arrayCurrency.map(ex =>(
         <ExchangeValue
             key={nanoid()}
@@ -23,6 +29,10 @@ function Exchange(props) {
             value={ex.value}
         />
     ))
+    
+    /////////////////////////////////
+    // The components of Exchanges //
+    /////////////////////////////////
     return(
         <div className='exchange--money'>
             <p className='exchange--base'>{props.base}: </p>

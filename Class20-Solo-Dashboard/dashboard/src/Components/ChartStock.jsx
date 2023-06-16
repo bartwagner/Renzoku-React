@@ -2,10 +2,20 @@ import React from 'react'
 import ApexChart from 'react-apexcharts'
 
 function ChartStock(props) {
+    ////////////////////////////////////////////////////////
+    // Declare series, name is a name of series, and data //
+    //  is my series information in this case dividends   //
+    ////////////////////////////////////////////////////////
     let series = [{
-        name: 'stock',
+        name: 'Dividend',
         data: []
     }]
+
+    ///////////////////////////////////////////////////////////
+    // Declare options this is a information grafics in this //
+    ///// case, I will use this in my legend date, legend /////
+    // position, legend size, color, grafic color and others //
+    ///////////////////////////////////////////////////////////
     let options = {
         chart: {
             height: 150,
@@ -83,6 +93,10 @@ function ChartStock(props) {
         }
     }
 
+    //////////////////////////////////////////////////////////////////
+    // This point I check how many dividens there are, and the code //
+    /////////// filters if there are more than 12 returns ////////////
+    //////////////////////////////////////////////////////////////////
     if(props.resultStock.cashDividends){
         if(props.resultStock.cashDividends.length > 0){
             let countStocks = 0
@@ -98,6 +112,11 @@ function ChartStock(props) {
             }
         }
     }
+
+    /////////////////////////////////////
+    // ApexChart was imported for the  //
+    // project and it makes the grafic //
+    /////////////////////////////////////
     return (
         <div id="chart">
             <ApexChart 

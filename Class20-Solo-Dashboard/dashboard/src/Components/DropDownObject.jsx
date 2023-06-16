@@ -6,7 +6,9 @@ function DropDownObject(props) {
 
     const[searchStock, setSearchStock] = React.useState(props.dataStocks)
 
-    //dropDrown object
+    //////////////////////
+    // dropDrown object //
+    //////////////////////
     function dropDown(p, dropDown){
         var e = document.getElementById(`${dropDown}`);
         var d = ['block', 'none'];
@@ -17,7 +19,9 @@ function DropDownObject(props) {
         },0)
     }
 
-    //after the user selected the stock, it gets the stock information
+    /////////////////////////////////////////////////////////////////////
+    //after the user selected the stock, it gets the stock information //
+    /////////////////////////////////////////////////////////////////////
     function selectStockItem(selected, country){
         if(country == 'br'){
             document.getElementById('input--stock--br').value = selected
@@ -29,7 +33,9 @@ function DropDownObject(props) {
         }
     }
 
-    //filter what the stock the user is looking for
+    ///////////////////////////////////////////////////
+    // filter what the stock the user is looking for //
+    ///////////////////////////////////////////////////
     function orderListStock(inputValue){
         let typeWrite = document.getElementById(`${inputValue}`).value
         if(inputValue == 'input--stock--br'){
@@ -51,7 +57,9 @@ function DropDownObject(props) {
         }
     }
 
-    // start list of stocks (br and us)
+    /////////////////////////////////////////
+    // start list of stocks (br and ca/us) //
+    ///////////////////////////////////////// 
     const optionsStockList = searchStock.map(d =>(
         <SelectOption
             key={nanoid()}
@@ -61,6 +69,9 @@ function DropDownObject(props) {
         />
     ))
 
+    ////////////////////////
+    // dropDown component //
+    ////////////////////////
     return(
         <div className='stock--div'>
             <p className='p--stock'>{props.country.toUpperCase()} Stocks:</p>

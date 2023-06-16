@@ -2,6 +2,9 @@ import React from 'react'
 
 function ExchangeValue(props) {
 
+    ///////////////////////
+    // Return the values //
+    ///////////////////////
     return(
         <div className='exchange--currency'>
             <p>{props.currency}</p>

@@ -2,6 +2,9 @@ import React from 'react'
 
 function ResultStock(props) {
 
+    ///////////////////////////////////
+    // Calculate the total dividends //
+    ///////////////////////////////////
     let cashDividendTotal = 0
     if(props.resultStock.cashDividends){
         if(props.resultStock.cashDividends.length > 0){
@@ -17,6 +20,9 @@ function ResultStock(props) {
         }
     }
 
+    ////////////////////////////
+    // The stock informations //
+    //////////////////////////// 
     return(
         <div className='div--result'>
             <p>Symbol: {props.resultStock.symbol}</p>

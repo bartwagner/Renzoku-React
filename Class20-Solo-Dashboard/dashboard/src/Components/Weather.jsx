@@ -1,6 +1,10 @@
 import React from 'react'
 
 function Weather(props) {
+
+    /////////////////////////////////////
+    // format the weather informations //
+    /////////////////////////////////////
     return(
         <div className='weather--icon--temp'>
             <div className='icon--temp'>
