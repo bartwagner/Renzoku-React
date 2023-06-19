@@ -184,7 +184,7 @@ function App() {
     }
     //Us Stocks
     try{
-      const responseUsCaStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=59a6edd12aa027ccd0282c9b51d5855c")
+      const responseUsCaStocks = await fetch("https://financialmodelingprep.com/api/v3/financial-statement-symbol-lists?apikey=YouNeedToCreateOwnAccountAndApiKeyInHttps://financialmodelingprep.com")
       if(!responseUsCaStocks.ok){
         throw Error("API has a problem Stocks")
       }
@@ -239,9 +239,9 @@ function App() {
       }
     }else{
       try{
-        const respondeStockValueUsCa = await fetch (`https://financialmodelingprep.com/api/v3/quote/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
-        const responseStockDividendsUsCa = await fetch (`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${stock}?apikey=59a6edd12aa027ccd0282c9b51d5855c`)
-        const responseStockCurrencyUsCa = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${stock}?limit=120&apikey=59a6edd12aa027ccd0282c9b51d5855c`)
+        const respondeStockValueUsCa = await fetch (`https://financialmodelingprep.com/api/v3/quote/${stock}?apikey=YouNeedToCreateOwnAccountAndApiKeyInHttps://financialmodelingprep.com`)
+        const responseStockDividendsUsCa = await fetch (`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${stock}?apikey=YouNeedToCreateOwnAccountAndApiKeyInHttps://financialmodelingprep.com`)
+        const responseStockCurrencyUsCa = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${stock}?limit=120&apikey=YouNeedToCreateOwnAccountAndApiKeyInHttps://financialmodelingprep.com`)
         if(!respondeStockValueUsCa.ok || !responseStockDividendsUsCa.ok || !responseStockCurrencyUsCa.ok){
           throw Error("API result CA/US stock has a problem")
         }else{

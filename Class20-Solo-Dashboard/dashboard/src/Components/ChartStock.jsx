@@ -18,8 +18,9 @@ function ChartStock(props) {
     ///////////////////////////////////////////////////////////
     let options = {
         chart: {
-            height: 150,
-            type: 'bar',
+            toolbar: {
+              show: false
+            }
         },
         plotOptions: {
             bar: {
