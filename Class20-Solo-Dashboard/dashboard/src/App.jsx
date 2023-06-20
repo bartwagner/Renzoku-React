@@ -154,7 +154,7 @@ function App() {
       .then(dataWeatherRetorn => {
         WeatherCity.icon = `http://openweathermap.org/img/wn/${dataWeatherRetorn.weather[0].icon}@2x.png`
         WeatherCity.city = dataWeatherRetorn.name
-        WeatherCity.temperature = Math.round(dataWeatherRetorn.main.temp)+" º"
+        WeatherCity.temperature = Math.round(dataWeatherRetorn.main.temp)+"º"
       })
       .catch(
         WeatherCity.city = "",
